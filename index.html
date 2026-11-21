@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZED PANEL HOUSE — Dashboard & Admin</title>
+    <style>
+        :root {
+            --bg-dark: #070612;
+            --card-bg: #110e24;
+            --card-border: #2b1d52;
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --neon-cyan: #06b6d4;
+            --neon-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding-bottom: 85px;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(11, 9, 26, 0.95);
+            border-bottom: 1px solid #1f163b;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 15px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+
+        .brand-text h1 {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            color: #fff;
+        }
+
+        .brand-text span {
+            font-size: 9px;
+            color: var(--neon-cyan);
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .currency-pill {
+            background: #171233;
+            border: 1px solid #352566;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .admin-top-btn {
+            background: linear-gradient(90deg, #06b6d4, #7c3aed);
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .hero-wrap {
+            padding: 12px 12px 6px;
+        }
+
+        .hero-card {
+            border-radius: 16px;
+            border: 1.5px solid #4c1d95;
+            background: radial-gradient(circle at 20% 30%, #4c1d95 0%, #1e1b4b 45%, #090717 100%);
+            padding: 18px 16px;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid var(--neon-pink);
+            color: #f9a8d4;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 1.25;
+            background: linear-gradient(90deg, #ffffff, #facc15, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .hero-sub {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .pay-strip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pay-chip {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chip-nagad {
+            background: rgba(249, 115, 22, 0.18);
+            border: 1px solid #f97316;
+            color: #fdba74;
+        }
+
+        .chip-rocket {
+            background: rgba(168, 85, 247, 0.18);
+            border: 1px solid #a855f7;
+            color: #d8b4fe;
+        }
+
+        .chip-num {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            color: #6ee7b7;
+            cursor: pointer;
+        }
+
+        .circle-row {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 12px;
+            scrollbar-width: none;
+        }
+
+        .circle-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .circle-item {
+            flex: 0 0 auto;
+            text-align: center;
+            width: 62px;
+            cursor: pointer;
+        }
+
+        .circle-ring {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 5px;
+            border-radius: 50%;
+            padding: 2.5px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4);
+        }
+
+        .circle-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #130f2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            line-height: 1.15;
+            padding: 4px;
+        }
+
+        .circle-item span {
+            font-size: 10px;
+            font-weight: 700;
+            color: #cbd5e1;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cat-section {
+            padding: 4px 12px 12px;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .cat-pill {
+            background: #131029;
+            border: 1px solid #2b2154;
+            color: #cbd5e1;
+            padding: 9px 4px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .cat-pill.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(236, 72, 153, 0.25));
+            border-color: var(--neon-purple);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
+        }
+
+        .hidden-cat {
+            display: none;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 11px;
+            padding: 4px 12px;
+        }
+
+        @media (min-width: 768px) {
+            .store-grid {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 1100px;
+                margin: 0 auto;
+            }
+        }
+
+        .p-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 9px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .p-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 8px;
+        }
+
+        .p-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #9333ea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .p-title-wrap {
+            overflow: hidden;
+        }
+
+        .p-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .p-verified {
+            font-size: 9px;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .p-banner {
+            height: 92px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .p-banner-title {
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .p-banner-sub {
+            font-size: 9px;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-top: 4px;
+            color: #facc15;
+        }
+
+        .badge-top-right {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #dc2626;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .p-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 4px;
+        }
+
+        .status-chip {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .hash-tag {
+            font-size: 9px;
+            font-weight: 800;
+            color: #c084fc;
+        }
+
+        .p-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .price-box {
+            background: #1a1438;
+            border: 1px solid #35276b;
+            padding: 6px 7px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #f472b6;
+            flex: 1;
+            text-align: center;
+        }
+
+        .buy-btn {
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            border: none;
+            color: #fff;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .board-section {
+            margin: 18px 12px 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+        }
+
+        .board-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .b-tab {
+            flex: 1;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #2e2259;
+            background: #161230;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .b-tab.active {
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .order-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 10px;
+            background: #0c0a1d;
+            border: 1px solid #1f1842;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .order-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .u-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #241b4b;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .u-info h4 {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .u-info p {
+            font-size: 10px;
+            color: #94a3b8;
+        }
+
+        .order-amt {
+            font-size: 12px;
+            font-weight: 800;
+            color: #34d399;
+        }
+
+        .fab-support {
+            position: fixed;
+            right: 14px;
+            bottom: 78px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5);
+            z-index: 45;
+            border: 2px solid #fff;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #0d0b1f;
+            border-top: 1px solid #281d52;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 4px 10px;
+            z-index: 50;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: var(--neon-pink);
+        }
+
+        .nav-item i {
+            display: block;
+            font-style: normal;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .add-fund-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #050811;
+            font-size: 24px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -22px auto 2px;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+            border: 3px solid #0d0b1f;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 3, 12, 0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal-card {
+            background: #130f29;
+            border: 1.5px solid var(--neon-purple);
+            border-radius: 16px;
+            padding: 18px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+
+        .modal-card h3 {
+            color: #fff;
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .num-copy-box {
+            background: #090717;
+            border: 1px dashed var(--neon-cyan);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .num-copy-box span {
+            font-size: 13px;
+            font-weight: 800;
+            color: #facc15;
+        }
+
+        .copy-small {
+            background: var(--neon-cyan);
+            color: #000;
+            border: none;
+            padding: 4px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .modal-card input, .modal-card select {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 9px;
+            border: 1px solid #352566;
+            background: #090717;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-close {
+            flex: 1;
+            padding: 10px;
+            border-radius: 9px;
+            border: 1px solid #475569;
+            background: transparent;
+            color: #cbd5e1;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-confirm {
+            flex: 2;
+            padding: 10px;
+            border-radius: 9px;
+            border: none;
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .admin-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #090717;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 6px;
+            border: 1px solid #281d52;
+            font-size: 12px;
+        }
+
+        .del-btn {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="brand-box">
+            <div class="brand-logo">MP</div>
+            <div class="brand-text">
+                <h1>MAZED PANEL HOUSE</h1>
+                <span>OFFICIAL DASHBOARD</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="currency-pill">৳ BDT</div>
+            <button class="admin-top-btn" onclick="openAdminLogin()">⚙ Admin</button>
+        </div>
+    </div>
+
+    <div class="hero-wrap">
+        <div class="hero-card">
+            <div class="hero-badge">⚡ 24/7 INSTANT DELIVERY</div>
+            <div class="hero-title">MAZED PANEL HOUSE<br>GAMING & SETUP PORTAL</div>
+            <div class="hero-sub">পছন্দের প্যানেল সিলেক্ট করে Nagad বা Rocket-এ পেমেন্ট করুন</div>
+            <div class="pay-strip">
+                <div class="pay-chip chip-nagad">🟠 Nagad</div>
+                <div class="pay-chip chip-rocket">🟣 Rocket</div>
+                <div class="pay-chip chip-num" onclick="copyNumber()">📋 <span id="heroNumText">01723711057</span> (Copy)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="circle-row">
+        <div class="circle-item" onclick="quickFilter('ROOT')">
+            <div class="circle-ring"><div class="circle-inner">MAZED<br>X VIP</div></div>
+            <span>Mazed X VIP</span>
+        </div>
+        <div class="circle-item" onclick="quickFilter('NON ROOT')">
+            <div class="circle-ring"><div class="circle-inner">MAZED<br>CORE</div></div>
+            <span>Mazed Core</span>
+        </div>
+        <div class="circle-item" onclick="quickFilter('NON ROOT')">
+            <div class="circle-ring"><div class="circle-inner">AIM<br>PRO</div></div>
+            <span>Mazed Aim Pro</span>
+        </div>
+        <div class="circle-item" onclick="quickFilter('ROOT')">
+            <div class="circle-ring"><div class="circle-inner">GHOST<br>PACK</div></div>
+            <span>Mazed Ghost</span>
+        </div>
+        <div class="circle-item" onclick="quickFilter('PC')">
+            <div class="circle-ring"><div class="circle-inner">PC<br>MATRIX</div></div>
+            <span>Mazed PC</span>
+        </div>
+        <div class="circle-item" onclick="quickFilter('iOS')">
+            <div class="circle-ring"><div class="circle-inner">AIR<br>X iOS</div></div>
+            <span>Mazed Air X</span>
+        </div>
+    </div>
+
+    <div class="cat-section">
+        <div class="cat-grid">
+            <div class="cat-pill active" onclick="filterStore('ALL', this)">⊞ ALL</div>
+            <div class="cat-pill" onclick="filterStore('NON ROOT', this)">NON ROOT</div>
+            <div class="cat-pill" onclick="filterStore('ROOT', this)">ROOT</div>
+            <div class="cat-pill" onclick="filterStore('iOS', this)">iOS</div>
+            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('PC', this)">PC</div>
+            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('PUBG', this)">PUBG</div>
+            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('FF Glory', this)">🔥 FF Glory</div>
+            <div class="cat-pill" id="toggleMoreBtn" onclick="toggleCategories()">More ⌄</div>
+        </div>
+    </div>
+
+    <div class="store-grid" id="storeGrid"></div>
+
+    <div class="board-section">
+        <div class="board-tabs">
+            <div class="b-tab active" onclick="switchBoard('recent', this)">⚡ RECENT ORDERS</div>
+            <div class="b-tab" onclick="switchBoard('top', this)">👑 TOP BUYERS</div>
+        </div>
+        <div id="boardList"></div>
+    </div>
+
+    <a class="fab-support" id="waFab" href="https://wa.me/8801723711057" target="_blank" title="WhatsApp Support">💬</a>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <i>🏠</i>Store
+        </div>
+        <div class="nav-item" onclick="document.querySelector('.board-section').scrollIntoView({behavior:'smooth'})">
+            <i>🧾</i>Orders
+        </div>
+        <div class="nav-item" onclick="openFundModal()">
+            <div class="add-fund-btn">+</div>
+            Add Fund
+        </div>
+        <div class="nav-item" onclick="resetAllDefault()">
+            <i>🔄</i>Reset
+        </div>
+        <div class="nav-item" onclick="openAdminLogin()">
+            <i>⚙</i>Admin
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-card">
+            <h3 id="modalHeading">অর্ডার কনফার্ম করুন</h3>
+            <p id="modalSub" style="font-size: 12px; color: #38bdf8;"></p>
+
+            <div class="num-copy-box">
+                <span>Nagad / Rocket: <strong id="modalNum">01723711057</strong></span>
+                <button class="copy-small" onclick="copyNumber()">Copy</button>
+            </div>
+
+            <input type="text" id="custName" placeholder="আপনার নাম লিখুন">
+            <select id="payGateway">
+                <option value="Nagad">Nagad (Send Money)</option>
+                <option value="Rocket">Rocket (Send Money)</option>
+            </select>
+            <input type="text" id="trxId" placeholder="Transaction ID (TrxID) লিখুন">
+
+            <div class="modal-btns">
+                <button class="btn-close" onclick="closeModal('orderModal')">বাতিল</button>
+                <button class="btn-confirm" onclick="sendToWhatsApp()">WhatsApp-এ পাঠান</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-card">
+            <h3>⚙ Mazed Admin Panel</h3>
+            <p style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">নতুন প্যানেল যোগ করুন, নাম/দাম সেট করুন অথবা ডিলিট করুন</p>
+
+            <input type="text" id="newPanelName" placeholder="প্যানেলের নাম (যেমন: Mazed X VIP)">
+            <select id="newPanelCat">
+                <option value="NON ROOT">NON ROOT</option>
+                <option value="ROOT">ROOT</option>
+                <option value="iOS">iOS</option>
+                <option value="PC">PC</option>
+                <option value="PUBG">PUBG</option>
+                <option value="FF Glory">FF Glory</option>
+            </select>
+            <input type="text" id="newPanelPrice" placeholder="দাম (যেমন: ৳80 BDT)">
+            <input type="text" id="newPanelSub" placeholder="সাবটাইটেল (যেমন: SMOOTH EDITION)">
+            <input type="text" id="adminPayNum" placeholder="Nagad / Rocket নম্বর (01723711057)">
+
+            <div class="modal-btns">
+                <button class="btn-close" onclick="closeModal('adminModal')">বন্ধ করুন</button>
+                <button class="btn-confirm" onclick="addPanelFromAdmin()">+ প্যানেল যুক্ত করুন</button>
+            </div>
+
+            <div style="margin-top: 14px; font-size: 12px; font-weight: 800; color: #38bdf8;">বর্তমান প্যানেলসমূহ:</div>
+            <div id="adminPanelList"></div>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_PANELS = [
+            { name: "Mazed X VIP", cat: "ROOT", bannerTitle: "MAZED X VIP", bannerSub: "ROOT PRO PACK", bg: "linear-gradient(135deg, #4a044e, #a21caf)", price: "৳80 BDT", tag: "#ROOT" },
+            { name: "Mazed Core Engine", cat: "NON ROOT", bannerTitle: "MAZED CORE", bannerSub: "SMOOTH NON-ROOT", bg: "linear-gradient(135deg, #1e1b4b, #4338ca)", price: "৳50 BDT", tag: "#NONROOT" },
+            { name: "Mazed Aim Pro", cat: "NON ROOT", bannerTitle: "MAZED AIM PRO", bannerSub: "SENSITIVITY SETUP", bg: "linear-gradient(135deg, #450a0a, #b91c1c)", price: "৳40 BDT", tag: "#NONROOT" },
+            { name: "Mazed Ghost Pack", cat: "ROOT", bannerTitle: "MAZED GHOST", bannerSub: "BR MODE PACK", bg: "linear-gradient(135deg, #172554, #1d4ed8)", price: "৳60 BDT", tag: "#ROOT" },
+            { name: "Mazed Air X", cat: "iOS", bannerTitle: "MAZED AIR X", bannerSub: "iOS SETUP PACK", bg: "linear-gradient(135deg, #311042, #6b21a8)", price: "৳90 BDT", tag: "#IPHONE" },
+            { name: "Mazed PC Matrix", cat: "PC", bannerTitle: "MAZED PC", bannerSub: "EMULATOR PRO", bg: "linear-gradient(135deg, #042f2e, #0f766e)", price: "৳100 BDT", tag: "#PC" },
+            { name: "Mazed Glory Boost", cat: "FF Glory", bannerTitle: "MAZED GLORY", bannerSub: "INSTANT SERVICE", bg: "linear-gradient(135deg, #3b0764, #7e22ce)", price: "৳120 BDT", tag: "#FFGLORY" },
+            { name: "Mazed Tactical Squad", cat: "PUBG", bannerTitle: "MAZED PUBG", bannerSub: "PRO PACK", bg: "linear-gradient(135deg, #365314, #4d7c0f)", price: "৳95 BDT", tag: "#PUBG" }
+        ];
+
+        const recentData = [
+            { user: "mazed_fan1", item: "Mazed X VIP (1 DAY)", price: "৳80" },
+            { user: "rifat_bd", item: "Mazed Core Engine", price: "৳50" },
+            { user: "nadim_ff", item: "Mazed Aim Pro", price: "৳40" }
+        ];
+
+        const topBuyersData = [
+            { user: "rakib_ff", item: "Total Orders: 24 Packs", price: "৳1,450" },
+            { user: "sabbir_yt", item: "Total Orders: 18 Packs", price: "৳1,120" },
+            { user: "tanvir_op", item: "Total Orders: 12 Packs", price: "৳780" }
+        ];
+
+        let panels = JSON.parse(localStorage.getItem("mazed_panels")) || [...DEFAULT_PANELS];
+        let activeNumber = localStorage.getItem("mazed_number") || "01723711057";
+        let currentOrderTitle = "";
+        let isExpanded = false;
+
+        function applyNumberUI() {
+            document.getElementById("heroNumText").innerText = activeNumber;
+            document.getElementById("modalNum").innerText = activeNumber;
+            document.getElementById("adminPayNum").value = activeNumber;
+            document.getElementById("waFab").href = `https://wa.me/88${activeNumber}`;
+        }
+
+        function savePanels() {
+            localStorage.setItem("mazed_panels", JSON.stringify(panels));
+        }
+
+        function renderProducts(category) {
+            const grid = document.getElementById("storeGrid");
+            grid.innerHTML = "";
+            const list = category === "ALL" ? panels : panels.filter(p => p.cat === category);
+
+            list.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "p-card";
+                card.innerHTML = `
+                    <div>
+                        <div class="p-header">
+                            <div class="p-avatar">${item.name.charAt(0)}</div>
+                            <div class="p-title-wrap">
+                                <div class="p-title">${item.name}</div>
+                                <div class="p-verified">✔ VERIFIED</div>
+                            </div>
+                        </div>
+                        <div class="p-banner" style="background: ${item.bg};">
+                            <div class="badge-top-right">MAZED</div>
+                            <div class="p-banner-title">${item.bannerTitle}</div>
+                            <div class="p-banner-sub">${item.bannerSub}</div>
+                        </div>
+                        <div class="p-meta">
+                            <span class="status-chip">● Active</span>
+                            <span class="hash-tag">${item.tag || "#" + item.cat.replace(/\s+/g, "")}</span>
+                        </div>
+                    </div>
+                    <div class="p-footer">
+                        <div class="price-box">FROM ${item.price}</div>
+                        <button class="buy-btn" onclick="openBuyModal('${item.name} (${item.price})')">⚡ BUY</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterStore(cat, el) {
+            document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
+            if (el) el.classList.add("active");
+            renderProducts(cat);
+        }
+
+        function quickFilter(cat) {
+            renderProducts(cat);
+            document.getElementById("storeGrid").scrollIntoView({ behavior: "smooth" });
+        }
+
+        function toggleCategories() {
+            isExpanded = !isExpanded;
+            document.querySelectorAll(".extra-cat").forEach(el => {
+                el.style.display = isExpanded ? "block" : "none";
+            });
+            document.getElementById("toggleMoreBtn").innerText = isExpanded ? "Less ⌃" : "More ⌄";
+        }
+
+        function resetAllDefault() {
+            if (confirm("সব প্যানেল ও নম্বর ডিফল্টে রিসেট করবেন?")) {
+                localStorage.removeItem("mazed_panels");
+                localStorage.removeItem("mazed_number");
+                panels = [...DEFAULT_PANELS];
+                activeNumber = "01723711057";
+                applyNumberUI();
+                renderProducts("ALL");
+                renderAdminList();
+            }
+        }
+
+        function switchBoard(type, tabEl) {
+            document.querySelectorAll(".b-tab").forEach(t => t.classList.remove("active"));
+            tabEl.classList.add("active");
+            renderBoard(type);
+        }
+
+        function renderBoard(type) {
+            const list = document.getElementById("boardList");
+            const data = type === "recent" ? recentData : topBuyersData;
+            list.innerHTML = data.map(row => `
+                <div class="order-row">
+                    <div class="order-user">
+                        <div class="u-circle">${row.user.charAt(0).toUpperCase()}</div>
+                        <div class="u-info">
+                            <h4>${row.user}</h4>
+                            <p>${row.item}</p>
+                        </div>
+                    </div>
+                    <div class="order-amt">${row.price}</div>
+                </div>
+            `).join("");
+        }
+
+        function openBuyModal(productLabel) {
+            currentOrderTitle = productLabel;
+            document.getElementById("modalHeading").innerText = "অর্ডার কনফার্ম করুন";
+            document.getElementById("modalSub").innerText = "প্যাকেজ: " + productLabel;
+            document.getElementById("orderModal").style.display = "flex";
+        }
+
+        function openFundModal() {
+            currentOrderTitle = "Add Fund / Balance Top-Up";
+            document.getElementById("modalHeading").innerText = "Add Fund (Nagad / Rocket)";
+            document.getElementById("modalSub").innerText = "নিচের নম্বরে Send Money করে TrxID দিন:";
+            document.getElementById("orderModal").style.display = "flex";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function copyNumber() {
+            navigator.clipboard.writeText(activeNumber);
+            alert("নম্বর কপি হয়েছে: " + activeNumber);
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById("custName").value.trim();
+            const method = document.getElementById("payGateway").value;
+            const trx = document.getElementById("trxId").value.trim();
+
+            if (!name || !trx) {
+                alert("দয়া করে আপনার নাম এবং TrxID দিন!");
+                return;
+            }
+
+            const msg = `আসসালামু আলাইকুম MAZED PANEL HOUSE,%0A📦 অর্ডার: ${currentOrderTitle}%0A👤 নাম: ${name}%0A💳 মাধ্যম: ${method}%0A🧾 TrxID: ${trx}`;
+            window.open(`https://wa.me/88${activeNumber}?text=${msg}`, "_blank");
+        }
+
+        function openAdminLogin() {
+            const pin = prompt("Admin PIN দিন (ডিফল্ট PIN: 1234):");
+            if (pin === "1234") {
+                renderAdminList();
+                document.getElementById("adminModal").style.display = "flex";
+            } else if (pin !== null) {
+                alert("ভুল PIN!");
+            }
+        }
+
+        function addPanelFromAdmin() {
+            const name = document.getElementById("newPanelName").value.trim();
+            const cat = document.getElementById("newPanelCat").value;
+            const price = document.getElementById("newPanelPrice").value.trim() || "৳50 BDT";
+            const sub = document.getElementById("newPanelSub").value.trim() || "MAZED PACK";
+            const num = document.getElementById("adminPayNum").value.trim();
+
+            if (num) {
+                activeNumber = num;
+                localStorage.setItem("mazed_number", activeNumber);
+                applyNumberUI();
+            }
+
+            if (name) {
+                panels.unshift({
+                    name: name,
+                    cat: cat,
+                    bannerTitle: name.toUpperCase(),
+                    bannerSub: sub.toUpperCase(),
+                    bg: "linear-gradient(135deg, #3b0764, #db2777)",
+                    price: price,
+                    tag: "#" + cat.replace(/\s+/g, "")
+                });
+                savePanels();
+                renderProducts("ALL");
+                renderAdminList();
+                document.getElementById("newPanelName").value = "";
+                document.getElementById("newPanelPrice").value = "";
+                document.getElementById("newPanelSub").value = "";
+                alert("নতুন প্যানেল যুক্ত হয়েছে!");
+            } else if (num) {
+                alert("নম্বর আপডেট হয়েছে!");
+            }
+        }
+
+        function deletePanel(index) {
+            panels.splice(index, 1);
+            savePanels();
+            renderProducts("ALL");
+            renderAdminList();
+        }
+
+        function renderAdminList() {
+            const box = document.getElementById("adminPanelList");
+            box.innerHTML = panels.map((p, idx) => `
+                <div class="admin-item-row">
+                    <span><strong>${p.name}</strong> (${p.cat}) — ${p.price}</span>
+                    <button class="del-btn" onclick="deletePanel(${idx})">Delete</button>
+                </div>
+            `).join("");
+        }
+
+        applyNumberUI();
+        renderProducts("ALL");
+        renderBoard("recent");
+    </script>
+</body>
+</html>
