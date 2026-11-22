@@ -3,339 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mazed Panel Store</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background: #0b0716; color: #fff; font-family: sans-serif; }
-        .card { background: #160f29; border: 1px solid #3b2070; }
-        .btn { background: linear-gradient(90deg, #9333ea, #ec4899); }
-    </style>
-</head>
-<body class="pb-24">
-
-    <!-- Header -->
-    <header class="bg-[#120b24] border-b border-purple-800 p-3 flex justify-between items-center sticky top-0 z-40">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full btn flex items-center justify-center font-bold">M</div>
-            <div>
-                <h1 class="font-bold text-xs text-purple-300">MAZED PANEL STORE</h1>
-                <p class="text-[10px] text-green-400">● OFFICIAL STORE</p>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <a href="https://t.me/mazedvai12" target="_blank" class="bg-blue-600/30 border border-blue-500 text-blue-300 px-2.5 py-1 rounded-full text-xs flex items-center gap-1">
-                <i class="fab fa-telegram-plane"></i> Support
-            </a>
-            <button onclick="toggleAdmin()" class="bg-pink-600/30 border border-pink-500 text-pink-300 px-2.5 py-1 rounded-full text-xs">
-                <i class="fas fa-user-shield"></i> Admin
-            </button>
-        </div>
-    </header>
-
-    <main class="max-w-md mx-auto p-3">
-        <!-- Payment Banner -->
-        <div class="rounded-xl bg-gradient-to-r from-purple-900 to-pink-900 p-4 mb-4 border border-purple-500/40">
-            <h2 class="text-base font-bold">সেরা গেমিং প্যানেল কিনুন কম দামে!</h2>
-            <div class="mt-2 bg-black/50 p-2 rounded-lg text-xs">
-                <p class="text-purple-300 font-bold">পেমেন্ট নাম্বার (Send Money):</p>
-                <p class="text-orange-400 font-mono">নগদ / রকেট: <b>01723711057</b> (Personal)</p>
-            </div>
-        </div>
-
-        <!-- Admin Panel -->
-        <div id="adminBox" class="hidden bg-[#1a1033] border-2 border-pink-500 p-3 rounded-xl mb-4 text-xs space-y-3">
-            <div class="flex justify-between items-center border-b border-purple-800 pb-2">
-                <h3 class="font-bold text-pink-400 text-sm">অ্যাডমিন কন্ট্রোল প্যানেল</h3>
-                <button onclick="toggleAdmin()" class="text-gray-400 text-sm">✕</button>
-            </div>
-
-            <div class="bg-[#0b0716] p-2.5 rounded-lg space-y-2 border border-purple-800">
-                <p class="font-bold text-purple-300">+ নতুন প্যানেল অ্যাড করুন (যেগুলোর দাম বসাবেন শুধু সেগুলোই দেখাবে)</p>
-                <input type="text" id="pName" placeholder="প্যানেলের নাম (যেমন: VIP ROOT)" class="w-full bg-black border border-purple-700 p-2 rounded text-white">
-                <select id="pCat" class="w-full bg-black border border-purple-700 p-2 rounded text-white">
-                    <option value="ROOT">ROOT</option>
-                    <option value="NON ROOT">NON ROOT</option>
-                    <option value="IOS">IOS</option>
-                    <option value="PC">PC</option>
-                </select>
-
-                <p class="text-yellow-400 font-bold pt-1">ঘণ্টাভিত্তিক দাম (১ থেকে ২৪ ঘণ্টা):</p>
-                <div class="grid grid-cols-4 gap-1">
-                    <input type="number" id="h1" placeholder="১ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h2" placeholder="২ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h3" placeholder="৩ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h4" placeholder="৪ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h5" placeholder="৫ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h6" placeholder="৬ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h7" placeholder="৭ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h8" placeholder="৮ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h9" placeholder="৯ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h10" placeholder="১০ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h11" placeholder="১১ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h12" placeholder="১২ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h13" placeholder="১৩ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h14" placeholder="১৪ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h15" placeholder="১৫ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h16" placeholder="১৬ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h17" placeholder="১৭ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h18" placeholder="১৮ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h19" placeholder="১৯ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h20" placeholder="২০ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h21" placeholder="২১ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h22" placeholder="২২ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h23" placeholder="২৩ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="h24" placeholder="২৪ঘণ্টা" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                </div>
-
-                <p class="text-green-400 font-bold pt-2">দিনভিত্তিক দাম (১ থেকে ৩১ দিন):</p>
-                <div class="grid grid-cols-4 gap-1 max-h-40 overflow-y-auto">
-                    <input type="number" id="d1" placeholder="১দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d2" placeholder="২দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d3" placeholder="৩দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d4" placeholder="৪দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d5" placeholder="৫দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d6" placeholder="৬দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d7" placeholder="৭দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d8" placeholder="৮দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d9" placeholder="৯দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d10" placeholder="১০দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d11" placeholder="১১দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d12" placeholder="১২দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d13" placeholder="১৩দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d14" placeholder="১৪দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d15" placeholder="১৫দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d16" placeholder="১৬দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d17" placeholder="১৭দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d18" placeholder="১৮দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d19" placeholder="১৯দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d20" placeholder="২০দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d21" placeholder="২১দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d22" placeholder="২২দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d23" placeholder="২৩দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d24" placeholder="২৪দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d25" placeholder="২৫দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d26" placeholder="২৬দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d27" placeholder="২৭দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d28" placeholder="২৮দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d29" placeholder="২৯দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d30" placeholder="৩০দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                    <input type="number" id="d31" placeholder="৩১দিন" class="bg-black border border-purple-700 p-1 rounded text-white text-[10px]">
-                </div>
-
-                <button onclick="addPanel()" class="w-full btn py-2 rounded font-bold text-white mt-2">প্যানেল পাবলিশ করুন</button>
-            </div>
-
-            <div>
-                <p class="font-bold text-yellow-400 mb-1">প্যানেল লিস্ট (ডিলিট করতে চাইলে):</p>
-                <div id="adminPanelList" class="space-y-1 max-h-32 overflow-y-auto"></div>
-            </div>
-
-            <div>
-                <p class="font-bold text-green-400 mb-1">কাস্টমার অর্ডারসমূহ:</p>
-                <div id="adminOrders" class="space-y-2 max-h-48 overflow-y-auto"></div>
-            </div>
-        </div>
-
-        <!-- Store Title -->
-        <h3 class="text-xs font-bold text-purple-300 mb-2">AVAILABLE PANELS (হোম পেজ)</h3>
-
-        <!-- Store Grid -->
-        <div id="storeGrid" class="grid grid-cols-2 gap-2.5"></div>
-    </main>
-
-    <!-- Buy Modal -->
-    <div id="buyModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#160f29] border border-purple-500 rounded-xl w-full max-w-sm p-4 relative text-xs">
-            <button onclick="closeBuy()" class="absolute top-2 right-2 w-7 h-7 bg-gray-800 rounded-full text-white">✕</button>
-            <h3 id="mTitle" class="font-bold text-base text-center text-white mb-1">Panel</h3>
-            <p class="text-center text-green-400 text-[11px] mb-3">⚡ Instant Key Delivery</p>
-            
-            <p class="text-purple-300 font-bold mb-1">প্যাকেজ সিলেক্ট করুন:</p>
-            <div id="pkgList" class="space-y-1.5 mb-3 max-h-40 overflow-y-auto"></div>
-
-            <div class="space-y-2 bg-[#0b0716] p-2.5 rounded-lg border border-purple-800 mb-3">
-                <select id="payMethod" class="w-full bg-black border border-purple-700 p-2 rounded text-white">
-                    <option value="Nagad">Nagad (01723711057)</option>
-                    <option value="Rocket">Rocket (01723711057)</option>
-                </select>
-                <input type="text" id="trxId" placeholder="Transaction ID (TrxID) লিখুন" class="w-full bg-black border border-purple-700 p-2 rounded text-white">
-            </div>
-
-            <button onclick="confirmOrder()" class="w-full btn py-2.5 rounded-lg font-bold text-sm text-white">কনফার্ম অর্ডার (টেলিগ্রামে পাঠান)</button>
-        </div>
-    </div>
-
-    <!-- My Orders Modal -->
-    <div id="ordersModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#160f29] border border-purple-500 rounded-xl w-full max-w-sm p-4 relative max-h-[80vh] overflow-y-auto text-xs">
-            <button onclick="document.getElementById('ordersModal').classList.add('hidden')" class="absolute top-2 right-2 w-7 h-7 bg-gray-800 rounded-full text-white">✕</button>
-            <h3 class="font-bold text-base text-purple-300 mb-3">আমার অর্ডারসমূহ</h3>
-            <div id="myOrdersList" class="space-y-2"></div>
-        </div>
-    </div>
-
-    <!-- Bottom Nav -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-[#120b24] border-t border-purple-800 py-2 flex justify-around text-xs z-40 max-w-md mx-auto">
-        <button onclick="location.reload()" class="text-pink-500 flex flex-col items-center"><i class="fas fa-store text-base"></i><span>Store</span></button>
-        <button onclick="showMyOrders()" class="text-gray-400 flex flex-col items-center"><i class="fas fa-box text-base"></i><span>My Orders</span></button>
-        <a href="https://t.me/mazedvai12" target="_blank" class="text-gray-400 flex flex-col items-center"><i class="fab fa-telegram-plane text-base"></i><span>Support</span></a>
-    </nav>
-
-    <script>
-        const defaultData = [
-            { 
-                id: 1, name: "DRIP CLIENT ROOT", cat: "ROOT", 
-                pkgs: [{t:"1 Day", p:50}, {t:"7 Days", p:300}, {t:"30 Days", p:700}] 
-            }
-        ];
-
-        let panels = JSON.parse(localStorage.getItem('mazed_panels_v4')) || defaultData;
-        let orders = JSON.parse(localStorage.getItem('mazed_orders_v4')) || [];
-        let curPanel = null, curPkg = null;
-
-        function renderStore() {
-            const grid = document.getElementById('storeGrid');
-            if(!grid) return;
-            grid.innerHTML = panels.map(p => `
-                <div class="card rounded-xl p-3 flex flex-col justify-between">
-                    <div>
-                        <span class="text-[9px] bg-purple-900 text-purple-200 px-1.5 py-0.5 rounded">${p.cat}</span>
-                        <h4 class="font-bold text-xs mt-1.5">${p.name}</h4>
-                    </div>
-                    <div class="mt-3 pt-2 border-t border-purple-800/60 flex justify-between items-center">
-                        <span class="text-xs font-bold text-pink-400">৳${p.pkgs[0] ? p.pkgs[0].p : 0}</span>
-                        <button onclick="openBuy(${p.id})" class="btn px-3 py-1 rounded text-[11px] font-bold text-white">BUY</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function toggleAdmin() {
-            const box = document.getElementById('adminBox');
-            box.classList.toggle('hidden');
-            renderAdmin();
-        }
-
-        function renderAdmin() {
-            document.getElementById('adminPanelList').innerHTML = panels.map(p => `
-                <div class="flex justify-between items-center bg-black p-1.5 rounded border border-purple-900 text-white">
-                    <span>${p.name} (${p.cat})</span>
-                    <button onclick="delPanel(${p.id})" class="bg-red-600 px-2 py-0.5 rounded text-[10px]">Delete</button>
-                </div>
-            `).join('');
-
-            document.getElementById('adminOrders').innerHTML = orders.length ? orders.map((o, i) => `
-                <div class="bg-black p-2 rounded border border-purple-900 text-white">
-                    <p class="font-bold text-pink-400">${o.panel} - ৳${o.price}</p>
-                    <p>TrxID: <span class="text-yellow-400">${o.trx}</span> (${o.method})</p>
-                    <p class="text-green-300 mt-1">Key: ${o.key}</p>
-                </div>
-            `).join('') : '<p class="text-gray-400">কোনো অর্ডার নেই</p>';
-        }
-
-        function addPanel() {
-            const name = document.getElementById('pName').value.trim();
-            const cat = document.getElementById('pCat').value;
-            if(!name) return alert("প্যানেলের নাম লিখুন!");
-
-            let pkgs = [];
-            // Hours 1 to 24
-            for(let i=1; i<=24; i++) {
-                let val = Number(document.getElementById(`h${i}`).value);
-                if(val > 0) pkgs.push({ t: `${i} Hour${i>1?'s':''}`, p: val });
-            }
-            // Days 1 to 31
-            for(let i=1; i<=31; i++) {
-                let val = Number(document.getElementById(`d${i}`).value);
-                if(val > 0) pkgs.push({ t: `${i} Day${i>1?'s':''}`, p: val });
-            }
-
-            if(pkgs.length === 0) return alert("কমপক্ষে একটি প্যাকেজের দাম বসাতে হবে!");
-
-            panels.unshift({ id: Date.now(), name, cat, pkgs });
-            localStorage.setItem('mazed_panels_v4', JSON.stringify(panels));
-            document.getElementById('pName').value = '';
-            renderStore();
-            renderAdmin();
-            alert("প্যানেল সফলভাবে যুক্ত হয়েছে!");
-        }
-
-        function delPanel(id) {
-            panels = panels.filter(p => p.id !== id);
-            localStorage.setItem('mazed_panels_v4', JSON.stringify(panels));
-            renderStore();
-            renderAdmin();
-        }
-
-        function openBuy(id) {
-            curPanel = panels.find(p => p.id === id);
-            curPkg = curPanel.pkgs[0];
-            document.getElementById('mTitle').innerText = curPanel.name;
-            renderPkgs();
-            document.getElementById('buyModal').classList.remove('hidden');
-        }
-
-        function renderPkgs() {
-            document.getElementById('pkgList').innerHTML = curPanel.pkgs.map((pk, idx) => `
-                <div onclick="selectPk(${idx})" class="cursor-pointer p-2 rounded border flex justify-between ${curPkg.t === pk.t ? 'border-pink-500 bg-purple-900/50' : 'border-purple-800 bg-black'} text-white">
-                    <span class="font-bold">${pk.t}</span>
-                    <span class="text-green-400 font-bold">৳${pk.p}</span>
-                </div>
-            `).join('');
-        }
-
-        function selectPk(idx) {
-            curPkg = curPanel.pkgs[idx];
-            renderPkgs();
-        }
-
-        function closeBuy() { document.getElementById('buyModal').classList.add('hidden'); }
-
-        function confirmOrder() {
-            const trx = document.getElementById('trxId').value.trim();
-            const method = document.getElementById('payMethod').value;
-            if(!trx) return alert("দয়া করে ট্রানজেকশন আইডি (TrxID) লিখুন!");
-
-            const orderText = `New Order!%0APanel: ${curPanel.name}%0APackage: ${curPkg.t}%0APrice: ৳${curPkg.p}%0AMethod: ${method}%0ATrxID: ${trx}`;
-            
-            // Send to Telegram automatically
-            window.open(`https://t.me/mazedvai12?text=${orderText}`, '_blank');
-
-            orders.unshift({
-                panel: `${curPanel.name} (${curPkg.t})`,
-                price: curPkg.p,
-                method: method,
-                trx: trx,
-                key: "Sent to Telegram"
-            });
-            localStorage.setItem('mazed_orders_v4', JSON.stringify(orders));
-            document.getElementById('trxId').value = '';
-            closeBuy();
-            alert("অর্ডার কনফার্ম হয়েছে এবং আপনার টেলিগ্রামে মেসেজ চলে গেছে!");
-        }
-
-        function showMyOrders() {
-            document.getElementById('myOrdersList').innerHTML = orders.length ? orders.map(o => `
-                <div class="bg-black p-2.5 rounded border border-purple-800 text-white">
-                    <p class="font-bold text-pink-400">${o.panel} - ৳${o.price}</p>
-                    <p class="text-gray-400">TrxID: ${o.trx} (${o.method})</p>
-                    <p class="mt-1 bg-purple-950 p-1.5 rounded text-green-300 font-mono">Status: ${o.key}</p>
-                </div>
-            `).join('') : '<p class="text-center text-gray-400">কোনো অর্ডার নেই</p>';
-            document.getElementById('ordersModal').classList.remove('hidden');
-        }
-
-        renderStore();
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAZED PANEL HOUSE — Dashboard & Admin</title>
+    <title>MAZED PANEL HOUSE — Official Store</title>
     <style>
         :root {
             --bg-dark: #070612;
@@ -368,8 +36,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 14px;
-            background: rgba(11, 9, 26, 0.95);
+            padding: 12px 14px;
+            background: rgba(11, 9, 26, 0.96);
             border-bottom: 1px solid #1f163b;
             position: sticky;
             top: 0;
@@ -380,12 +48,12 @@
         .brand-box {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 10px;
         }
 
         .brand-logo {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
             display: flex;
@@ -398,9 +66,8 @@
         }
 
         .brand-text h1 {
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
+            font-size: 14px;
+            font-weight: 900;
             color: #fff;
         }
 
@@ -412,35 +79,18 @@
             display: block;
         }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
         .currency-pill {
             background: #171233;
             border: 1px solid #352566;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #e2e8f0;
-        }
-
-        .admin-top-btn {
-            background: linear-gradient(90deg, #06b6d4, #7c3aed);
-            border: none;
-            color: #fff;
-            padding: 6px 12px;
+            padding: 5px 11px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 800;
-            cursor: pointer;
+            color: #38bdf8;
         }
 
         .hero-wrap {
-            padding: 12px 12px 6px;
+            padding: 12px;
         }
 
         .hero-card {
@@ -487,7 +137,7 @@
         }
 
         .pay-chip {
-            padding: 4px 10px;
+            padding: 5px 10px;
             border-radius: 8px;
             font-size: 11px;
             font-weight: 800;
@@ -515,60 +165,6 @@
             cursor: pointer;
         }
 
-        .circle-row {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding: 12px;
-            scrollbar-width: none;
-        }
-
-        .circle-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .circle-item {
-            flex: 0 0 auto;
-            text-align: center;
-            width: 62px;
-            cursor: pointer;
-        }
-
-        .circle-ring {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 5px;
-            border-radius: 50%;
-            padding: 2.5px;
-            background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4);
-        }
-
-        .circle-inner {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #130f2b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 900;
-            color: #fff;
-            text-align: center;
-            line-height: 1.15;
-            padding: 4px;
-        }
-
-        .circle-item span {
-            font-size: 10px;
-            font-weight: 700;
-            color: #cbd5e1;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
         .cat-section {
             padding: 4px 12px 12px;
         }
@@ -589,18 +185,12 @@
             font-weight: 700;
             text-align: center;
             cursor: pointer;
-            white-space: nowrap;
         }
 
         .cat-pill.active {
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(236, 72, 153, 0.25));
             border-color: var(--neon-purple);
             color: #fff;
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
-        }
-
-        .hidden-cat {
-            display: none;
         }
 
         .store-grid {
@@ -613,7 +203,7 @@
         @media (min-width: 768px) {
             .store-grid {
                 grid-template-columns: repeat(4, 1fr);
-                max-width: 1100px;
+                max-width: 1120px;
                 margin: 0 auto;
             }
         }
@@ -622,7 +212,7 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 14px;
-            padding: 9px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -648,10 +238,6 @@
             flex-shrink: 0;
         }
 
-        .p-title-wrap {
-            overflow: hidden;
-        }
-
         .p-title {
             font-size: 12px;
             font-weight: 800;
@@ -668,10 +254,9 @@
         }
 
         .p-banner {
-            height: 92px;
+            height: 84px;
             border-radius: 10px;
             margin-bottom: 8px;
-            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -685,70 +270,45 @@
             font-size: 13px;
             font-weight: 900;
             text-transform: uppercase;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
         .p-banner-sub {
             font-size: 9px;
             font-weight: 700;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             padding: 2px 7px;
             border-radius: 4px;
             margin-top: 4px;
             color: #facc15;
         }
 
-        .badge-top-right {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #dc2626;
-            color: #fff;
-            font-size: 8px;
-            font-weight: 800;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-
-        .p-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            gap: 4px;
-        }
-
-        .status-chip {
-            font-size: 9px;
+        .duration-select {
+            width: 100%;
+            padding: 7px 8px;
+            border-radius: 8px;
+            background: #0a0819;
+            border: 1px solid #352566;
+            color: #f8fafc;
+            font-size: 11px;
             font-weight: 700;
-            padding: 3px 6px;
-            border-radius: 6px;
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .hash-tag {
-            font-size: 9px;
-            font-weight: 800;
-            color: #c084fc;
+            margin-bottom: 8px;
         }
 
         .p-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 5px;
+            gap: 6px;
         }
 
         .price-box {
             background: #1a1438;
             border: 1px solid #35276b;
-            padding: 6px 7px;
+            padding: 7px 6px;
             border-radius: 8px;
-            font-size: 10px;
-            font-weight: 800;
-            color: #f472b6;
+            font-size: 11px;
+            font-weight: 900;
+            color: #34d399;
             flex: 1;
             text-align: center;
         }
@@ -757,98 +317,30 @@
             background: linear-gradient(90deg, #9333ea, #ec4899);
             border: none;
             color: #fff;
-            padding: 7px 10px;
+            padding: 8px 10px;
             border-radius: 8px;
             font-size: 10px;
             font-weight: 800;
             cursor: pointer;
         }
 
-        .board-section {
-            margin: 18px 12px 10px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 12px;
-        }
-
-        .board-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .b-tab {
-            flex: 1;
-            padding: 8px;
-            border-radius: 10px;
-            border: 1px solid #2e2259;
-            background: #161230;
-            color: #94a3b8;
-            font-size: 11px;
-            font-weight: 800;
+        .empty-msg {
+            grid-column: 1 / -1;
             text-align: center;
-            cursor: pointer;
-        }
-
-        .b-tab.active {
-            background: linear-gradient(90deg, #7c3aed, #db2777);
-            color: #fff;
-            border-color: transparent;
-        }
-
-        .order-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 9px 10px;
-            background: #0c0a1d;
-            border: 1px solid #1f1842;
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-
-        .order-user {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .u-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #241b4b;
-            color: #38bdf8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 12px;
-        }
-
-        .u-info h4 {
-            font-size: 12px;
-            color: #fff;
-        }
-
-        .u-info p {
-            font-size: 10px;
+            padding: 36px 16px;
+            background: #110e24;
+            border: 1px dashed #352566;
+            border-radius: 14px;
             color: #94a3b8;
-        }
-
-        .order-amt {
-            font-size: 12px;
-            font-weight: 800;
-            color: #34d399;
+            font-size: 13px;
         }
 
         .fab-support {
             position: fixed;
             right: 14px;
-            bottom: 78px;
-            width: 46px;
-            height: 46px;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
@@ -862,56 +354,6 @@
             border: 2px solid #fff;
         }
 
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #0d0b1f;
-            border-top: 1px solid #281d52;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 8px 4px 10px;
-            z-index: 50;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .nav-item.active {
-            color: var(--neon-pink);
-        }
-
-        .nav-item i {
-            display: block;
-            font-style: normal;
-            font-size: 16px;
-            margin-bottom: 2px;
-        }
-
-        .add-fund-btn {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #10b981, #06b6d4);
-            color: #050811;
-            font-size: 24px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: -22px auto 2px;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
-            border: 3px solid #0d0b1f;
-        }
-
         .modal {
             display: none;
             position: fixed;
@@ -922,7 +364,6 @@
             align-items: center;
             padding: 16px;
             z-index: 100;
-            overflow-y: auto;
         }
 
         .modal-card {
@@ -931,15 +372,13 @@
             border-radius: 16px;
             padding: 18px;
             width: 100%;
-            max-width: 400px;
-            max-height: 88vh;
-            overflow-y: auto;
+            max-width: 390px;
         }
 
         .modal-card h3 {
             color: #fff;
-            font-size: 17px;
-            margin-bottom: 6px;
+            font-size: 16px;
+            margin-bottom: 4px;
         }
 
         .num-copy-box {
@@ -1008,29 +447,6 @@
             font-weight: 800;
             cursor: pointer;
         }
-
-        .admin-item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #090717;
-            padding: 8px 10px;
-            border-radius: 8px;
-            margin-top: 6px;
-            border: 1px solid #281d52;
-            font-size: 12px;
-        }
-
-        .del-btn {
-            background: #dc2626;
-            color: #fff;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -1040,385 +456,217 @@
             <div class="brand-logo">MP</div>
             <div class="brand-text">
                 <h1>MAZED PANEL HOUSE</h1>
-                <span>OFFICIAL DASHBOARD</span>
+                <span>VERIFIED GAMING STORE</span>
             </div>
         </div>
-        <div class="nav-right">
-            <div class="currency-pill">৳ BDT</div>
-            <button class="admin-top-btn" onclick="openAdminLogin()">⚙ Admin</button>
-        </div>
+        <div class="currency-pill">৳ BDT</div>
     </div>
 
     <div class="hero-wrap">
         <div class="hero-card">
-            <div class="hero-badge">⚡ 24/7 INSTANT DELIVERY</div>
-            <div class="hero-title">MAZED PANEL HOUSE<br>GAMING & SETUP PORTAL</div>
-            <div class="hero-sub">পছন্দের প্যানেল সিলেক্ট করে Nagad বা Rocket-এ পেমেন্ট করুন</div>
+            <div class="hero-badge">⚡ INSTANT DELIVERY</div>
+            <div class="hero-title">MAZED PANEL HOUSE</div>
+            <div class="hero-sub">পছন্দের প্যানেল ও সময় সিলেক্ট করে Nagad বা Rocket-এ পেমেন্ট করুন</div>
             <div class="pay-strip">
                 <div class="pay-chip chip-nagad">🟠 Nagad</div>
                 <div class="pay-chip chip-rocket">🟣 Rocket</div>
-                <div class="pay-chip chip-num" onclick="copyNumber()">📋 <span id="heroNumText">01723711057</span> (Copy)</div>
+                <div class="pay-chip chip-num" onclick="copyNumber()">📋 <span id="storeNumText">01723711057</span> (Copy)</div>
             </div>
-        </div>
-    </div>
-
-    <div class="circle-row">
-        <div class="circle-item" onclick="quickFilter('ROOT')">
-            <div class="circle-ring"><div class="circle-inner">MAZED<br>X VIP</div></div>
-            <span>Mazed X VIP</span>
-        </div>
-        <div class="circle-item" onclick="quickFilter('NON ROOT')">
-            <div class="circle-ring"><div class="circle-inner">MAZED<br>CORE</div></div>
-            <span>Mazed Core</span>
-        </div>
-        <div class="circle-item" onclick="quickFilter('NON ROOT')">
-            <div class="circle-ring"><div class="circle-inner">AIM<br>PRO</div></div>
-            <span>Mazed Aim Pro</span>
-        </div>
-        <div class="circle-item" onclick="quickFilter('ROOT')">
-            <div class="circle-ring"><div class="circle-inner">GHOST<br>PACK</div></div>
-            <span>Mazed Ghost</span>
-        </div>
-        <div class="circle-item" onclick="quickFilter('PC')">
-            <div class="circle-ring"><div class="circle-inner">PC<br>MATRIX</div></div>
-            <span>Mazed PC</span>
-        </div>
-        <div class="circle-item" onclick="quickFilter('iOS')">
-            <div class="circle-ring"><div class="circle-inner">AIR<br>X iOS</div></div>
-            <span>Mazed Air X</span>
         </div>
     </div>
 
     <div class="cat-section">
         <div class="cat-grid">
-            <div class="cat-pill active" onclick="filterStore('ALL', this)">⊞ ALL</div>
-            <div class="cat-pill" onclick="filterStore('NON ROOT', this)">NON ROOT</div>
-            <div class="cat-pill" onclick="filterStore('ROOT', this)">ROOT</div>
-            <div class="cat-pill" onclick="filterStore('iOS', this)">iOS</div>
-            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('PC', this)">PC</div>
-            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('PUBG', this)">PUBG</div>
-            <div class="cat-pill hidden-cat extra-cat" onclick="filterStore('FF Glory', this)">🔥 FF Glory</div>
-            <div class="cat-pill" id="toggleMoreBtn" onclick="toggleCategories()">More ⌄</div>
+            <div class="cat-pill active" onclick="filterCat('ALL', this)">ALL</div>
+            <div class="cat-pill" onclick="filterCat('NON ROOT', this)">NON ROOT</div>
+            <div class="cat-pill" onclick="filterCat('ROOT', this)">ROOT</div>
+            <div class="cat-pill" onclick="filterCat('iOS', this)">iOS</div>
         </div>
     </div>
 
-    <div class="store-grid" id="storeGrid"></div>
+    <div class="store-grid" id="customerGrid"></div>
 
-    <div class="board-section">
-        <div class="board-tabs">
-            <div class="b-tab active" onclick="switchBoard('recent', this)">⚡ RECENT ORDERS</div>
-            <div class="b-tab" onclick="switchBoard('top', this)">👑 TOP BUYERS</div>
-        </div>
-        <div id="boardList"></div>
-    </div>
+    <a class="fab-support" id="waLink" href="https://wa.me/8801723711057" target="_blank" title="WhatsApp Support">💬</a>
 
-    <a class="fab-support" id="waFab" href="https://wa.me/8801723711057" target="_blank" title="WhatsApp Support">💬</a>
-
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-            <i>🏠</i>Store
-        </div>
-        <div class="nav-item" onclick="document.querySelector('.board-section').scrollIntoView({behavior:'smooth'})">
-            <i>🧾</i>Orders
-        </div>
-        <div class="nav-item" onclick="openFundModal()">
-            <div class="add-fund-btn">+</div>
-            Add Fund
-        </div>
-        <div class="nav-item" onclick="resetAllDefault()">
-            <i>🔄</i>Reset
-        </div>
-        <div class="nav-item" onclick="openAdminLogin()">
-            <i>⚙</i>Admin
-        </div>
-    </div>
-
-    <!-- Order Modal -->
     <div class="modal" id="orderModal">
         <div class="modal-card">
-            <h3 id="modalHeading">অর্ডার কনফার্ম করুন</h3>
-            <p id="modalSub" style="font-size: 12px; color: #38bdf8;"></p>
+            <h3>অর্ডার কনফার্ম করুন</h3>
+            <p id="selectedPackageInfo" style="font-size: 12px; color: #38bdf8; margin-top: 3px;"></p>
 
             <div class="num-copy-box">
-                <span>Nagad / Rocket: <strong id="modalNum">01723711057</strong></span>
+                <span>Pay: <strong id="modalPayNum">01723711057</strong></span>
                 <button class="copy-small" onclick="copyNumber()">Copy</button>
             </div>
 
-            <input type="text" id="custName" placeholder="আপনার নাম লিখুন">
-            <select id="payGateway">
+            <input type="text" id="buyerName" placeholder="আপনার নাম বা গেম আইডি">
+            <select id="payMethod">
                 <option value="Nagad">Nagad (Send Money)</option>
                 <option value="Rocket">Rocket (Send Money)</option>
             </select>
-            <input type="text" id="trxId" placeholder="Transaction ID (TrxID) লিখুন">
+            <input type="text" id="trxCode" placeholder="Transaction ID (TrxID)">
 
             <div class="modal-btns">
-                <button class="btn-close" onclick="closeModal('orderModal')">বাতিল</button>
-                <button class="btn-confirm" onclick="sendToWhatsApp()">WhatsApp-এ পাঠান</button>
+                <button class="btn-close" onclick="closeOrderModal()">বাতিল</button>
+                <button class="btn-confirm" onclick="submitOrder()">WhatsApp-এ অর্ডার দিন</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Modal -->
-    <div class="modal" id="adminModal">
-        <div class="modal-card">
-            <h3>⚙ Mazed Admin Panel</h3>
-            <p style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">নতুন প্যানেল যোগ করুন, নাম/দাম সেট করুন অথবা ডিলিট করুন</p>
-
-            <input type="text" id="newPanelName" placeholder="প্যানেলের নাম (যেমন: Mazed X VIP)">
-            <select id="newPanelCat">
-                <option value="NON ROOT">NON ROOT</option>
-                <option value="ROOT">ROOT</option>
-                <option value="iOS">iOS</option>
-                <option value="PC">PC</option>
-                <option value="PUBG">PUBG</option>
-                <option value="FF Glory">FF Glory</option>
-            </select>
-            <input type="text" id="newPanelPrice" placeholder="দাম (যেমন: ৳80 BDT)">
-            <input type="text" id="newPanelSub" placeholder="সাবটাইটেল (যেমন: SMOOTH EDITION)">
-            <input type="text" id="adminPayNum" placeholder="Nagad / Rocket নম্বর (01723711057)">
-
-            <div class="modal-btns">
-                <button class="btn-close" onclick="closeModal('adminModal')">বন্ধ করুন</button>
-                <button class="btn-confirm" onclick="addPanelFromAdmin()">+ প্যানেল যুক্ত করুন</button>
-            </div>
-
-            <div style="margin-top: 14px; font-size: 12px; font-weight: 800; color: #38bdf8;">বর্তমান প্যানেলসমূহ:</div>
-            <div id="adminPanelList"></div>
         </div>
     </div>
 
     <script>
-        const DEFAULT_PANELS = [
-            { name: "Mazed X VIP", cat: "ROOT", bannerTitle: "MAZED X VIP", bannerSub: "ROOT PRO PACK", bg: "linear-gradient(135deg, #4a044e, #a21caf)", price: "৳80 BDT", tag: "#ROOT" },
-            { name: "Mazed Core Engine", cat: "NON ROOT", bannerTitle: "MAZED CORE", bannerSub: "SMOOTH NON-ROOT", bg: "linear-gradient(135deg, #1e1b4b, #4338ca)", price: "৳50 BDT", tag: "#NONROOT" },
-            { name: "Mazed Aim Pro", cat: "NON ROOT", bannerTitle: "MAZED AIM PRO", bannerSub: "SENSITIVITY SETUP", bg: "linear-gradient(135deg, #450a0a, #b91c1c)", price: "৳40 BDT", tag: "#NONROOT" },
-            { name: "Mazed Ghost Pack", cat: "ROOT", bannerTitle: "MAZED GHOST", bannerSub: "BR MODE PACK", bg: "linear-gradient(135deg, #172554, #1d4ed8)", price: "৳60 BDT", tag: "#ROOT" },
-            { name: "Mazed Air X", cat: "iOS", bannerTitle: "MAZED AIR X", bannerSub: "iOS SETUP PACK", bg: "linear-gradient(135deg, #311042, #6b21a8)", price: "৳90 BDT", tag: "#IPHONE" },
-            { name: "Mazed PC Matrix", cat: "PC", bannerTitle: "MAZED PC", bannerSub: "EMULATOR PRO", bg: "linear-gradient(135deg, #042f2e, #0f766e)", price: "৳100 BDT", tag: "#PC" },
-            { name: "Mazed Glory Boost", cat: "FF Glory", bannerTitle: "MAZED GLORY", bannerSub: "INSTANT SERVICE", bg: "linear-gradient(135deg, #3b0764, #7e22ce)", price: "৳120 BDT", tag: "#FFGLORY" },
-            { name: "Mazed Tactical Squad", cat: "PUBG", bannerTitle: "MAZED PUBG", bannerSub: "PRO PACK", bg: "linear-gradient(135deg, #365314, #4d7c0f)", price: "৳95 BDT", tag: "#PUBG" }
-        ];
+        const PUBLISHED_STORE_DATA = {
+            number: "01723711057",
+            panels: [
+                {
+                    id: "mazed-x-vip",
+                    name: "Mazed X VIP",
+                    cat: "ROOT",
+                    sub: "ROOT PRO EDITION",
+                    bg: "linear-gradient(135deg, #4a044e, #a21caf)",
+                    rates: {
+                        "1 Hour": "80",
+                        "24 Hours": "250",
+                        "1 Day": "250",
+                        "7 Days": "900",
+                        "30 Days": "2200"
+                    }
+                },
+                {
+                    id: "mazed-core",
+                    name: "Mazed Core Engine",
+                    cat: "NON ROOT",
+                    sub: "SMOOTH NON-ROOT",
+                    bg: "linear-gradient(135deg, #1e1b4b, #4338ca)",
+                    rates: {
+                        "1 Hour": "50",
+                        "6 Hours": "120",
+                        "1 Day": "180",
+                        "3 Days": "420"
+                    }
+                }
+            ]
+        };
 
-        const recentData = [
-            { user: "mazed_fan1", item: "Mazed X VIP (1 DAY)", price: "৳80" },
-            { user: "rifat_bd", item: "Mazed Core Engine", price: "৳50" },
-            { user: "nadim_ff", item: "Mazed Aim Pro", price: "৳40" }
-        ];
+        const localData = JSON.parse(localStorage.getItem("mazed_published_store"));
+        const storeData = localData || PUBLISHED_STORE_DATA;
+        let activeCat = "ALL";
+        let selectedOrderText = "";
 
-        const topBuyersData = [
-            { user: "rakib_ff", item: "Total Orders: 24 Packs", price: "৳1,450" },
-            { user: "sabbir_yt", item: "Total Orders: 18 Packs", price: "৳1,120" },
-            { user: "tanvir_op", item: "Total Orders: 12 Packs", price: "৳780" }
-        ];
+        document.getElementById("storeNumText").innerText = storeData.number;
+        document.getElementById("modalPayNum").innerText = storeData.number;
+        document.getElementById("waLink").href = `https://wa.me/88${storeData.number}`;
 
-        let panels = JSON.parse(localStorage.getItem("mazed_panels")) || [...DEFAULT_PANELS];
-        let activeNumber = localStorage.getItem("mazed_number") || "01723711057";
-        let currentOrderTitle = "";
-        let isExpanded = false;
-
-        function applyNumberUI() {
-            document.getElementById("heroNumText").innerText = activeNumber;
-            document.getElementById("modalNum").innerText = activeNumber;
-            document.getElementById("adminPayNum").value = activeNumber;
-            document.getElementById("waFab").href = `https://wa.me/88${activeNumber}`;
+        function getActiveRateEntries(ratesObj) {
+            const entries = [];
+            for (let h = 1; h <= 24; h++) {
+                const label = `${h} ${h === 1 ? "Hour" : "Hours"}`;
+                const val = ratesObj && ratesObj[label];
+                if (val !== undefined && val !== null && String(val).trim() !== "" && Number(val) > 0) {
+                    entries.push({ label, price: Number(val) });
+                }
+            }
+            for (let d = 1; d <= 31; d++) {
+                const label = `${d} ${d === 1 ? "Day" : "Days"}`;
+                const val = ratesObj && ratesObj[label];
+                if (val !== undefined && val !== null && String(val).trim() !== "" && Number(val) > 0) {
+                    entries.push({ label, price: Number(val) });
+                }
+            }
+            return entries;
         }
 
-        function savePanels() {
-            localStorage.setItem("mazed_panels", JSON.stringify(panels));
-        }
-
-        function renderProducts(category) {
-            const grid = document.getElementById("storeGrid");
+        function renderStore() {
+            const grid = document.getElementById("customerGrid");
             grid.innerHTML = "";
-            const list = category === "ALL" ? panels : panels.filter(p => p.cat === category);
 
-            list.forEach(item => {
+            const visiblePanels = (storeData.panels || []).filter(p => {
+                const catMatch = activeCat === "ALL" || p.cat === activeCat;
+                const activeRates = getActiveRateEntries(p.rates);
+                return catMatch && activeRates.length > 0;
+            });
+
+            if (visiblePanels.length === 0) {
+                grid.innerHTML = `<div class="empty-msg">এই ক্যাটাগরিতে বর্তমানে কোনো সক্রিয় প্যানেল বা প্রাইস সেট করা নেই।</div>`;
+                return;
+            }
+
+            visiblePanels.forEach((p, idx) => {
+                const activeRates = getActiveRateEntries(p.rates);
+                const optionsHtml = activeRates.map(r => `<option value="${r.price}">${r.label} — ৳${r.price}</option>`).join("");
+                const firstPrice = activeRates[0].price;
+
                 const card = document.createElement("div");
                 card.className = "p-card";
                 card.innerHTML = `
                     <div>
                         <div class="p-header">
-                            <div class="p-avatar">${item.name.charAt(0)}</div>
-                            <div class="p-title-wrap">
-                                <div class="p-title">${item.name}</div>
-                                <div class="p-verified">✔ VERIFIED</div>
+                            <div class="p-avatar">${p.name.charAt(0).toUpperCase()}</div>
+                            <div style="overflow:hidden;">
+                                <div class="p-title">${p.name}</div>
+                                <div class="p-verified">✔ ${p.cat}</div>
                             </div>
                         </div>
-                        <div class="p-banner" style="background: ${item.bg};">
-                            <div class="badge-top-right">MAZED</div>
-                            <div class="p-banner-title">${item.bannerTitle}</div>
-                            <div class="p-banner-sub">${item.bannerSub}</div>
+                        <div class="p-banner" style="background:${p.bg || 'linear-gradient(135deg, #3b0764, #db2777)'};">
+                            <div class="p-banner-title">${p.name}</div>
+                            <div class="p-banner-sub">${p.sub || 'MAZED PACK'}</div>
                         </div>
-                        <div class="p-meta">
-                            <span class="status-chip">● Active</span>
-                            <span class="hash-tag">${item.tag || "#" + item.cat.replace(/\s+/g, "")}</span>
-                        </div>
+                        <select class="duration-select" id="rateSelect_${idx}" onchange="updateCardPrice(${idx})">
+                            ${optionsHtml}
+                        </select>
                     </div>
                     <div class="p-footer">
-                        <div class="price-box">FROM ${item.price}</div>
-                        <button class="buy-btn" onclick="openBuyModal('${item.name} (${item.price})')">⚡ BUY</button>
+                        <div class="price-box" id="priceText_${idx}">৳${firstPrice}</div>
+                        <button class="buy-btn" onclick="openOrder(${idx})">⚡ BUY</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+
+            window.__visiblePanels = visiblePanels;
         }
 
-        function filterStore(cat, el) {
-            document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
+        function updateCardPrice(idx) {
+            const sel = document.getElementById(`rateSelect_${idx}`);
+            document.getElementById(`priceText_${idx}`).innerText = `৳${sel.value}`;
+        }
+
+        function filterCat(cat, el) {
+            activeCat = cat;
+            document.querySelectorAll(".cat-pill").forEach(c => c.classList.remove("active"));
             if (el) el.classList.add("active");
-            renderProducts(cat);
+            renderStore();
         }
 
-        function quickFilter(cat) {
-            renderProducts(cat);
-            document.getElementById("storeGrid").scrollIntoView({ behavior: "smooth" });
-        }
-
-        function toggleCategories() {
-            isExpanded = !isExpanded;
-            document.querySelectorAll(".extra-cat").forEach(el => {
-                el.style.display = isExpanded ? "block" : "none";
-            });
-            document.getElementById("toggleMoreBtn").innerText = isExpanded ? "Less ⌃" : "More ⌄";
-        }
-
-        function resetAllDefault() {
-            if (confirm("সব প্যানেল ও নম্বর ডিফল্টে রিসেট করবেন?")) {
-                localStorage.removeItem("mazed_panels");
-                localStorage.removeItem("mazed_number");
-                panels = [...DEFAULT_PANELS];
-                activeNumber = "01723711057";
-                applyNumberUI();
-                renderProducts("ALL");
-                renderAdminList();
-            }
-        }
-
-        function switchBoard(type, tabEl) {
-            document.querySelectorAll(".b-tab").forEach(t => t.classList.remove("active"));
-            tabEl.classList.add("active");
-            renderBoard(type);
-        }
-
-        function renderBoard(type) {
-            const list = document.getElementById("boardList");
-            const data = type === "recent" ? recentData : topBuyersData;
-            list.innerHTML = data.map(row => `
-                <div class="order-row">
-                    <div class="order-user">
-                        <div class="u-circle">${row.user.charAt(0).toUpperCase()}</div>
-                        <div class="u-info">
-                            <h4>${row.user}</h4>
-                            <p>${row.item}</p>
-                        </div>
-                    </div>
-                    <div class="order-amt">${row.price}</div>
-                </div>
-            `).join("");
-        }
-
-        function openBuyModal(productLabel) {
-            currentOrderTitle = productLabel;
-            document.getElementById("modalHeading").innerText = "অর্ডার কনফার্ম করুন";
-            document.getElementById("modalSub").innerText = "প্যাকেজ: " + productLabel;
+        function openOrder(idx) {
+            const p = window.__visiblePanels[idx];
+            const sel = document.getElementById(`rateSelect_${idx}`);
+            const durationLabel = sel.options[sel.selectedIndex].text;
+            selectedOrderText = `${p.name} (${durationLabel})`;
+            document.getElementById("selectedPackageInfo").innerText = `প্যাকেজ: ${selectedOrderText}`;
             document.getElementById("orderModal").style.display = "flex";
         }
 
-        function openFundModal() {
-            currentOrderTitle = "Add Fund / Balance Top-Up";
-            document.getElementById("modalHeading").innerText = "Add Fund (Nagad / Rocket)";
-            document.getElementById("modalSub").innerText = "নিচের নম্বরে Send Money করে TrxID দিন:";
-            document.getElementById("orderModal").style.display = "flex";
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = "none";
+        function closeOrderModal() {
+            document.getElementById("orderModal").style.display = "none";
         }
 
         function copyNumber() {
-            navigator.clipboard.writeText(activeNumber);
-            alert("নম্বর কপি হয়েছে: " + activeNumber);
+            navigator.clipboard.writeText(storeData.number);
+            alert("নম্বর কপি হয়েছে: " + storeData.number);
         }
 
-        function sendToWhatsApp() {
-            const name = document.getElementById("custName").value.trim();
-            const method = document.getElementById("payGateway").value;
-            const trx = document.getElementById("trxId").value.trim();
-
+        function submitOrder() {
+            const name = document.getElementById("buyerName").value.trim();
+            const method = document.getElementById("payMethod").value;
+            const trx = document.getElementById("trxCode").value.trim();
             if (!name || !trx) {
-                alert("দয়া করে আপনার নাম এবং TrxID দিন!");
+                alert("দয়া করে নাম/আইডি এবং TrxID দিন।");
                 return;
             }
-
-            const msg = `আসসালামু আলাইকুম MAZED PANEL HOUSE,%0A📦 অর্ডার: ${currentOrderTitle}%0A👤 নাম: ${name}%0A💳 মাধ্যম: ${method}%0A🧾 TrxID: ${trx}`;
-            window.open(`https://wa.me/88${activeNumber}?text=${msg}`, "_blank");
+            const msg = `আসসালামু আলাইকুম MAZED PANEL HOUSE,%0A📦 প্যাকেজ: ${selectedOrderText}%0A👤 গ্রাহক: ${name}%0A💳 মাধ্যম: ${method}%0A🧾 TrxID: ${trx}`;
+            window.open(`https://wa.me/88${storeData.number}?text=${msg}`, "_blank");
         }
 
-        function openAdminLogin() {
-            const pin = prompt("Admin PIN দিন (ডিফল্ট PIN: 1234):");
-            if (pin === "1234") {
-                renderAdminList();
-                document.getElementById("adminModal").style.display = "flex";
-            } else if (pin !== null) {
-                alert("ভুল PIN!");
-            }
-        }
-
-        function addPanelFromAdmin() {
-            const name = document.getElementById("newPanelName").value.trim();
-            const cat = document.getElementById("newPanelCat").value;
-            const price = document.getElementById("newPanelPrice").value.trim() || "৳50 BDT";
-            const sub = document.getElementById("newPanelSub").value.trim() || "MAZED PACK";
-            const num = document.getElementById("adminPayNum").value.trim();
-
-            if (num) {
-                activeNumber = num;
-                localStorage.setItem("mazed_number", activeNumber);
-                applyNumberUI();
-            }
-
-            if (name) {
-                panels.unshift({
-                    name: name,
-                    cat: cat,
-                    bannerTitle: name.toUpperCase(),
-                    bannerSub: sub.toUpperCase(),
-                    bg: "linear-gradient(135deg, #3b0764, #db2777)",
-                    price: price,
-                    tag: "#" + cat.replace(/\s+/g, "")
-                });
-                savePanels();
-                renderProducts("ALL");
-                renderAdminList();
-                document.getElementById("newPanelName").value = "";
-                document.getElementById("newPanelPrice").value = "";
-                document.getElementById("newPanelSub").value = "";
-                alert("নতুন প্যানেল যুক্ত হয়েছে!");
-            } else if (num) {
-                alert("নম্বর আপডেট হয়েছে!");
-            }
-        }
-
-        function deletePanel(index) {
-            panels.splice(index, 1);
-            savePanels();
-            renderProducts("ALL");
-            renderAdminList();
-        }
-
-        function renderAdminList() {
-            const box = document.getElementById("adminPanelList");
-            box.innerHTML = panels.map((p, idx) => `
-                <div class="admin-item-row">
-                    <span><strong>${p.name}</strong> (${p.cat}) — ${p.price}</span>
-                    <button class="del-btn" onclick="deletePanel(${idx})">Delete</button>
-                </div>
-            `).join("");
-        }
-
-        applyNumberUI();
-        renderProducts("ALL");
-        renderBoard("recent");
+        renderStore();
     </script>
 </body>
 </html>
