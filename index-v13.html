@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZED PANEL HOUSE — VERIFIED GAMING STORE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        body {
+            background: #070612;
+            color: #f8fafc;
+            min-height: 100vh;
+            padding-bottom: 92px;
+        }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: rgba(12, 9, 28, 0.96);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #281b4e;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #9333ea, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 17px;
+            color: #fff;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .brand-title {
+            font-size: 17px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.3px;
+            line-height: 1.15;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .brand-tag {
+            font-size: 9.5px;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+        /* Top Right Live Wallet Balance Pill */
+        .wallet-corner-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1.5px solid #10b981;
+            color: #6ee7b7;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 900;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.22);
+        }
+        /* Smooth Fixed-Left NOTICE Pill + Right-to-Left Marquee (like Panel Bajar) */
+        .notice-bar {
+            background: #120d26;
+            border-bottom: 1px solid #241846;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+        .notice-fixed-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(90deg, #e11d48, #db2777);
+            color: #ffffff;
+            font-size: 10.5px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.4px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(225, 29, 72, 0.35);
+        }
+        .notice-pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: inline-block;
+        }
+        .notice-marquee-wrap {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .notice-track {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marqueeScroll 16s linear infinite;
+            font-size: 12px;
+            color: #facc15;
+            font-weight: 700;
+        }
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 14px 16px;
+        }
+        .slider-box {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2e1f5e;
+            background: #110d24;
+            margin-bottom: 14px;
+            min-height: 150px;
+        }
+        .slider-img {
+            width: 100%;
+            height: 185px;
+            object-fit: cover;
+            display: block;
+        }
+        .slider-overlay {
+            position: absolute;
+            inset: auto 0 0 0;
+            background: linear-gradient(transparent, rgba(7, 6, 18, 0.92));
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .slider-caption {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .slider-dots {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .slider-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            border: none;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            padding: 0;
+        }
+        .slider-dot.active {
+            width: 16px;
+            background: #ec4899;
+        }
+        .slider-link {
+            background: linear-gradient(90deg, #06b6d4, #2563eb);
+            color: #fff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .cat-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            scrollbar-width: none;
+        }
+        .cat-bar::-webkit-scrollbar { display: none; }
+        .cat-btn {
+            background: #120e26;
+            color: #cbd5e1;
+            border: 1px solid #2d1f59;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .cat-btn.active {
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            color: #fff;
+            border-color: transparent;
+        }
+        .panel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        @media (min-width: 640px) {
+            .panel-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .card {
+            background: #110e24;
+            border: 1px solid #291c52;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-banner {
+            height: 118px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-full-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .card-initial-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+        }
+        .card-cat-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(7, 6, 18, 0.82);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 999px;
+            z-index: 2;
+        }
+        .card-maint-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: linear-gradient(90deg, #6d28d9, #9333ea);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 9px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 999px;
+            z-index: 2;
+            letter-spacing: 0.3px;
+        }
+        .card-body {
+            padding: 11px;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .card-sub {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .card-price-from {
+            font-size: 11px;
+            color: #34d399;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .select-btn {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .select-btn.maint-btn {
+            background: linear-gradient(90deg, #d97706, #ea580c);
+        }
+        /* Important Notice Board & Official Social Channels at bottom of Home */
+        .store-notice-board {
+            background: #110e24;
+            border: 1.5px solid #352566;
+            border-radius: 15px;
+            padding: 14px 16px;
+            margin-top: 20px;
+        }
+        .store-notice-board-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: #facc15;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #261b4d;
+        }
+        .store-notice-board-body {
+            color: #e2e8f0;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+        .social-channels-box {
+            background: #110e24;
+            border: 1px solid #291c52;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 14px;
+            text-align: center;
+        }
+        .social-channels-box h4 {
+            font-size: 15px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        .social-channels-box p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+        .social-pills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+            gap: 9px;
+        }
+        .social-pill-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 10px;
+            border-radius: 11px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 800;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+        .sc-yt {
+            background: rgba(239, 68, 68, 0.16);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.45);
+        }
+        .sc-tt {
+            background: rgba(248, 250, 252, 0.1);
+            color: #f8fafc;
+            border-color: rgba(248, 250, 252, 0.35);
+        }
+        .sc-dc {
+            background: rgba(99, 102, 241, 0.18);
+            color: #c7d2fe;
+            border-color: rgba(99, 102, 241, 0.45);
+        }
+        .home-support-fab {
+            position: fixed;
+            right: 14px;
+            bottom: 76px;
+            z-index: 35;
+            background: linear-gradient(135deg, #06b6d4, #2563eb);
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.45);
+        }
+        /* 3-Column Bottom Nav with Center Add Wallet (+) Button */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 9, 28, 0.97);
+            border-top: 1px solid #281b4e;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 6px 12px;
+            z-index: 30;
+        }
+        .nav-item {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 7px 14px;
+            border-radius: 9px;
+            text-align: center;
+        }
+        .nav-item.active {
+            color: #fff;
+            background: rgba(147, 51, 234, 0.28);
+        }
+        .nav-add-wallet-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: -18px;
+            padding: 0 10px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .nav-plus-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(236, 72, 153, 0.45);
+            border: 2px solid #070612;
+        }
+        .nav-plus-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: #f472b6;
+            margin-top: 2px;
+        }
+        /* Profile & Auth Styles */
+        .profile-hero-card, .profile-auth-card {
+            background: linear-gradient(160deg, #16102e 0%, #0e0a21 100%);
+            border: 1.5px solid #3b2675;
+            border-radius: 20px;
+            padding: 20px 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+        .profile-badge {
+            display: inline-block;
+            background: rgba(147, 51, 234, 0.22);
+            border: 1px solid rgba(192, 132, 252, 0.45);
+            color: #e9d5ff;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+        .profile-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .profile-avatar-circle {
+            width: 62px;
+            height: 62px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: #fff;
+            font-size: 26px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(236, 72, 153, 0.35);
+        }
+        .profile-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .profile-identity {
+            min-width: 0;
+            flex: 1;
+        }
+        .profile-name-big {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.25;
+            word-break: break-word;
+        }
+        .profile-contact-sub {
+            font-size: 13px;
+            color: #38bdf8;
+            font-weight: 700;
+            margin-top: 3px;
+            word-break: break-all;
+        }
+        .dashboard-wallet-card {
+            background: #090717;
+            border: 1px solid #10b981;
+            border-radius: 14px;
+            padding: 13px 14px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .dashboard-wallet-amt {
+            font-size: 20px;
+            font-weight: 900;
+            color: #34d399;
+        }
+        .mini-add-wallet-btn {
+            background: linear-gradient(90deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .profile-photo-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .change-photo-btn {
+            width: 100%;
+            background: rgba(56, 189, 248, 0.16);
+            border: 1px solid #38bdf8;
+            color: #bae6fd;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+        }
+        .logout-btn-large {
+            width: 100%;
+            background: linear-gradient(90deg, #dc2626, #b91c1c);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .google-login-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            border: none;
+            border-radius: 11px;
+            padding: 11px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .auth-divider {
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .auth-links-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            font-size: 11.5px;
+        }
+        .text-link-btn {
+            background: none;
+            border: none;
+            color: #f472b6;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .profile-submit-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .field-hint {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .error-text {
+            font-size: 11px;
+            color: #f87171;
+            font-weight: 700;
+            margin-top: 4px;
+            min-height: 16px;
+        }
+        .order-history-card {
+            background: #110e24;
+            border: 1px solid #2b1d52;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 14px;
+        }
+        .order-history-card h4 {
+            font-size: 14px;
+            color: #facc15;
+            margin-bottom: 8px;
+        }
+        .customer-order-item {
+            background: #090717;
+            border: 1px solid #291c52;
+            border-radius: 11px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            font-size: 12px;
+            white-space: pre-line;
+            color: #e2e8f0;
+        }
+        .order-serial-pill {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.2);
+            border: 1px solid #38bdf8;
+            color: #7dd3fc;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-bottom: 5px;
+        }
+        /* Modals */
+        .welcome-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 3, 12, 0.84);
+            backdrop-filter: blur(4px);
+            z-index: 60;
+            padding: 18px;
+            align-items: center;
+            justify-content: center;
+        }
+        .welcome-card {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            max-height: 84vh;
+            overflow-y: auto;
+            background: linear-gradient(175deg, #1b0f30 0%, #10091f 100%);
+            border: 1.5px solid #d946ef;
+            border-radius: 22px;
+            padding: 26px 20px 20px;
+            text-align: center;
+            box-shadow: 0 0 36px rgba(217, 70, 239, 0.28);
+            margin: auto;
+        }
+        .welcome-close-x {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.09);
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .welcome-icon-ring {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            background: rgba(236, 72, 153, 0.14);
+            border: 1.5px solid rgba(244, 114, 182, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .welcome-title {
+            font-size: 19px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .welcome-msg {
+            font-size: 12.5px;
+            color: #cbd5e1;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+        .welcome-channels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-bottom: 10px;
+        }
+        .welcome-ch-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #9333ea 0%, #ec4899 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .welcome-dismiss-btn {
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
+            border: none;
+            background: #232738;
+            color: #e2e8f0;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 3, 12, 0.82);
+            z-index: 50;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .modal-box {
+            max-width: 440px;
+            margin: 28px auto;
+            background: #110e24;
+            border: 1.5px solid #9333ea;
+            border-radius: 16px;
+            padding: 18px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .modal-header h3 {
+            font-size: 16px;
+            color: #fff;
+        }
+        .close-x {
+            background: #221a42;
+            color: #fff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .duration-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .dur-btn {
+            background: #090717;
+            border: 1px solid #352566;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 9px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .dur-btn:hover, .dur-btn.selected {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.16);
+        }
+        .dur-time { font-weight: 800; display: block; }
+        .dur-price { color: #34d399; font-weight: 900; font-size: 13px; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 9px;
+            border: 1px solid #352566;
+            background: #090717;
+            color: #fff;
+            font-size: 13px;
+        }
+        .pay-method-pills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+            gap: 8px;
+            margin: 8px 0 6px;
+        }
+        .pay-pill-btn {
+            background: #090717;
+            border: 1.5px solid #352566;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 9px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+        }
+        .pay-pill-btn.active {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.2);
+            color: #ffffff;
+        }
+        .field-note {
+            font-size: 10.5px;
+            color: #94a3b8;
+            margin-top: -2px;
+        }
+        .pay-box {
+            background: #090717;
+            border: 1px solid #2d1f59;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .pay-num-text {
+            font-size: 13px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+        .copy-btn {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .btn-cancel {
+            background: #1e1938;
+            color: #cbd5e1;
+            border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-confirm {
+            background: linear-gradient(90deg, #9333ea, #ec4899);
+            color: #fff;
+            border: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .support-choice-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .support-choice-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .btn-tg { background: linear-gradient(90deg, #0284c7, #2563eb); }
+        .btn-wa { background: linear-gradient(90deg, #16a34a, #059669); }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="brand-left">
+            <div id="headerLogoWrap">
+                <div class="brand-logo" id="defaultLogoBadge">MP</div>
+            </div>
+            <div style="min-width:0;">
+                <div class="brand-title" id="storeNameDisplay">MAZED PANEL HOUSE</div>
+                <div class="brand-tag" id="storeTagDisplay">VERIFIED GAMING STORE</div>
+            </div>
+        </div>
+        <button type="button" class="wallet-corner-pill" onclick="openAddWalletModal()">
+            <span>💰</span>
+            <span id="headerWalletBalanceText">৳0</span>
+        </button>
+    </header>
+
+    <div class="notice-bar">
+        <span class="notice-fixed-badge"><span class="notice-pulse-dot"></span> NOTICE</span>
+        <div class="notice-marquee-wrap">
+            <div class="notice-track" id="scrollingNoticeText">পছন্দের প্যানেল ও সময় সিলেক্ট করে নগদ, বিকাশ বা রকেটে সেন্ড মানি করুন</div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div id="homeView">
+            <div class="slider-box" id="sliderContainer" style="display:none;"></div>
+
+            <div class="cat-bar" id="categoryBar">
+                <button type="button" class="cat-btn active" data-cat="ALL" onclick="selectCategory('ALL', this)">All Panels</button>
+                <button type="button" class="cat-btn" data-cat="ROOT" onclick="selectCategory('ROOT', this)">ROOT</button>
+                <button type="button" class="cat-btn" data-cat="NON ROOT" onclick="selectCategory('NON ROOT', this)">NON ROOT</button>
+                <button type="button" class="cat-btn" data-cat="iOS" onclick="selectCategory('iOS', this)">iOS</button>
+                <button type="button" class="cat-btn" data-cat="PC PANEL" onclick="selectCategory('PC PANEL', this)">PC PANEL</button>
+                <button type="button" class="cat-btn" data-cat="GUILD GLORY BOT" onclick="selectCategory('GUILD GLORY BOT', this)">GUILD GLORY BOT</button>
+            </div>
+
+            <div class="panel-grid" id="panelsGrid"></div>
+
+            <!-- Important Notice Board (editable from Admin) -->
+            <div class="store-notice-board" id="storeNoticeBoardCard">
+                <div class="store-notice-board-title" id="storeNoticeBoardTitle">⚠️ IMPORTANT NOTICE</div>
+                <div class="store-notice-board-body" id="storeNoticeBoardBody" style="font-size:13px;">যেকোনো প্যানেল বা Key কেনার আগে নিজ দায়িত্বে আমাদেরকে মেসেজ দিয়ে প্যানেলের APK নিয়ে ফোনে চেক করে নিন আপনার ফোনে ভার্সনটি কাজ করে কিনা। সবকিছু ঠিক থাকলে তারপর প্যানেল কিনুন।</div>
+            </div>
+
+            <!-- Official Social Channels (YouTube, TikTok, Discord — controlled from Admin) -->
+            <div class="social-channels-box" id="officialSocialSection" style="display:none;">
+                <h4>Official Social Channels</h4>
+                <p>Join our official social networks for instant updates & giveaways</p>
+                <div class="social-pills-grid" id="officialSocialButtonsGrid"></div>
+            </div>
+
+            <button type="button" class="home-support-fab" onclick="openSupportModal()">🎧 সাপোর্ট</button>
+        </div>
+
+        <div id="profileView" style="display:none;">
+            <div class="profile-hero-card" id="loggedInProfileBox" style="display:none;">
+                <div class="profile-badge">✔ VERIFIED CUSTOMER ACCOUNT</div>
+                <div class="profile-avatar-row">
+                    <div class="profile-avatar-circle" id="profileAvatarWrap">
+                        <img id="profileAvatarImg" class="profile-avatar-img" style="display:none;" alt="Profile Picture">
+                        <span id="profileAvatarLetter">M</span>
+                    </div>
+                    <div class="profile-identity">
+                        <div class="profile-name-big" id="activeCustomerNameDisplay"></div>
+                        <div class="profile-contact-sub" id="activeCustomerContactDisplay"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-wallet-card">
+                    <div>
+                        <div style="font-size:11px; color:#94a3b8; font-weight:700;">Wallet Balance</div>
+                        <div class="dashboard-wallet-amt" id="profileWalletBalanceText">৳0</div>
+                    </div>
+                    <button type="button" class="mini-add-wallet-btn" onclick="openAddWalletModal()">+ Add Wallet</button>
+                </div>
+
+                <div class="profile-photo-actions">
+                    <label for="customerAvatarFile" class="change-photo-btn">📷 Change Profile Pic</label>
+                    <input type="file" id="customerAvatarFile" accept="image/*" style="display:none;" onchange="handleCustomerAvatarChange(event)">
+                </div>
+
+                <button type="button" class="logout-btn-large" onclick="logoutCustomerAccount()">Log Out</button>
+            </div>
+
+            <!-- Customer Orders & Messages History (with #1, #2, #3... serial) -->
+            <div class="order-history-card" id="customerOrdersCard" style="display:none;">
+                <h4>🧾 আমার অর্ডারসমূহ (My Orders)</h4>
+                <div id="customerOrdersList"></div>
+            </div>
+
+            <!-- Login / Register / Forget Password Box -->
+            <div class="profile-auth-card" id="customerAuthBox">
+                <div class="profile-badge">🔐 CUSTOMER LOGIN & REGISTRATION</div>
+                <h3 id="authBoxHeading" style="font-size:18px; color:#facc15; margin-bottom:10px;">Login / Register</h3>
+
+                <button type="button" class="google-login-btn" onclick="openGoogleQuickModal()">
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.8C6.2 7.2 8.9 5 12 5z"/>
+                        <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.5H12v4.8h6.5c-.3 1.5-1.1 2.8-2.4 3.6l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                        <path fill="#FBBC05" d="M5.3 14.8c-.2-.8-.4-1.6-.4-2.5s.2-1.7.4-2.5L1.6 7C.6 9 0 11.2 0 13.5s.6 4.5 1.6 6.5l3.7-2.8z"/>
+                        <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.1-6.7-5l-3.7 2.8C3.5 20.9 7.4 24 12 24z"/>
+                    </svg>
+                    <span>Login with Google</span>
+                </button>
+
+                <div class="auth-divider">OR CREDENTIALS</div>
+
+                <input type="text" id="authNameInput" placeholder="Username / আপনার নাম লিখুন">
+                <input type="text" id="authContactInput" placeholder="Gmail (email@gmail.com) লিখুন">
+                <input type="password" id="authPasswordInput" placeholder="Password লিখুন">
+
+                <div class="auth-links-row">
+                    <span style="color:#94a3b8;">পাসওয়ার্ড ভুলে গেছেন?</span>
+                    <button type="button" class="text-link-btn" onclick="openForgetPasswordModal()">Forget Password?</button>
+                </div>
+
+                <div class="error-text" id="authErrorMsg"></div>
+                <button type="button" class="profile-submit-btn" onclick="handleCustomerLogin()">LOGIN / REGISTER NOW</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Google Quick Login Modal -->
+    <div class="modal-backdrop" id="googleQuickModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🔵 Login with Google</h3>
+                <button type="button" class="close-x" onclick="closeGoogleQuickModal()">✕</button>
+            </div>
+            <p class="field-hint">আপনার Google Gmail অ্যাকাউন্ট দিন। প্রথমবার হলে অ্যাকাউন্ট তৈরি হবে, আগে করা থাকলে সরাসরি লগইন হবে।</p>
+            <input type="text" id="googleQuickNameInput" placeholder="আপনার নাম (যেমন: Mazed)">
+            <input type="email" id="googleQuickEmailInput" placeholder="আপনার Gmail (example@gmail.com)">
+            <input type="password" id="googleQuickPassInput" placeholder="একটি পাসওয়ার্ড সেট করুন / দিন">
+            <div class="error-text" id="googleQuickError"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeGoogleQuickModal()">বাতিল</button>
+                <button type="button" class="btn-confirm" onclick="submitGoogleQuickLogin()">Continue with Google</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forget Password Modal -->
+    <div class="modal-backdrop" id="forgetPasswordModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🔑 Forget Password</h3>
+                <button type="button" class="close-x" onclick="closeForgetPasswordModal()">✕</button>
+            </div>
+            <p class="field-hint">যে জিমেইল দিয়ে আগে রেজিস্ট্রেশন করেছেন সেটি লিখুন এবং নতুন পাসওয়ার্ড সেট করুন:</p>
+            <input type="email" id="resetGmailInput" placeholder="আপনার রেজিস্টার্ড Gmail লিখুন">
+            <input type="password" id="resetNewPassInput" placeholder="নতুন পাসওয়ার্ড লিখুন (কমপক্ষে ৩ অক্ষর)">
+            <div class="error-text" id="resetPassError"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeForgetPasswordModal()">বাতিল</button>
+                <button type="button" class="btn-confirm" onclick="submitForgetPasswordReset()">পাসওয়ার্ড পরিবর্তন করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Wallet Modal (Minimum 20 Taka, Nagad/bKash/Rocket 01723711057, Last 4 digits, 8-char TrxID) -->
+    <div class="modal-backdrop" id="addWalletModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>💰 Add Wallet Balance</h3>
+                <button type="button" class="close-x" onclick="closeAddWalletModal()">✕</button>
+            </div>
+            <p class="field-hint">সর্বনিম্ন <strong>৳20</strong> টাকা অ্যাড করতে পারবেন। টাকা পাঠানোর পর নগদ/বিকাশ/রকেটে SMS ভেরিফিকেশন হলে অটোমেটিক আপনার ড্যাশবোর্ডে ব্যালেন্স যোগ হয়ে যাবে।</p>
+
+            <label style="font-size:11px; color:#cbd5e1; font-weight:700;">পেমেন্ট মাধ্যম সিলেক্ট করুন (Send Money)</label>
+            <div class="pay-method-pills" id="walletPaymentPills"></div>
+            <select id="walletMethodSelect" style="display:none;" onchange="updateWalletPayNumber()"></select>
+
+            <div class="pay-box">
+                <span class="pay-num-text" id="walletActivePayText">Nagad (01723711057)</span>
+                <button type="button" class="copy-btn" onclick="copyWalletPayNumber()">কপি</button>
+            </div>
+
+            <input type="number" id="walletAmountInput" min="20" placeholder="টাকার পরিমাণ লিখুন (সর্বনিম্ন ২০ টাকা)">
+            <input type="text" id="walletSenderInput" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন (শেষ ৪ ডিজিট বা নম্বর)">
+            <div class="field-note">টাকা পাঠানো নম্বরের শেষ ৪ ডিজিট যাচাই করা হবে।</div>
+
+            <input type="text" id="walletTrxInput" placeholder="Transaction ID (৮ অক্ষরের TrxID)" oninput="validateWalletTrxLive()">
+            <div class="field-note">Transaction ID ঠিক ৮ অক্ষরের হতে হবে।</div>
+            <div class="error-text" id="walletAddError"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeAddWalletModal()">বাতিল</button>
+                <button type="button" class="btn-confirm" onclick="submitAddWalletRequest()">সাবমিট ও ভেরিফাই করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel Maintenance Notice Modal (like screenshot 5862.jpg) -->
+    <div class="modal-backdrop" id="maintenanceNoticeModal">
+        <div class="modal-box" style="border-color:#f59e0b;">
+            <div class="modal-header">
+                <h3>🛠 নোটিশ</h3>
+                <button type="button" class="close-x" onclick="closeMaintenanceModal()">✕</button>
+            </div>
+            <div style="font-size:14px; font-weight:900; color:#fb923c; margin-bottom:8px;" id="maintModalPanelTitle">🔧 প্যানেল সাময়িক মেইনটেন্যান্সে</div>
+            <div style="font-size:12.5px; color:#e2e8f0; line-height:1.6; background:#090717; border:1px solid #352566; border-radius:11px; padding:12px; white-space:pre-line; margin-bottom:12px;" id="maintModalBodyText"></div>
+            <button type="button" class="btn-confirm" style="width:100%; background:linear-gradient(90deg, #ea580c, #f97316);" onclick="closeMaintenanceModal()">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- Centered Portal Entry Telegram Update Popup Modal -->
+    <div class="welcome-backdrop" id="portalWelcomePopup" style="display:none;">
+        <div class="welcome-card">
+            <button type="button" class="welcome-close-x" onclick="closePortalWelcomePopup()">✕</button>
+            <div class="welcome-icon-ring">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 11l18-5v12L3 14v-3z"/>
+                    <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                </svg>
+            </div>
+            <h3 class="welcome-title">জরুরি আপডেট!</h3>
+            <p class="welcome-msg" id="welcomePopupMessageText">
+                প্যানেলের সকল আপডেট পেতে আমাদের চ্যানেলে জয়েন থাকুন।
+            </p>
+            <div class="welcome-channels-list" id="welcomePopupChannelsList"></div>
+            <button type="button" class="welcome-dismiss-btn" onclick="closePortalWelcomePopup()">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- Home Support Modal (WhatsApp & Telegram) -->
+    <div class="modal-backdrop" id="supportModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🎧 কাস্টমার সাপোর্ট</h3>
+                <button type="button" class="close-x" onclick="closeSupportModal()">✕</button>
+            </div>
+            <p style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">যে মাধ্যমটিতে যোগাযোগ করতে চান সেটি বেছে নিন:</p>
+            <div class="support-choice-list">
+                <a id="supportWhatsappLink" href="https://wa.me/mazedvai12" target="_blank" class="support-choice-btn btn-wa">
+                    <span>💬 হোয়াটসঅ্যাপ (WhatsApp)</span>
+                    <span>চ্যাট করুন →</span>
+                </a>
+                <a id="supportTelegramLink" href="https://t.me/mazedvai12" target="_blank" class="support-choice-btn btn-tg">
+                    <span>✈ টেলিগ্রাম (Telegram)</span>
+                    <span>চ্যাট করুন →</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mandatory Account Registration / Login Modal on Buy Now -->
+    <div class="modal-backdrop" id="accountGateModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>📝 অ্যাকাউন্ট রেজিস্ট্রেশন / লগইন</h3>
+                <button type="button" class="close-x" onclick="closeAccountGateModal()">✕</button>
+            </div>
+            <p class="field-hint">একটি জিমেইল দিয়ে একবারই রেজিস্ট্রেশন করা যাবে। আগে রেজিস্ট্রেশন করা থাকলে জিমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+            <input type="text" id="gateNameInput" placeholder="আপনার ইউজারনেম / নাম লিখুন">
+            <input type="text" id="gateContactInput" placeholder="জিমেইল (example@gmail.com) লিখুন">
+            <input type="password" id="gatePasswordInput" placeholder="আপনার পাসওয়ার্ড লিখুন">
+            <div class="error-text" id="gateErrorMsg"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeAccountGateModal()">বাতিল</button>
+                <button type="button" class="btn-confirm" onclick="submitAccountGateAndContinue()">রেজিস্ট্রেশন ও অর্ডার</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Send via WhatsApp or Telegram Modal -->
+    <div class="modal-backdrop" id="orderSendModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>📤 অর্ডার কনফার্ম ও মেসেজ</h3>
+                <button type="button" class="close-x" onclick="closeOrderSendModal()">✕</button>
+            </div>
+            <p style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">আপনার অর্ডারটি সেভ হয়েছে (আপনার প্রোফাইল ড্যাশবোর্ডেও দেখতে পাবেন)। নিচ থেকে WhatsApp অথবা Telegram-এ অর্ডার মেসেজ পাঠান:</p>
+            <div id="orderMessagePreview" style="background:#090717; border:1px solid #2d1f59; border-radius:10px; padding:10px 12px; font-size:12px; color:#e2e8f0; white-space:pre-line; margin-bottom:10px;"></div>
+            <div class="support-choice-list">
+                <a id="orderSendWhatsappBtn" href="#" target="_blank" class="support-choice-btn btn-wa">
+                    <span>💬 WhatsApp-এ অর্ডার পাঠান (<span id="orderWaHandleText"></span>)</span>
+                    <span>পাঠান →</span>
+                </a>
+                <a id="orderSendTelegramBtn" href="#" target="_blank" class="support-choice-btn btn-tg">
+                    <span>✈ Telegram-এ অর্ডার পাঠান (<span id="orderTgHandleText"></span>)</span>
+                    <span>পাঠান →</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duration Selection Modal -->
+    <div class="modal-backdrop" id="durationModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h3 id="durModalTitle">প্যানেল সিলেক্ট করুন</h3>
+                    <div style="font-size:11px; color:#38bdf8;" id="durModalSub"></div>
+                </div>
+                <button type="button" class="close-x" onclick="closeDurationModal()">✕</button>
+            </div>
+            <p style="font-size:12px; color:#cbd5e1;">সময় ও প্যাকেজ বেছে নিন:</p>
+            <div class="duration-list" id="durationOptionsBox"></div>
+            <button type="button" class="select-btn" onclick="proceedToCheckout()">পরবর্তী ধাপ — অর্ডার কনফার্ম করুন</button>
+        </div>
+    </div>
+
+    <!-- Order Confirm Modal (Supports Wallet Balance OR Send Money) -->
+    <div class="modal-backdrop" id="checkoutModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>অর্ডার কনফার্ম করুন</h3>
+                <button type="button" class="close-x" onclick="closeCheckoutModal()">✕</button>
+            </div>
+            <div id="checkoutPackageInfo" style="font-size:12px; color:#38bdf8; font-weight:800; margin-bottom:8px;"></div>
+
+            <div id="walletPayQuickOption" style="background:#090717; border:1px solid #10b981; border-radius:10px; padding:10px; margin-bottom:10px; display:none;">
+                <div style="font-size:12px; color:#6ee7b7; font-weight:800; margin-bottom:6px;" id="walletQuickAvailText">আপনার ওয়ালেট ব্যালেন্স: ৳0</div>
+                <button type="button" class="btn-confirm" style="width:100%; background:linear-gradient(90deg, #10b981, #059669);" onclick="submitOrderWithWalletBalance()">⚡ Wallet Balance দিয়ে ইনস্ট্যান্ট অর্ডার করুন</button>
+            </div>
+
+            <input type="text" id="buyerNameInput" placeholder="আপনার নাম">
+
+            <label style="font-size:11px; color:#cbd5e1; font-weight:700; display:block; margin-top:4px;">পেমেন্ট মাধ্যম সিলেক্ট করুন (Send Money)</label>
+            <div class="pay-method-pills" id="paymentMethodPills"></div>
+            <select id="paymentMethodSelect" style="display:none;" onchange="updateSelectedPaymentNumber()"></select>
+
+            <div class="pay-box" id="activePayNumberBox">
+                <span class="pay-num-text" id="activePayNumberText">নাম্বার লোড হচ্ছে...</span>
+                <button type="button" class="copy-btn" onclick="copyActivePayNumber()">কপি</button>
+            </div>
+
+            <input type="text" id="senderNumberInput" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন (শেষ ৪ ডিজিট বা নম্বর)">
+            <div class="field-note">টাকা পাঠানো নম্বরের শেষ ৪ ডিজিট যাচাই করা হবে।</div>
+            <div class="error-text" id="senderNumError"></div>
+
+            <input type="text" id="trxIdInput" placeholder="Transaction ID (৮ অক্ষরের TrxID)" oninput="validateTrxLive()">
+            <div class="field-note" id="trxRuleHint">Transaction ID ঠিক ৮ অক্ষরের হতে হবে (কম বা বেশি হলে ভুল দেখাবে)।</div>
+            <div class="error-text" id="trxError"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeCheckoutModal()">বাতিল</button>
+                <button type="button" class="btn-confirm" onclick="submitCustomerOrder()">অর্ডার করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation: Home | Center (+) Add Wallet | Profile -->
+    <nav class="bottom-nav">
+        <button type="button" class="nav-item active" id="navHomeBtn" onclick="switchView('home')">🏠 হোম</button>
+        <button type="button" class="nav-add-wallet-wrap" onclick="openAddWalletModal()">
+            <span class="nav-plus-circle">+</span>
+            <span class="nav-plus-label">Add Wallet</span>
+        </button>
+        <button type="button" class="nav-item" id="navProfileBtn" onclick="switchView('profile')">👤 প্রোফাইল</button>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script>
+        const FIREBASE_DB_URL = "https://mazed-panel-house-default-rtdb.firebaseio.com";
+        const DEFAULT_PAY_NUM = "01723711057";
+        const EXACT_TRX_LENGTH = 8;
+        const MIN_WALLET_TOPUP = 20;
+
+        let lastStoreSnapshotHash = "";
+        const ACCOUNTS_STORAGE_KEY = "mazed_registered_accounts_v2";
+        const SESSION_STORAGE_KEY = "mazed_active_session_v2";
+
+        let storeData = {
+            storeName: "MAZED PANEL HOUSE",
+            storeTag: "VERIFIED GAMING STORE",
+            orderCounter: 0,
+            scrollingNotice: "পছন্দের প্যানেল ও সময় সিলেক্ট করে নগদ, বিকাশ বা রকেটে সেন্ড মানি করুন",
+            noticeBoard: {
+                enabled: true,
+                title: "⚠️ IMPORTANT NOTICE",
+                body: "যেকোনো প্যানেল বা Key কেনার আগে নিজ দায়িত্বে আমাদেরকে মেসেজ দিয়ে প্যানেলের APK নিয়ে ফোনে চেক করে নিন আপনার ফোনে ভার্সনটি কাজ করে কিনা। সবকিছু ঠিক থাকলে তারপর প্যানেল কিনুন।",
+                fontSize: "13"
+            },
+            socialChannels: {
+                youtube: { enabled: false, url: "" },
+                tiktok: { enabled: false, url: "" },
+                discord: { enabled: false, url: "" }
+            },
+            storeLogo: "",
+            slides: [],
+            paymentMethods: {
+                nagad: DEFAULT_PAY_NUM,
+                bkash: DEFAULT_PAY_NUM,
+                rocket: DEFAULT_PAY_NUM
+            },
+            paymentEnabled: {
+                nagad: true,
+                bkash: true,
+                rocket: true
+            },
+            telegram: "mazedvai12",
+            whatsapp: "mazedvai12",
+            popupMessage: "প্যানেলের সকল আপডেট পেতে আমাদের চ্যানেলে জয়েন থাকুন।",
+            popupChannels: [
+                { title: "MAZED PANEL HOUSE", url: "https://t.me/mazedpanelstore", active: true }
+            ],
+            panels: []
+        };
+
+        let activeCategory = "ALL";
+        let currentPanelObj = null;
+        let selectedDurationLabel = "";
+        let selectedDurationPrice = "";
+        let currentSlideIndex = 0;
+        let sliderIntervalId = null;
+        let welcomePopupShown = false;
+        let customerWalletBalance = 0;
+
+        function cleanHandle(val, fallback) {
+            if (!val || !String(val).trim()) return fallback || "mazedvai12";
+            return String(val)
+                .trim()
+                .replace(/^https?:\/\/(t\.me|telegram\.me|wa\.me|whatsapp\.com)\//i, "")
+                .replace(/^@/, "")
+                .split("/")[0]
+                .split("?")[0]
+                .trim() || (fallback || "mazedvai12");
+        }
+
+        function normalizeContactId(contact) {
+            return String(contact || "").trim().toLowerCase().replace(/\s+/g, "");
+        }
+
+        function encodeContactKey(contactId) {
+            return normalizeContactId(contactId).replace(/[.#$\[\]@]/g, "_");
+        }
+
+        function isGmailAddress(contactId) {
+            return contactId.endsWith("@gmail.com");
+        }
+
+        function formatPopupTelegramHref(rawUrl) {
+            const v = String(rawUrl || "").trim();
+            if (!v) return "https://t.me/mazedpanelstore";
+            if (/^https?:\/\//i.test(v)) return v;
+            return `https://t.me/${cleanHandle(v, "mazedpanelstore")}`;
+        }
+
+        function renderAndShowPortalWelcomePopup() {
+            const rawArr = Array.isArray(storeData.popupChannels)
+                ? storeData.popupChannels
+                : (storeData.popupChannels ? Object.values(storeData.popupChannels) : []);
+            const activeChannels = rawArr.filter(item => item && item.active !== false && (item.title || item.url));
+
+            const msgEl = document.getElementById("welcomePopupMessageText");
+            if (msgEl) {
+                msgEl.innerText = storeData.popupMessage || "প্যানেলের সকল আপডেট পেতে আমাদের চ্যানেলে জয়েন থাকুন।";
+            }
+
+            const listEl = document.getElementById("welcomePopupChannelsList");
+            if (!listEl) return;
+
+            const channelsToRender = activeChannels.length
+                ? activeChannels
+                : [{ title: "MAZED PANEL HOUSE", url: "https://t.me/mazedpanelstore" }];
+
+            listEl.innerHTML = channelsToRender.map(item => {
+                const title = String(item.title || "Telegram Channel").trim();
+                const href = formatPopupTelegramHref(item.url || "https://t.me/mazedpanelstore");
+                return `
+                    <a href="${href}" target="_blank" class="welcome-ch-btn">
+                        <span>✈ ${title}</span>
+                    </a>
+                `;
+            }).join("");
+
+            document.getElementById("portalWelcomePopup").style.display = "flex";
+        }
+
+        function closePortalWelcomePopup() {
+            document.getElementById("portalWelcomePopup").style.display = "none";
+        }
+
+        function getAccountsMap() {
+            try {
+                return JSON.parse(localStorage.getItem(ACCOUNTS_STORAGE_KEY) || "{}");
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveAccountsMap(map) {
+            localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(map));
+        }
+
+        function getActiveSession() {
+            try {
+                return JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || "null");
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function syncCustomerWalletBalance() {
+            const session = getActiveSession();
+            if (!session || !session.contactId) {
+                customerWalletBalance = 0;
+                updateWalletBalanceDisplays();
+                return;
+            }
+            try {
+                const key = encodeContactKey(session.contactId);
+                const res = await fetch(`${FIREBASE_DB_URL}/wallets/${key}.json?t=${Date.now()}`);
+                const data = await res.json();
+                customerWalletBalance = (data && !isNaN(Number(data.balance))) ? Number(data.balance) : 0;
+            } catch (e) {
+                console.log("Wallet sync error:", e);
+            }
+            updateWalletBalanceDisplays();
+        }
+
+        function updateWalletBalanceDisplays() {
+            const topEl = document.getElementById("headerWalletBalanceText");
+            const profEl = document.getElementById("profileWalletBalanceText");
+            if (topEl) topEl.innerText = `৳${customerWalletBalance}`;
+            if (profEl) profEl.innerText = `৳${customerWalletBalance}`;
+        }
+
+        function refreshAuthUI() {
+            const session = getActiveSession();
+            const loggedInBox = document.getElementById("loggedInProfileBox");
+            const authBox = document.getElementById("customerAuthBox");
+            const ordersCard = document.getElementById("customerOrdersCard");
+            const errEl = document.getElementById("authErrorMsg");
+
+            if (session && session.contactId) {
+                loggedInBox.style.display = "block";
+                authBox.style.display = "none";
+                ordersCard.style.display = "block";
+                const displayName = session.name || "কাস্টমার";
+                document.getElementById("activeCustomerNameDisplay").innerText = displayName;
+                document.getElementById("activeCustomerContactDisplay").innerText = session.contactRaw || session.contactId;
+                renderCustomerAvatar(session, displayName);
+                document.getElementById("buyerNameInput").value = session.name || "";
+                renderCustomerOrdersList(session.contactId);
+                syncCustomerWalletBalance();
+            } else {
+                loggedInBox.style.display = "none";
+                authBox.style.display = "block";
+                ordersCard.style.display = "none";
+                customerWalletBalance = 0;
+                updateWalletBalanceDisplays();
+                if (errEl) errEl.innerText = "";
+            }
+        }
+
+        function renderCustomerOrdersList(contactId) {
+            const listEl = document.getElementById("customerOrdersList");
+            if (!listEl) return;
+            const allOrders = JSON.parse(localStorage.getItem("mazed_my_orders") || "[]");
+            const mine = allOrders.filter(o => normalizeContactId(o.ownerContact) === normalizeContactId(contactId));
+            if (!mine.length) {
+                listEl.innerHTML = `<p style="font-size:12px; color:#94a3b8;">আপনার এখনো কোনো অর্ডার নেই।</p>`;
+                return;
+            }
+            listEl.innerHTML = mine.map(o => `
+                <div class="customer-order-item">
+                    <span class="order-serial-pill">Order #${o.serialNo || 1}</span>
+                    <div>${o.messageText || `${o.panel} (${o.duration} - ৳${o.price})`}</div>
+                </div>
+            `).join("");
+        }
+
+        function handleCustomerLogin() {
+            const nameVal = document.getElementById("authNameInput").value.trim();
+            const contactRaw = document.getElementById("authContactInput").value.trim();
+            const passVal = document.getElementById("authPasswordInput").value;
+            const session = registerOrLoginCustomer(nameVal, contactRaw, passVal, "authErrorMsg");
+            if (session) {
+                document.getElementById("authPasswordInput").value = "";
+            }
+        }
+
+        function openGoogleQuickModal() {
+            document.getElementById("googleQuickError").innerText = "";
+            document.getElementById("googleQuickModal").style.display = "block";
+        }
+
+        function closeGoogleQuickModal() {
+            document.getElementById("googleQuickModal").style.display = "none";
+        }
+
+        function submitGoogleQuickLogin() {
+            const nameVal = document.getElementById("googleQuickNameInput").value.trim() || "Google User";
+            const gmailRaw = document.getElementById("googleQuickEmailInput").value.trim();
+            const passVal = document.getElementById("googleQuickPassInput").value;
+            if (!normalizeContactId(gmailRaw).endsWith("@gmail.com")) {
+                document.getElementById("googleQuickError").innerText = "দয়া করে সঠিক @gmail.com ঠিকানা লিখুন।";
+                return;
+            }
+            const session = registerOrLoginCustomer(nameVal, gmailRaw, passVal, "googleQuickError");
+            if (session) {
+                document.getElementById("googleQuickPassInput").value = "";
+                closeGoogleQuickModal();
+            }
+        }
+
+        function openForgetPasswordModal() {
+            document.getElementById("resetPassError").innerText = "";
+            document.getElementById("forgetPasswordModal").style.display = "block";
+        }
+
+        function closeForgetPasswordModal() {
+            document.getElementById("forgetPasswordModal").style.display = "none";
+        }
+
+        function submitForgetPasswordReset() {
+            const gmailId = normalizeContactId(document.getElementById("resetGmailInput").value);
+            const newPass = document.getElementById("resetNewPassInput").value;
+            const errEl = document.getElementById("resetPassError");
+
+            if (!gmailId) {
+                errEl.innerText = "আপনার রেজিস্টার্ড জিমেইল লিখুন।";
+                return;
+            }
+            const accounts = getAccountsMap();
+            if (!accounts[gmailId]) {
+                errEl.innerText = "এই জিমেইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি। নতুন করে রেজিস্ট্রেশন করুন।";
+                return;
+            }
+            if (!newPass || newPass.length < 3) {
+                errEl.innerText = "কমপক্ষে ৩ অক্ষরের নতুন পাসওয়ার্ড দিন।";
+                return;
+            }
+            accounts[gmailId].password = newPass;
+            saveAccountsMap(accounts);
+            document.getElementById("resetNewPassInput").value = "";
+            closeForgetPasswordModal();
+            alert("✅ পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+        }
+
+        function renderCustomerAvatar(session, displayName) {
+            const imgEl = document.getElementById("profileAvatarImg");
+            const letterEl = document.getElementById("profileAvatarLetter");
+            const accounts = getAccountsMap();
+            const acc = session && session.contactId ? accounts[session.contactId] : null;
+            const photoData = (session && session.avatar) || (acc && acc.avatar) || "";
+
+            if (photoData && imgEl) {
+                imgEl.src = photoData;
+                imgEl.style.display = "block";
+                if (letterEl) letterEl.style.display = "none";
+            } else {
+                if (imgEl) {
+                    imgEl.removeAttribute("src");
+                    imgEl.style.display = "none";
+                }
+                if (letterEl) {
+                    letterEl.style.display = "inline";
+                    letterEl.innerText = (displayName || "M").trim().charAt(0).toUpperCase() || "M";
+                }
+            }
+        }
+
+        function compressCustomerPhoto(file, maxSize, quality, done) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > h && w > maxSize) {
+                        h = Math.round((h * maxSize) / w);
+                        w = maxSize;
+                    } else if (h >= w && h > maxSize) {
+                        w = Math.round((w * maxSize) / h);
+                        h = maxSize;
+                    }
+                    const canvas = document.createElement("canvas");
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, w, h);
+                    done(canvas.toDataURL("image/jpeg", quality));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleCustomerAvatarChange(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const session = getActiveSession();
+            if (!session || !session.contactId) return;
+
+            compressCustomerPhoto(file, 240, 0.78, function(base64Photo) {
+                const accounts = getAccountsMap();
+                if (accounts[session.contactId]) {
+                    accounts[session.contactId].avatar = base64Photo;
+                    saveAccountsMap(accounts);
+                }
+                session.avatar = base64Photo;
+                localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+                renderCustomerAvatar(session, session.name || "কাস্টমার");
+                event.target.value = "";
+            });
+        }
+
+        function logoutCustomerAccount() {
+            localStorage.removeItem(SESSION_STORAGE_KEY);
+            refreshAuthUI();
+        }
+
+        function openSupportModal() {
+            document.getElementById("supportModal").style.display = "block";
+        }
+
+        function closeSupportModal() {
+            document.getElementById("supportModal").style.display = "none";
+        }
+
+        function switchView(tab) {
+            const isHome = tab === "home";
+            document.getElementById("homeView").style.display = isHome ? "block" : "none";
+            document.getElementById("profileView").style.display = isHome ? "none" : "block";
+            document.getElementById("navHomeBtn").classList.toggle("active", isHome);
+            document.getElementById("navProfileBtn").classList.toggle("active", !isHome);
+            if (!isHome) {
+                refreshAuthUI();
+            }
+        }
+
+        function applyStorefrontUI() {
+            document.getElementById("storeNameDisplay").innerText = storeData.storeName || "MAZED PANEL HOUSE";
+            document.getElementById("storeTagDisplay").innerText = storeData.storeTag || "VERIFIED GAMING STORE";
+            document.getElementById("scrollingNoticeText").innerText = storeData.scrollingNotice || "পছন্দের প্যানেল ও সময় সিলেক্ট করে নগদ, বিকাশ বা রকেটে সেন্ড মানি করুন";
+
+            const logoWrap = document.getElementById("headerLogoWrap");
+            if (storeData.storeLogo) {
+                logoWrap.innerHTML = `<img src="${storeData.storeLogo}" alt="Logo" class="brand-logo">`;
+            } else {
+                logoWrap.innerHTML = `<div class="brand-logo">MP</div>`;
+            }
+
+            // Important Notice Board
+            const nbCard = document.getElementById("storeNoticeBoardCard");
+            const nb = storeData.noticeBoard || {};
+            if (nb.enabled === false || !nb.body) {
+                nbCard.style.display = "none";
+            } else {
+                nbCard.style.display = "block";
+                document.getElementById("storeNoticeBoardTitle").innerText = nb.title || "⚠️ IMPORTANT NOTICE";
+                const bodyEl = document.getElementById("storeNoticeBoardBody");
+                bodyEl.innerText = nb.body;
+                bodyEl.style.fontSize = `${nb.fontSize || 13}px`;
+            }
+
+            // Official Social Channels (YouTube, TikTok, Discord — only enabled ones)
+            const sc = storeData.socialChannels || {};
+            const activeSocials = [];
+            if (sc.youtube && sc.youtube.enabled && sc.youtube.url) {
+                activeSocials.push(`<a href="${sc.youtube.url}" target="_blank" class="social-pill-link sc-yt">▶ YouTube</a>`);
+            }
+            if (sc.tiktok && sc.tiktok.enabled && sc.tiktok.url) {
+                activeSocials.push(`<a href="${sc.tiktok.url}" target="_blank" class="social-pill-link sc-tt">🎵 TikTok</a>`);
+            }
+            if (sc.discord && sc.discord.enabled && sc.discord.url) {
+                activeSocials.push(`<a href="${sc.discord.url}" target="_blank" class="social-pill-link sc-dc">🎮 Discord</a>`);
+            }
+
+            const socialBox = document.getElementById("officialSocialSection");
+            const socialGrid = document.getElementById("officialSocialButtonsGrid");
+            if (activeSocials.length) {
+                socialBox.style.display = "block";
+                socialGrid.innerHTML = activeSocials.join("");
+            } else {
+                socialBox.style.display = "none";
+            }
+
+            const tgHandle = cleanHandle(storeData.telegram, "mazedvai12");
+            const waHandle = cleanHandle(storeData.whatsapp, tgHandle);
+            document.getElementById("supportTelegramLink").href = `https://t.me/${tgHandle}`;
+            document.getElementById("supportWhatsappLink").href = `https://wa.me/${waHandle}`;
+
+            renderSlider();
+            renderPanelsGrid();
+            populatePaymentSelect();
+            populateWalletPaymentPills();
+        }
+
+        function showSlideAt(index) {
+            const box = document.getElementById("sliderContainer");
+            const slides = Array.isArray(storeData.slides) ? storeData.slides.filter(s => s && s.image) : [];
+            if (!slides.length) {
+                box.style.display = "none";
+                return;
+            }
+            currentSlideIndex = ((index % slides.length) + slides.length) % slides.length;
+            const slide = slides[currentSlideIndex];
+            const captionText = slide.caption ? slide.caption : "";
+            const dotsHtml = slides.length > 1
+                ? `<div class="slider-dots">${slides.map((_, i) => `<button type="button" class="slider-dot ${i === currentSlideIndex ? "active" : ""}" onclick="goToSlide(${i})" aria-label="Slide ${i + 1}"></button>`).join("")}</div>`
+                : "";
+
+            box.style.display = "block";
+            box.innerHTML = `
+                <img src="${slide.image}" alt="" class="slider-img">
+                <div class="slider-overlay">
+                    <span class="slider-caption">${captionText}</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        ${dotsHtml}
+                        ${slide.videoUrl ? `<a href="${slide.videoUrl}" target="_blank" class="slider-link">লিংক দেখুন</a>` : ""}
+                    </div>
+                </div>
+            `;
+        }
+
+        function goToSlide(idx) {
+            showSlideAt(idx);
+            startAutoSlider();
+        }
+
+        function startAutoSlider() {
+            if (sliderIntervalId) {
+                clearInterval(sliderIntervalId);
+                sliderIntervalId = null;
+            }
+            const slides = Array.isArray(storeData.slides) ? storeData.slides.filter(s => s && s.image) : [];
+            if (slides.length > 1) {
+                sliderIntervalId = setInterval(() => {
+                    showSlideAt(currentSlideIndex + 1);
+                }, 3500);
+            }
+        }
+
+        function renderSlider() {
+            currentSlideIndex = 0;
+            showSlideAt(0);
+            startAutoSlider();
+        }
+
+        function selectCategory(cat, btnEl) {
+            activeCategory = cat;
+            document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+            renderPanelsGrid();
+        }
+
+        function renderPanelsGrid() {
+            const grid = document.getElementById("panelsGrid");
+            const list = Array.isArray(storeData.panels) ? storeData.panels : [];
+            const filtered = activeCategory === "ALL"
+                ? list
+                : list.filter(p => (p.cat || "").toUpperCase() === activeCategory.toUpperCase());
+
+            if (!filtered.length) {
+                grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#94a3b8; font-size:13px; padding:24px;">এই ক্যাটাগরিতে এখনো কোনো প্যানেল যুক্ত করা হয়নি।</p>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((p, idx) => {
+                const prices = Object.values(p.rates || {}).map(Number).filter(n => !isNaN(n) && n > 0);
+                const minPrice = prices.length ? Math.min(...prices) : 0;
+                const bannerStyle = p.bg || "linear-gradient(135deg, #9333ea, #ec4899)";
+                const mediaHtml = p.logo
+                    ? `<img src="${p.logo}" alt="${p.name}" class="card-full-img">`
+                    : `<div class="card-initial-fallback">${(p.name || "P").charAt(0).toUpperCase()}</div>`;
+                const isMaint = Boolean(p.maintenance);
+                const maintBadgeHtml = isMaint ? `<span class="card-maint-badge">🛠 MAINTENANCE</span>` : "";
+                const btnText = isMaint ? "🛠 মেইনটেন্যান্স নোটিশ" : "প্যাকেজ দেখুন";
+                const btnClass = isMaint ? "select-btn maint-btn" : "select-btn";
+
+                return `
+                    <div class="card">
+                        <div class="card-banner" style="background:${bannerStyle}">
+                            ${maintBadgeHtml}
+                            <span class="card-cat-badge">${p.cat || "PANEL"}</span>
+                            ${mediaHtml}
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">${p.name}</div>
+                            <div class="card-sub">${p.sub || "VERIFIED PACK"}</div>
+                            <div class="card-price-from">${isMaint ? "সাময়িকভাবে বন্ধ আছে" : (minPrice ? "শুরু ৳" + minPrice : "প্যাকেজ দেখুন")}</div>
+                            <button type="button" class="${btnClass}" onclick="openPanelDurations(${idx}, '${encodeURIComponent(p.id || p.name)}')">${btnText}</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function closeMaintenanceModal() {
+            document.getElementById("maintenanceNoticeModal").style.display = "none";
+        }
+
+        function openPanelDurations(_, encodedId) {
+            const decodedId = decodeURIComponent(encodedId);
+            const list = Array.isArray(storeData.panels) ? storeData.panels : [];
+            const found = list.find(p => (p.id || p.name) === decodedId) || list[0];
+            if (!found) return;
+
+            if (found.maintenance) {
+                document.getElementById("maintModalPanelTitle").innerText = `🔧 ${found.name} — সাময়িক মেইনটেন্যান্সে`;
+                document.getElementById("maintModalBodyText").innerText = found.maintenanceNotice ||
+                    "এই প্যানেলটি বর্তমানে নতুন আপডেট ও উন্নয়নের কাজের জন্য সাময়িকভাবে মেইনটেন্যান্সে রাখা হয়েছে। আপডেট শেষ হলে আবার চালু করা হবে।";
+                document.getElementById("maintenanceNoticeModal").style.display = "block";
+                return;
+            }
+
+            currentPanelObj = found;
+            selectedDurationLabel = "";
+            selectedDurationPrice = "";
+
+            document.getElementById("durModalTitle").innerText = found.name;
+            document.getElementById("durModalSub").innerText = `${found.cat || ""} • ${found.sub || ""}`;
+
+            const entries = Object.entries(found.rates || {});
+            const durBox = document.getElementById("durationOptionsBox");
+
+            if (!entries.length) {
+                durBox.innerHTML = `<p style="grid-column:1/-1; font-size:12px; color:#94a3b8;">কোনো প্যাকেজ রেট সেট করা হয়নি।</p>`;
+            } else {
+                durBox.innerHTML = entries.map(([dur, price], i) => `
+                    <button type="button" class="dur-btn ${i === 0 ? "selected" : ""}" onclick="chooseDuration('${dur.replace(/'/g, "\'")}', '${price}', this)">
+                        <span class="dur-time">${dur}</span>
+                        <span class="dur-price">৳${price}</span>
+                    </button>
+                `).join("");
+                selectedDurationLabel = entries[0][0];
+                selectedDurationPrice = entries[0][1];
+            }
+
+            document.getElementById("durationModal").style.display = "block";
+        }
+
+        function chooseDuration(label, price, btnEl) {
+            selectedDurationLabel = label;
+            selectedDurationPrice = price;
+            document.querySelectorAll(".dur-btn").forEach(b => b.classList.remove("selected"));
+            if (btnEl) btnEl.classList.add("selected");
+        }
+
+        function closeDurationModal() {
+            document.getElementById("durationModal").style.display = "none";
+        }
+
+        function openCheckoutModalForSession(session) {
+            document.getElementById("buyerNameInput").value = (session && session.name) || "";
+            document.getElementById("checkoutPackageInfo").innerText =
+                `প্যাকেজ: ${currentPanelObj.name} (${selectedDurationLabel} — ৳${selectedDurationPrice})`;
+
+            const pkgPrice = Number(selectedDurationPrice || 0);
+            const walletQuickBox = document.getElementById("walletPayQuickOption");
+            if (customerWalletBalance >= pkgPrice && pkgPrice > 0) {
+                walletQuickBox.style.display = "block";
+                document.getElementById("walletQuickAvailText").innerText =
+                    `আপনার ওয়ালেট ব্যালেন্স: ৳${customerWalletBalance} (প্যাকেজ মূল্য: ৳${pkgPrice})`;
+            } else {
+                walletQuickBox.style.display = "none";
+            }
+
+            populatePaymentSelect();
+            document.getElementById("checkoutModal").style.display = "block";
+        }
+
+        function closeAccountGateModal() {
+            document.getElementById("accountGateModal").style.display = "none";
+            const errEl = document.getElementById("gateErrorMsg");
+            if (errEl) errEl.innerText = "";
+        }
+
+        function registerOrLoginCustomer(nameVal, contactRaw, passVal, errTargetId) {
+            const contactId = normalizeContactId(contactRaw);
+            const errEl = document.getElementById(errTargetId);
+
+            if (!nameVal) {
+                if (errEl) errEl.innerText = "দয়া করে আপনার নাম লিখুন।";
+                return null;
+            }
+            if (!contactId) {
+                if (errEl) errEl.innerText = "দয়া করে আপনার জিমেইল লিখুন।";
+                return null;
+            }
+            if (!passVal || passVal.length < 3) {
+                if (errEl) errEl.innerText = "দয়া করে অন্তত ৩ অক্ষরের পাসওয়ার্ড দিন।";
+                return null;
+            }
+
+            const accounts = getAccountsMap();
+            const existing = accounts[contactId];
+
+            if (existing) {
+                if (existing.password !== passVal) {
+                    if (errEl) {
+                        errEl.innerText = "এই জিমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট খোলা আছে—নতুন সাইন আপ করা যাবে না, আগের পাসওয়ার্ড দিয়ে লগইন করুন বা Forget Password ব্যবহার করুন।";
+                    }
+                    return null;
+                }
+                existing.name = nameVal;
+                accounts[contactId] = existing;
+                saveAccountsMap(accounts);
+            } else {
+                accounts[contactId] = {
+                    name: nameVal,
+                    contactId: contactId,
+                    contactRaw: contactRaw,
+                    password: passVal,
+                    createdAt: Date.now()
+                };
+                saveAccountsMap(accounts);
+            }
+
+            const sessionObj = {
+                name: nameVal,
+                contactId: contactId,
+                contactRaw: contactRaw
+            };
+            localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionObj));
+            localStorage.setItem("mazed_customer_name", nameVal);
+            if (errEl) errEl.innerText = "";
+            refreshAuthUI();
+            return sessionObj;
+        }
+
+        function submitAccountGateAndContinue() {
+            const nameVal = document.getElementById("gateNameInput").value.trim();
+            const contactRaw = document.getElementById("gateContactInput").value.trim();
+            const passVal = document.getElementById("gatePasswordInput").value;
+            const session = registerOrLoginCustomer(nameVal, contactRaw, passVal, "gateErrorMsg");
+            if (!session) return;
+            document.getElementById("gatePasswordInput").value = "";
+            closeAccountGateModal();
+            openCheckoutModalForSession(session);
+        }
+
+        function proceedToCheckout() {
+            if (!currentPanelObj || !selectedDurationLabel) {
+                alert("দয়া করে একটি সময়/প্যাকেজ সিলেক্ট করুন।");
+                return;
+            }
+            closeDurationModal();
+            const session = getActiveSession();
+            if (!session || !session.contactId) {
+                const prefillName = localStorage.getItem("mazed_customer_name") || "";
+                document.getElementById("gateNameInput").value = prefillName;
+                document.getElementById("gateContactInput").value = "";
+                document.getElementById("gatePasswordInput").value = "";
+                document.getElementById("gateErrorMsg").innerText = "";
+                document.getElementById("accountGateModal").style.display = "block";
+                return;
+            }
+            openCheckoutModalForSession(session);
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById("checkoutModal").style.display = "none";
+        }
+
+        function getEnabledChannels() {
+            const pm = storeData.paymentMethods || {};
+            const pe = storeData.paymentEnabled || {};
+            const channels = [];
+
+            if (pe.nagad && pm.nagad) {
+                channels.push({ key: "nagad", label: "Nagad", number: pm.nagad });
+            }
+            if (pe.bkash && pm.bkash) {
+                channels.push({ key: "bkash", label: "bKash", number: pm.bkash });
+            }
+            if (pe.rocket && pm.rocket) {
+                channels.push({ key: "rocket", label: "Rocket", number: pm.rocket });
+            }
+
+            if (!channels.length) {
+                channels.push({ key: "nagad", label: "Nagad", number: pm.nagad || DEFAULT_PAY_NUM });
+            }
+            return channels;
+        }
+
+        function selectPaymentPill(key, btnEl) {
+            const sel = document.getElementById("paymentMethodSelect");
+            sel.value = key;
+            document.querySelectorAll("#paymentMethodPills .pay-pill-btn").forEach(b => b.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+            updateSelectedPaymentNumber();
+        }
+
+        function populatePaymentSelect() {
+            const sel = document.getElementById("paymentMethodSelect");
+            const pillsBox = document.getElementById("paymentMethodPills");
+            const channels = getEnabledChannels();
+            sel.innerHTML = channels.map((ch, idx) =>
+                `<option value="${ch.key}" data-number="${ch.number}" data-label="${ch.label}" ${idx === 0 ? "selected" : ""}>Send Money (${ch.label})</option>`
+            ).join("");
+            if (pillsBox) {
+                pillsBox.innerHTML = channels.map((ch, idx) =>
+                    `<button type="button" class="pay-pill-btn ${idx === 0 ? "active" : ""}" onclick="selectPaymentPill('${ch.key}', this)">${ch.label}</button>`
+                ).join("");
+            }
+            updateSelectedPaymentNumber();
+        }
+
+        function updateSelectedPaymentNumber() {
+            const sel = document.getElementById("paymentMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const txtEl = document.getElementById("activePayNumberText");
+            if (!opt || !opt.value) {
+                txtEl.innerText = `Nagad (${DEFAULT_PAY_NUM})`;
+                return;
+            }
+            const label = opt.getAttribute("data-label");
+            const num = opt.getAttribute("data-number");
+            txtEl.innerText = `${label} (${num})`;
+        }
+
+        function copyActivePayNumber() {
+            const sel = document.getElementById("paymentMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const num = opt ? opt.getAttribute("data-number") : DEFAULT_PAY_NUM;
+            if (!num) return;
+            navigator.clipboard?.writeText(num);
+            alert(`নাম্বার কপি হয়েছে: ${num}`);
+        }
+
+        // Add Wallet Modal & Verification Logic
+        function openAddWalletModal() {
+            const session = getActiveSession();
+            if (!session || !session.contactId) {
+                switchView("profile");
+                alert("ওয়ালেটে টাকা অ্যাড করার আগে জিমেইল দিয়ে লগইন / রেজিস্ট্রেশন করুন।");
+                return;
+            }
+            populateWalletPaymentPills();
+            document.getElementById("walletAddError").innerText = "";
+            document.getElementById("addWalletModal").style.display = "block";
+        }
+
+        function closeAddWalletModal() {
+            document.getElementById("addWalletModal").style.display = "none";
+        }
+
+        function selectWalletPill(key, btnEl) {
+            const sel = document.getElementById("walletMethodSelect");
+            sel.value = key;
+            document.querySelectorAll("#walletPaymentPills .pay-pill-btn").forEach(b => b.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+            updateWalletPayNumber();
+        }
+
+        function populateWalletPaymentPills() {
+            const sel = document.getElementById("walletMethodSelect");
+            const pillsBox = document.getElementById("walletPaymentPills");
+            if (!sel || !pillsBox) return;
+            const channels = getEnabledChannels();
+            sel.innerHTML = channels.map((ch, idx) =>
+                `<option value="${ch.key}" data-number="${ch.number}" data-label="${ch.label}" ${idx === 0 ? "selected" : ""}>${ch.label}</option>`
+            ).join("");
+            pillsBox.innerHTML = channels.map((ch, idx) =>
+                `<button type="button" class="pay-pill-btn ${idx === 0 ? "active" : ""}" onclick="selectWalletPill('${ch.key}', this)">${ch.label}</button>`
+            ).join("");
+            updateWalletPayNumber();
+        }
+
+        function updateWalletPayNumber() {
+            const sel = document.getElementById("walletMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const txtEl = document.getElementById("walletActivePayText");
+            if (!opt || !opt.value) {
+                txtEl.innerText = `Nagad (${DEFAULT_PAY_NUM})`;
+                return;
+            }
+            txtEl.innerText = `${opt.getAttribute("data-label")} (${opt.getAttribute("data-number")})`;
+        }
+
+        function copyWalletPayNumber() {
+            const sel = document.getElementById("walletMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const num = opt ? opt.getAttribute("data-number") : DEFAULT_PAY_NUM;
+            navigator.clipboard?.writeText(num);
+            alert(`নাম্বার কপি হয়েছে: ${num}`);
+        }
+
+        function validateWalletTrxLive() {
+            const trxVal = document.getElementById("walletTrxInput").value.trim();
+            const errEl = document.getElementById("walletAddError");
+            if (!trxVal) {
+                errEl.innerText = "";
+                return false;
+            }
+            if (!/^[A-Za-z0-9]+$/.test(trxVal)) {
+                errEl.innerText = "ট্রানজেকশন ভুল: শুধু ইংরেজি অক্ষর বা সংখ্যা দিন।";
+                return false;
+            }
+            if (trxVal.length !== EXACT_TRX_LENGTH) {
+                errEl.innerText = `ট্রানজেকশন ভুল: ঠিক ${EXACT_TRX_LENGTH} অক্ষরের হতে হবে (${trxVal.length} অক্ষর দিয়েছেন)।`;
+                return false;
+            }
+            errEl.innerText = "";
+            return true;
+        }
+
+        async function submitAddWalletRequest() {
+            const session = getActiveSession();
+            if (!session || !session.contactId) return;
+
+            const amt = Number(document.getElementById("walletAmountInput").value);
+            const senderRaw = document.getElementById("walletSenderInput").value.trim();
+            const last4 = extractLast4Digits(senderRaw);
+            const trxId = document.getElementById("walletTrxInput").value.trim().toUpperCase();
+            const sel = document.getElementById("walletMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const methodLabel = opt ? opt.getAttribute("data-label") : "Nagad";
+            const errEl = document.getElementById("walletAddError");
+
+            if (isNaN(amt) || amt < MIN_WALLET_TOPUP) {
+                errEl.innerText = `সর্বনিম্ন ৳${MIN_WALLET_TOPUP} টাকা অ্যাড করতে হবে।`;
+                return;
+            }
+            if (!last4) {
+                errEl.innerText = "টাকা পাঠানো নম্বরের শেষ ৪ ডিজিট সঠিকভাবে লিখুন।";
+                return;
+            }
+            if (!trxId || !/^[A-Z0-9]{8}$/.test(trxId)) {
+                errEl.innerText = `ট্রানজেকশন ভুল: ঠিক ${EXACT_TRX_LENGTH} অক্ষরের Transaction ID লিখুন।`;
+                return;
+            }
+
+            const reqPayload = {
+                contactId: session.contactId,
+                buyerName: session.name || "Customer",
+                amount: amt,
+                method: methodLabel,
+                senderLast4: last4,
+                trx: trxId,
+                status: "Pending",
+                createdAt: Date.now()
+            };
+
+            try {
+                await fetch(`${FIREBASE_DB_URL}/walletRequests.json`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reqPayload)
+                });
+            } catch (e) {
+                console.log("Wallet request push error:", e);
+            }
+
+            document.getElementById("walletAmountInput").value = "";
+            document.getElementById("walletSenderInput").value = "";
+            document.getElementById("walletTrxInput").value = "";
+            closeAddWalletModal();
+            alert(`✅ আপনার ৳${amt} Add Wallet রিকোয়েস্ট জমা হয়েছে (TrxID: ${trxId})। পেমেন্ট SMS ভেরিফিকেশন সম্পন্ন হওয়া মাত্রই আপনার প্রোফাইল ড্যাশবোর্ডে ৳${amt} অটোমেটিক অ্যাড হয়ে যাবে!`);
+        }
+
+        function extractLast4Digits(rawVal) {
+            const digitsOnly = String(rawVal || "").replace(/\D+/g, "");
+            if (digitsOnly.length < 4) return "";
+            return digitsOnly.slice(-4);
+        }
+
+        function validateTrxLive() {
+            const trxVal = document.getElementById("trxIdInput").value.trim();
+            const trxErr = document.getElementById("trxError");
+            if (!trxErr) return true;
+            if (!trxVal) {
+                trxErr.innerText = "";
+                return false;
+            }
+            if (!/^[A-Za-z0-9]+$/.test(trxVal)) {
+                trxErr.innerText = "ট্রানজেকশন ভুল: শুধু ইংরেজি অক্ষর বা সংখ্যা দিন।";
+                return false;
+            }
+            if (trxVal.length < EXACT_TRX_LENGTH) {
+                trxErr.innerText = `ট্রানজেকশন ভুল: ${EXACT_TRX_LENGTH} অক্ষরের হতে হবে (${trxVal.length} অক্ষর দিয়েছেন)।`;
+                return false;
+            }
+            if (trxVal.length > EXACT_TRX_LENGTH) {
+                trxErr.innerText = `ট্রানজেকশন ফেইল/ভুল: ${EXACT_TRX_LENGTH} অক্ষরের বেশি দেওয়া যাবে না (${trxVal.length} অক্ষর দিয়েছেন)।`;
+                return false;
+            }
+            trxErr.innerText = "";
+            return true;
+        }
+
+        function closeOrderSendModal() {
+            document.getElementById("orderSendModal").style.display = "none";
+        }
+
+        async function getNextOrderSerialNumber() {
+            try {
+                const res = await fetch(`${FIREBASE_DB_URL}/store/orderCounter.json?t=${Date.now()}`);
+                const current = Number(await res.json()) || Number(storeData.orderCounter || 0);
+                const nextNum = current + 1;
+                storeData.orderCounter = nextNum;
+                await fetch(`${FIREBASE_DB_URL}/store/orderCounter.json`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(nextNum)
+                });
+                return nextNum;
+            } catch (e) {
+                const fallbackNext = Number(storeData.orderCounter || 0) + 1;
+                storeData.orderCounter = fallbackNext;
+                return fallbackNext;
+            }
+        }
+
+        async function submitOrderWithWalletBalance() {
+            const session = getActiveSession();
+            if (!session || !session.contactId) return;
+            const pkgPrice = Number(selectedDurationPrice || 0);
+            if (customerWalletBalance < pkgPrice) {
+                alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই।");
+                return;
+            }
+            const panelName = currentPanelObj ? currentPanelObj.name : "Panel";
+            const buyerName = document.getElementById("buyerNameInput").value.trim() || session.name || "Customer";
+
+            // Deduct from wallet
+            const newBal = customerWalletBalance - pkgPrice;
+            const key = encodeContactKey(session.contactId);
+            await fetch(`${FIREBASE_DB_URL}/wallets/${key}.json`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contactId: session.contactId,
+                    balance: newBal,
+                    updatedAt: Date.now()
+                })
+            });
+            customerWalletBalance = newBal;
+            updateWalletBalanceDisplays();
+
+            const serialNo = await getNextOrderSerialNumber();
+            const msgLines = [
+                `অর্ডার নাম্বার: #${serialNo}`,
+                `কাস্টমার অর্ডার করেছে`,
+                `প্যানেল: ${panelName} (${selectedDurationLabel} - ৳${pkgPrice})`,
+                `মাধ্যম: Wallet Balance (Paid)`
+            ].join("
+");
+
+            saveAndShowOrderMessage(session, buyerName, panelName, "Wallet Balance", "WALLET", "PAID", serialNo, msgLines);
+        }
+
+        async function submitCustomerOrder() {
+            const session = getActiveSession();
+            if (!session || !session.contactId) {
+                closeCheckoutModal();
+                switchView("profile");
+                alert("অর্ডার করার আগে জিমেইল দিয়ে অ্যাকাউন্ট লগইন করুন।");
+                return;
+            }
+            const buyerName = document.getElementById("buyerNameInput").value.trim() || session.name || "";
+            const senderRaw = document.getElementById("senderNumberInput").value.trim();
+            const last4 = extractLast4Digits(senderRaw);
+            const trxId = document.getElementById("trxIdInput").value.trim().toUpperCase();
+            const sel = document.getElementById("paymentMethodSelect");
+            const opt = sel.options[sel.selectedIndex];
+            const methodLabel = opt ? opt.getAttribute("data-label") : "Nagad";
+            const panelName = currentPanelObj ? currentPanelObj.name : "Panel";
+
+            const senderErrEl = document.getElementById("senderNumError");
+            const trxErrEl = document.getElementById("trxError");
+            if (senderErrEl) senderErrEl.innerText = "";
+            if (trxErrEl) trxErrEl.innerText = "";
+
+            if (!buyerName) {
+                alert("দয়া করে আপনার নাম লিখুন।");
+                return;
+            }
+            if (!last4) {
+                if (senderErrEl) senderErrEl.innerText = "টাকা পাঠানো নম্বরের শেষ ৪ ডিজিট সঠিকভাবে লিখুন।";
+                return;
+            }
+            if (!trxId || !/^[A-Z0-9]{8}$/.test(trxId)) {
+                if (trxErrEl) {
+                    if (!trxId) {
+                        trxErrEl.innerText = `ট্রানজেকশন ভুল: ঠিক ${EXACT_TRX_LENGTH} অক্ষরের Transaction ID লিখুন।`;
+                    } else if (trxId.length < EXACT_TRX_LENGTH) {
+                        trxErrEl.innerText = `ট্রানজেকশন ভুল: ${EXACT_TRX_LENGTH} অক্ষরের কম দেওয়া যাবে না।`;
+                    } else {
+                        trxErrEl.innerText = `ট্রানজেকশন ফেইল/ভুল: ${EXACT_TRX_LENGTH} অক্ষরের বেশি দেওয়া যাবে না।`;
+                    }
+                }
+                return;
+            }
+
+            localStorage.setItem("mazed_customer_name", buyerName);
+
+            const serialNo = await getNextOrderSerialNumber();
+            const msgLines = [
+                `অর্ডার নাম্বার: #${serialNo}`,
+                `কাস্টমার অর্ডার করেছে`,
+                `প্যানেল: ${panelName} (${selectedDurationLabel} - ৳${selectedDurationPrice})`,
+                `মাধ্যম: ${methodLabel}`,
+                `টাকা পাঠানো নম্বর (শেষ ৪ ডিজিট): ${last4}`,
+                `ট্রানজেকশন আইডি: ${trxId}`
+            ].join("
+");
+
+            saveAndShowOrderMessage(session, buyerName, panelName, methodLabel, last4, trxId, serialNo, msgLines);
+        }
+
+        function saveAndShowOrderMessage(session, buyerName, panelName, methodLabel, last4, trxId, serialNo, msgLines) {
+            const orders = JSON.parse(localStorage.getItem("mazed_my_orders") || "[]");
+            const newOrderRecord = {
+                id: "ord_" + Date.now(),
+                serialNo: serialNo,
+                ownerContact: session ? session.contactId : "",
+                buyerName: buyerName,
+                panel: panelName,
+                duration: selectedDurationLabel,
+                price: selectedDurationPrice,
+                method: methodLabel,
+                senderLast4: last4,
+                trx: trxId,
+                messageText: msgLines,
+                status: "Pending",
+                createdAt: Date.now(),
+                time: new Date().toLocaleString("bn-BD")
+            };
+            orders.unshift(newOrderRecord);
+            localStorage.setItem("mazed_my_orders", JSON.stringify(orders.slice(0, 50)));
+            renderCustomerOrdersList(session.contactId);
+
+            fetch(`${FIREBASE_DB_URL}/orders.json`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newOrderRecord)
+            }).catch(err => console.log("Order push error:", err));
+
+            const waHandle = cleanHandle(storeData.whatsapp, cleanHandle(storeData.telegram, "mazedvai12"));
+            const tgHandle = cleanHandle(storeData.telegram, "mazedvai12");
+            const encodedMsg = encodeURIComponent(msgLines);
+
+            document.getElementById("orderMessagePreview").innerText = msgLines;
+            document.getElementById("orderWaHandleText").innerText = `@${waHandle}`;
+            document.getElementById("orderTgHandleText").innerText = `@${tgHandle}`;
+            document.getElementById("orderSendWhatsappBtn").href = `https://wa.me/${waHandle}?text=${encodedMsg}`;
+            document.getElementById("orderSendTelegramBtn").href = `https://t.me/${tgHandle}?text=${encodedMsg}`;
+
+            document.getElementById("senderNumberInput").value = "";
+            document.getElementById("trxIdInput").value = "";
+            closeCheckoutModal();
+            document.getElementById("orderSendModal").style.display = "block";
+        }
+
+        function applyIncomingStorePayload(data) {
+            if (!data) return;
+            const incomingHash = JSON.stringify(data);
+            if (incomingHash === lastStoreSnapshotHash) return;
+            lastStoreSnapshotHash = incomingHash;
+
+            storeData.storeName = data.storeName || storeData.storeName;
+            storeData.storeTag = data.storeTag || storeData.storeTag;
+            storeData.orderCounter = Number(data.orderCounter || 0);
+            storeData.scrollingNotice = data.scrollingNotice || storeData.scrollingNotice;
+
+            if (data.noticeBoard) {
+                storeData.noticeBoard = {
+                    enabled: data.noticeBoard.enabled !== false,
+                    title: data.noticeBoard.title || "⚠️ IMPORTANT NOTICE",
+                    body: data.noticeBoard.body || storeData.noticeBoard.body,
+                    fontSize: data.noticeBoard.fontSize || "13"
+                };
+            }
+            if (data.socialChannels) {
+                storeData.socialChannels = data.socialChannels;
+            }
+
+            storeData.storeLogo = data.storeLogo || "";
+            storeData.slides = Array.isArray(data.slides) ? data.slides : (data.slides ? Object.values(data.slides) : []);
+            if (data.paymentMethods) {
+                storeData.paymentMethods = {
+                    nagad: data.paymentMethods.nagad || DEFAULT_PAY_NUM,
+                    bkash: data.paymentMethods.bkash || DEFAULT_PAY_NUM,
+                    rocket: data.paymentMethods.rocket || DEFAULT_PAY_NUM
+                };
+            }
+            if (data.paymentEnabled) {
+                storeData.paymentEnabled = {
+                    nagad: Boolean(data.paymentEnabled.nagad),
+                    bkash: Boolean(data.paymentEnabled.bkash),
+                    rocket: Boolean(data.paymentEnabled.rocket)
+                };
+            }
+            storeData.telegram = cleanHandle(data.telegram, "mazedvai12");
+            storeData.whatsapp = cleanHandle(data.whatsapp, storeData.telegram);
+            storeData.popupMessage = data.popupMessage || "প্যানেলের সকল আপডেট পেতে আমাদের চ্যানেলে জয়েন থাকুন।";
+            if (data.popupChannels) {
+                storeData.popupChannels = Array.isArray(data.popupChannels)
+                    ? data.popupChannels
+                    : Object.values(data.popupChannels);
+            } else {
+                storeData.popupChannels = [];
+            }
+            storeData.panels = Array.isArray(data.panels) ? data.panels : (data.panels ? Object.values(data.panels) : []);
+
+            applyStorefrontUI();
+
+            if (!welcomePopupShown) {
+                welcomePopupShown = true;
+                renderAndShowPortalWelcomePopup();
+            } else if (document.getElementById("portalWelcomePopup").style.display === "flex") {
+                renderAndShowPortalWelcomePopup();
+            }
+        }
+
+        async function loadStoreData() {
+            try {
+                const res = await fetch(`${FIREBASE_DB_URL}/store.json?t=${Date.now()}`);
+                const data = await res.json();
+                if (data) {
+                    applyIncomingStorePayload(data);
+                } else {
+                    applyStorefrontUI();
+                    if (!welcomePopupShown) {
+                        welcomePopupShown = true;
+                        renderAndShowPortalWelcomePopup();
+                    }
+                }
+            } catch (err) {
+                console.log("Storefront sync error:", err);
+                applyStorefrontUI();
+            }
+        }
+
+        function startRealtimeStoreListener() {
+            try {
+                if (window.firebase && !firebase.apps.length) {
+                    firebase.initializeApp({ databaseURL: FIREBASE_DB_URL });
+                }
+                if (window.firebase && firebase.database) {
+                    firebase.database().ref("store").on("value", (snapshot) => {
+                        const val = snapshot.val();
+                        if (val) applyIncomingStorePayload(val);
+                    });
+                }
+            } catch (e) {
+                console.log("Realtime listener fallback active:", e);
+            }
+            setInterval(() => {
+                loadStoreData();
+                syncCustomerWalletBalance();
+            }, 3000);
+        }
+
+        refreshAuthUI();
+        loadStoreData();
+        startRealtimeStoreListener();
+    </script>
+</body>
+</html>
