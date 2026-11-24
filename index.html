@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #07050c;
+      --card: #120d1f;
+      --card-2: #19132b;
+      --text: #f5f3ff;
+      --muted: #a79ec2;
+      --border: #2c2147;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --grad: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #180f2e 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 84px;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(12, 8, 22, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid rgba(236, 72, 153, 0.45);
+      background: var(--card-2);
+      flex-shrink: 0;
+    }
+    .brand-title { font-size: 1rem; font-weight: 800; letter-spacing: 0.3px; line-height: 1.15; }
+    .brand-sub { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+    .top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .pill-btn {
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .pill-btn.primary {
+      background: var(--grad);
+      border: none;
+      color: #fff;
+    }
+    .container { max-width: 920px; margin: 0 auto; padding: 14px 14px 20px; }
+    .top-marquee-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 0.84rem;
+      color: #f9a8d4;
+      font-weight: 600;
+      animation: marqueeSlide 14s linear infinite alternate;
+    }
+    @keyframes marqueeSlide {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-18%); }
+    }
+    .store-status-banner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 0.84rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .status-open { color: var(--ok); font-weight: 700; }
+    .status-closed { color: var(--danger); font-weight: 700; }
+    .slider-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #1d1236, #2b123b);
+      min-height: 158px;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      margin-bottom: 14px;
+      background-size: cover;
+      background-position: center;
+    }
+    .slider-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,5,12,0.12) 0%, rgba(7,5,12,0.88) 100%);
+    }
+    .slider-content { position: relative; z-index: 2; max-width: 78%; }
+    .slider-title { margin: 0 0 4px 0; font-size: 1.15rem; font-weight: 800; }
+    .slider-sub { margin: 0; font-size: 0.84rem; color: #ddd6fe; }
+    .slider-controls { position: relative; z-index: 2; margin-left: auto; display: flex; gap: 6px; }
+    .slider-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(15,10,28,0.75);
+      color: #fff; font-weight: 700; cursor: pointer;
+    }
+    .cat-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .cat-bar::-webkit-scrollbar { display: none; }
+    .cat-chip {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .cat-chip.active {
+      background: var(--grad);
+      color: #fff;
+      border-color: transparent;
+    }
+    .panels-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width: 560px) {
+      .panels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    }
+    .panel-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .panel-thumb-wrap { position: relative; aspect-ratio: 16 / 10; background: var(--card-2); overflow: hidden; }
+    .panel-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cat-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(12, 8, 22, 0.86);
+      border: 1px solid rgba(236, 72, 153, 0.5);
+      color: #f9a8d4;
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+    .maint-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(245, 158, 11, 0.92);
+      color: #111827;
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .panel-body { padding: 11px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .panel-name { font-size: 0.9rem; font-weight: 800; line-height: 1.25; }
+    .panel-feats { font-size: 0.74rem; color: var(--muted); line-height: 1.35; }
+    .panel-price { font-size: 0.84rem; font-weight: 800; color: #f472b6; margin-top: auto; }
+    .pkg-btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: var(--grad);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pkg-btn.maint {
+      background: #2b2238;
+      color: #fcd34d;
+      border: 1px solid rgba(251, 191, 36, 0.45);
+    }
+    .section-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+    .social-link-btn {
+      text-decoration: none;
+      text-align: center;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: block;
+    }
+    .tg-join-btn {
+      margin-top: 10px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #0284c7;
+      color: #fff;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+    .floating-support {
+      position: fixed;
+      right: 16px;
+      bottom: 72px;
+      z-index: 45;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.35);
+      cursor: pointer;
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 45;
+      background: rgba(12, 8, 22, 0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 6px 0;
+    }
+    .nav-item {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px;
+      cursor: pointer;
+    }
+    .nav-item.active { color: #f472b6; }
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 3, 9, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 90;
+    }
+    .modal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 18px;
+    }
+    .modal-title { margin: 0 0 8px 0; font-size: 1.05rem; font-weight: 800; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+    .btn-primary {
+      width: 100%;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      width: 100%;
+      background: var(--card-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .pkg-option {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 11px 12px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pkg-option:hover { border-color: var(--pink); }
+    .msg-warn { color: var(--warn); font-size: 0.84rem; margin-top: 8px; }
+    .msg-ok { color: var(--ok); font-size: 0.84rem; margin-top: 8px; font-weight: 600; }
+    .msg-err { color: var(--danger); font-size: 0.84rem; margin-top: 8px; }
+    .avatar-circle {
+      width: 74px; height: 74px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--pink);
+      background: var(--card-2);
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <img id="headerLogo" class="brand-logo" src="https://via.placeholder.com/80x80/19132b/f472b6?text=MPH" alt="Logo" />
+      <div>
+        <div class="brand-title">MAZED PANEL HOUSE</div>
+        <div class="brand-sub">VERIFIED GAMING PANEL STORE</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button type="button" id="topAuthBtn" class="pill-btn primary">Login / Sign Up</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="topNoticeWrap" class="top-marquee-box hidden">
+      <div id="topNoticeText" class="marquee-track"></div>
+    </div>
+
+    <div id="storeBannerBar" class="store-status-banner hidden">
+      <span id="storeStatusText"></span>
+      <span id="storeHoursText" style="color:var(--muted);"></span>
+    </div>
+
+    <section id="bannerSlider" class="slider-card">
+      <div class="slider-scrim"></div>
+      <div class="slider-content">
+        <h2 id="sliderTitle" class="slider-title">Mazed Panel House</h2>
+        <p id="sliderSub" class="slider-sub">সকল প্যানেলের আপডেট ও প্যাকেজ সহজে দেখুন।</p>
+      </div>
+      <div id="sliderNav" class="slider-controls hidden">
+        <button type="button" id="prevSlideBtn" class="slider-btn">&lsaquo;</button>
+        <button type="button" id="nextSlideBtn" class="slider-btn">&rsaquo;</button>
+      </div>
+    </section>
+
+    <div id="categoryBar" class="cat-bar">
+      <button type="button" class="cat-chip active" data-cat="ALL">All Panels</button>
+      <button type="button" class="cat-chip" data-cat="ROOT">ROOT</button>
+      <button type="button" class="cat-chip" data-cat="NON ROOT">NON ROOT</button>
+      <button type="button" class="cat-chip" data-cat="iOS">iOS</button>
+      <button type="button" class="cat-chip" data-cat="PC PANEL">PC PANEL</button>
+      <button type="button" class="cat-chip" data-cat="GUILD BOT">GUILD BOT</button>
+    </div>
+
+    <div id="panelsGrid" class="panels-grid"></div>
+
+    <div id="bottomNoticeBox" class="section-box hidden">
+      <h3 style="margin:0 0 6px 0;font-size:0.98rem;">ইম্পর্টেন্ট নোটিশ</h3>
+      <p id="bottomNoticeText" style="margin:0;font-size:0.86rem;color:var(--muted);line-height:1.5;"></p>
+    </div>
+
+    <div id="socialSection" class="section-box hidden">
+      <h3 style="margin:0 0 4px 0;font-size:0.98rem;">Official Social Channels</h3>
+      <p style="margin:0;font-size:0.82rem;color:var(--muted);">আমাদের অফিসিয়াল চ্যানেল ও সোশ্যাল লিংকে যুক্ত থাকুন।</p>
+      <div id="socialGrid" class="social-row"></div>
+      <div id="footerTgLinks"></div>
+    </div>
+  </main>
+
+  <button type="button" id="floatingSupportBtn" class="floating-support">সাপোর্ট</button>
+
+  <nav class="bottom-nav">
+    <button type="button" id="navHomeBtn" class="nav-item active">
+      <span>হোম</span>
+    </button>
+    <button type="button" id="navProfileBtn" class="nav-item">
+      <span>প্রোফাইল</span>
+    </button>
+  </nav>
+
+  <!-- Startup Update Popup Modal -->
+  <div id="updatePopupModal" class="modal-bg">
+    <div class="modal-card" style="text-align:center;">
+      <div style="width:52px;height:52px;margin:0 auto 10px;border-radius:50%;background:rgba(236,72,153,0.16);border:1px solid var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">&#128226;</div>
+      <h3 id="popupHeading" class="modal-title">জরুরি আপডেট!</h3>
+      <p id="popupBodyText" style="margin:0 0 12px 0;font-size:0.88rem;color:var(--muted);line-height:1.45;"></p>
+      <div id="popupChannelsBox"></div>
+      <button type="button" id="closePopupBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- Package Selection Modal -->
+  <div id="packageModal" class="modal-bg">
+    <div class="modal-card">
+      <h3 id="pkgModalTitle" class="modal-title">প্যাকেজ দেখুন</h3>
+      <p id="pkgPanelMeta" style="margin:0 0 8px 0;font-size:0.82rem;color:var(--muted);"></p>
+      <div id="pkgListContainer"></div>
+      <button type="button" id="closePkgBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- Account Auth Modal (Google / Phone / Email + Password) -->
+  <div id="authModal" class="modal-bg">
+    <div class="modal-card">
+      <h3 id="authModalTitle" class="modal-title">অ্যাকাউন্ট লগইন / রেজিস্টার</h3>
+      <p style="margin:0 0 10px 0;font-size:0.82rem;color:var(--muted);">
+        প্যানেল কিনতে Google অ্যাকাউন্ট অথবা ফোন নাম্বার দিয়ে একটি অ্যাকাউন্ট খুলুন বা লগইন করুন।
+      </p>
+
+      <button type="button" id="googleQuickBtn" class="btn-secondary" style="background:#1e1b4b;border-color:#4f46e5;">
+        G &nbsp; Continue with Google Account
+      </button>
+
+      <div id="phoneAuthBox" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        <label style="font-size:0.8rem;color:var(--muted);">ফোন নাম্বার দিয়ে অ্যাকাউন্ট</label>
+        <input type="tel" id="phoneInput" placeholder="01XXXXXXXXX" />
+        <input type="password" id="phonePassInput" placeholder="পাসওয়ার্ড দিন" />
+        <button type="button" id="phoneAuthSubmit" class="btn-primary">ফোন দিয়ে লগইন / রেজিস্টার</button>
+      </div>
+
+      <div id="emailAuthBox" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        <label style="font-size:0.8rem;color:var(--muted);">অথবা ইমেইল / পাসওয়ার্ড</label>
+        <input type="email" id="authEmailInput" placeholder="example@gmail.com" />
+        <input type="password" id="authPassInput" placeholder="Password" />
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button type="button" id="emailLoginBtn" class="btn-secondary" style="margin:0;">Login</button>
+          <button type="button" id="emailRegisterBtn" class="btn-primary" style="margin:0;">Register</button>
+        </div>
+      </div>
+
+      <div id="authFeedback" class="msg-err"></div>
+      <button type="button" id="closeAuthBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- Send Money & Order Verification Modal -->
+  <div id="paymentModal" class="modal-bg">
+    <div class="modal-card">
+      <h3 class="modal-title">সেন্ড মানি করুন</h3>
+      <p id="paymentOrderSummary" style="margin:0 0 10px 0;font-size:0.84rem;color:#f9a8d4;font-weight:700;"></p>
+
+      <div id="activePaymentMethodsBox"></div>
+
+      <form id="paymentSubmitForm">
+        <label style="font-size:0.78rem;color:var(--muted);">পেমেন্ট মেথড নির্বাচন করুন</label>
+        <select id="payMethodSelect" required></select>
+
+        <input type="text" id="payTrxInput" placeholder="৮ সংখ্যার ট্রানজেকশন আইডি (TrxID)" required />
+        <input type="text" id="payCustomerNameInput" placeholder="আপনার নাম" required />
+        <input type="tel" id="payCustomerPhoneInput" placeholder="আপনার সম্পূর্ণ ফোন নাম্বার (01XXXXXXXXX)" required />
+
+        <button type="submit" class="btn-primary">অর্ডার কনফার্ম করুন</button>
+      </form>
+
+      <div id="paymentMsg" class="msg-err"></div>
+      <div id="paymentSuccessBox" class="msg-ok" style="white-space:pre-line;"></div>
+      <button type="button" id="closePaymentBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- Support Modal (WhatsApp & Telegram) -->
+  <div id="supportModal" class="modal-bg">
+    <div class="modal-card" style="text-align:center;">
+      <h3 class="modal-title">সাপোর্ট</h3>
+      <p style="margin:0 0 10px 0;font-size:0.84rem;color:var(--muted);">
+        যেকোনো প্রয়োজনে WhatsApp অথবা Telegram-এ সাপোর্টে মেসেজ করুন।
+      </p>
+      <div id="supportLinksContainer"></div>
+      <button type="button" id="closeSupportBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal-bg">
+    <div class="modal-card">
+      <h3 class="modal-title">ইউজার প্রোফাইল</h3>
+      <div id="profileLoggedOutView">
+        <p style="font-size:0.86rem;color:var(--muted);">আপনি এখনো অ্যাকাউন্টে লগইন করেননি।</p>
+        <button type="button" id="profileOpenAuthBtn" class="btn-primary">লগইন / অ্যাকাউন্ট খুলুন</button>
+      </div>
+      <div id="profileLoggedInView" class="hidden">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <img id="profileAvatarImg" class="avatar-circle" src="" alt="Avatar" />
+          <div>
+            <div id="profileDisplayId" style="font-weight:800;font-size:0.92rem;"></div>
+            <div id="profileDisplayMethod" style="font-size:0.78rem;color:var(--muted);"></div>
+            <label style="display:inline-block;margin-top:6px;font-size:0.78rem;color:#f472b6;font-weight:700;cursor:pointer;">
+              প্রোফাইল পিকচার পরিবর্তন করুন
+              <input type="file" id="profilePicInput" accept="image/*" class="hidden" />
+            </label>
+          </div>
+        </div>
+        <button type="button" id="profileLogoutBtn" class="btn-secondary">লগআউট</button>
+      </div>
+      <button type="button" id="closeProfileBtn" class="btn-secondary">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <script>
+    const KEY_STORE = 'mph_store_v2';
+    const KEY_USERS = 'mph_users_v2';
+    const KEY_SESSION = 'mph_session_v2';
+    const KEY_DEVICE = 'mph_device_user_v2';
+
+    const DEFAULT_STORE = {
+      brandName: 'MAZED PANEL HOUSE',
+      brandSub: 'VERIFIED GAMING PANEL STORE',
+      logoUrl: 'https://via.placeholder.com/80x80/19132b/f472b6?text=MPH',
+      popup: {
+        enabled: true,
+        title: 'জরুরি আপডেট!',
+        message: 'প্যানেলের সকল আপডেট পেতে আমাদের চ্যানেলে জয়েন থাকুন।',
+        showChannels: true,
+        channels: [
+          { label: 'Mazed panel house (Telegram)', url: 'https://t.me/mazedpanelhouse' }
+        ]
+      },
+      topNotice: {
+        enabled: true,
+        text: 'মাজেদ প্যানেল হাউসে স্বাগতম! রুট, নন-রুট, আইওএস ও পিসি প্যানেলের সকল আপডেট নিয়মিত চেক করুন।'
+      },
+      bottomNotice: {
+        enabled: true,
+        text: 'প্যানেল কেনার আগে নিয়মাবলী দেখে নিন। মেইনটেনেন্স চলাকালীন কোনো প্যানেল অর্ডার করবেন না।'
+      },
+      storeControl: {
+        mode: 'auto',
+        openTime: '09:00',
+        closeTime: '23:00',
+        closedMessage: 'আমাদের স্টোর বর্তমানে বন্ধ আছে। ওপেনিং টাইম সকাল ৯:০০ টা থেকে রাত ১১:০০ টা পর্যন্ত।'
+      },
+      banners: [
+        {
+          title: 'MAZED PANEL HOUSE',
+          subtitle: 'ROOT • NON ROOT • iOS • PC PANEL • GUILD BOT',
+          image: ''
+        },
+        {
+          title: 'INSTANT PACKAGE DELIVERY',
+          subtitle: 'পছন্দের সময় অনুযায়ী প্যাকেজ সিলেক্ট করে দ্রুত অর্ডার করুন।',
+          image: ''
+        }
+      ],
+      panels: [
+        {
+          id: 'p_sample_1',
+          name: 'ANGRY MOOD KPM',
+          category: 'ROOT',
+          image: 'https://via.placeholder.com/400x250/1b1133/f472b6?text=ROOT+PANEL',
+          features: 'Aim Silent • Premium Esp • Anti Ban',
+          maintenance: false,
+          maintenanceMsg: 'এই প্যানেলটি বর্তমানে আপডেটে আছে। পরবর্তী নতুন ভার্সন আসা পর্যন্ত অপেক্ষা করুন।',
+          packages: { '1 Day': 50, '7 Days': 250, '15 Days': 450, '30 Days': 800 }
+        },
+        {
+          id: 'p_sample_2',
+          name: 'PHANTOM iOS',
+          category: 'iOS',
+          image: 'https://via.placeholder.com/400x250/241038/c084fc?text=iOS+PANEL',
+          features: 'Smooth Aim • Esp Features • Fast Update',
+          maintenance: false,
+          maintenanceMsg: 'এই প্যানেলটি বর্তমানে আপডেটে আছে। পরবর্তী নতুন ভার্সন আসা পর্যন্ত অপেক্ষা করুন।',
+          packages: { '1 Day': 150, '7 Days': 900 }
+        }
+      ],
+      payments: {
+        bkash: { enabled: true, number: '01700000000', type: 'Send Money' },
+        nagad: { enabled: true, number: '01800000000', type: 'Send Money' },
+        rocket: { enabled: false, number: '', type: 'Send Money' },
+        upay: { enabled: false, number: '', type: 'Send Money' }
+      },
+      support: {
+        whatsapp: 'https://wa.me/8801700000000',
+        telegram: 'https://t.me/mazedpanelhouse'
+      },
+      socials: {
+        youtubeEnabled: true,
+        youtubeUrl: 'https://youtube.com',
+        tiktokEnabled: true,
+        tiktokUrl: 'https://tiktok.com',
+        discordEnabled: true,
+        discordUrl: 'https://discord.com',
+        telegramFooterEnabled: true,
+        telegramFooterLabel: 'আমাদের টেলিগ্রামে জয়েন করুন',
+        telegramFooterUrl: 'https://t.me/mazedpanelhouse'
+      },
+      serialControl: {
+        enabled: true,
+        current: 0
+      }
+    };
+
+    let activeCategory = 'ALL';
+    let slideIdx = 0;
+    let slideTimer = null;
+    let selectedPanel = null;
+    let selectedPkgLabel = '';
+    let selectedPkgPrice = 0;
+
+    function getStore() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(KEY_STORE) || 'null');
+        if (!parsed || typeof parsed !== 'object') return structuredClone(DEFAULT_STORE);
+        return {
+          ...structuredClone(DEFAULT_STORE),
+          ...parsed,
+          popup: { ...DEFAULT_STORE.popup, ...(parsed.popup || {}) },
+          topNotice: { ...DEFAULT_STORE.topNotice, ...(parsed.topNotice || {}) },
+          bottomNotice: { ...DEFAULT_STORE.bottomNotice, ...(parsed.bottomNotice || {}) },
+          storeControl: { ...DEFAULT_STORE.storeControl, ...(parsed.storeControl || {}) },
+          payments: {
+            bkash: { ...DEFAULT_STORE.payments.bkash, ...((parsed.payments || {}).bkash || {}) },
+            nagad: { ...DEFAULT_STORE.payments.nagad, ...((parsed.payments || {}).nagad || {}) },
+            rocket: { ...DEFAULT_STORE.payments.rocket, ...((parsed.payments || {}).rocket || {}) },
+            upay: { ...DEFAULT_STORE.payments.upay, ...((parsed.payments || {}).upay || {}) }
+          },
+          support: { ...DEFAULT_STORE.support, ...(parsed.support || {}) },
+          socials: { ...DEFAULT_STORE.socials, ...(parsed.socials || {}) },
+          serialControl: { ...DEFAULT_STORE.serialControl, ...(parsed.serialControl || {}) }
+        };
+      } catch (e) {
+        return structuredClone(DEFAULT_STORE);
+      }
+    }
+
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(KEY_USERS) || '{}'); } catch (e) { return {}; }
+    }
+    function saveUsers(u) { localStorage.setItem(KEY_USERS, JSON.stringify(u)); }
+
+    function getSession() {
+      try { return JSON.parse(localStorage.getItem(KEY_SESSION) || 'null'); } catch (e) { return null; }
+    }
+    function setSession(s) {
+      if (s) localStorage.setItem(KEY_SESSION, JSON.stringify(s));
+      else localStorage.removeItem(KEY_SESSION);
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function isStoreOpen(store) {
+      const modeVal = store.storeControl.mode || 'auto';
+      if (modeVal === 'manual_off') return false;
+      if (modeVal === 'manual_on') return true;
+      const now = new Date();
+      const curMin = now.getHours() * 60 + now.getMinutes();
+      const [oh, om] = (store.storeControl.openTime || '09:00').split(':').map(Number);
+      const [ch, cm] = (store.storeControl.closeTime || '23:00').split(':').map(Number);
+      const openMin = (oh || 9) * 60 + (om || 0);
+      const closeMin = (ch || 23) * 60 + (cm || 0);
+      if (openMin <= closeMin) return curMin >= openMin && curMin <= closeMin;
+      return curMin >= openMin || curMin <= closeMin;
+    }
+
+    function renderHeaderAndNotices(store) {
+      document.querySelector('.brand-title').textContent = store.brandName || 'MAZED PANEL HOUSE';
+      document.querySelector('.brand-sub').textContent = store.brandSub || 'VERIFIED GAMING PANEL STORE';
+      if (store.logoUrl) document.getElementById('headerLogo').src = store.logoUrl;
+
+      const topBox = document.getElementById('topNoticeWrap');
+      if (store.topNotice && store.topNotice.enabled && store.topNotice.text) {
+        topBox.classList.remove('hidden');
+        document.getElementById('topNoticeText').textContent = store.topNotice.text;
+      } else {
+        topBox.classList.add('hidden');
+      }
+
+      const openNow = isStoreOpen(store);
+      const statusBar = document.getElementById('storeBannerBar');
+      statusBar.classList.remove('hidden');
+      if (openNow) {
+        document.getElementById('storeStatusText').innerHTML = '<span class="status-open">● স্টোর চালু আছে</span>';
+      } else {
+        document.getElementById('storeStatusText').innerHTML = `<span class="status-closed">● ${esc(store.storeControl.closedMessage)}</span>`;
+      }
+      document.getElementById('storeHoursText').textContent =
+        `ওপেনিং টাইম: ${store.storeControl.openTime || '09:00'} | ক্লোজ টাইম: ${store.storeControl.closeTime || '23:00'}`;
+
+      const botBox = document.getElementById('bottomNoticeBox');
+      if (store.bottomNotice && store.bottomNotice.enabled && store.bottomNotice.text) {
+        botBox.classList.remove('hidden');
+        document.getElementById('bottomNoticeText').textContent = store.bottomNotice.text;
+      } else {
+        botBox.classList.add('hidden');
+      }
+    }
+
+    function renderSlider(store) {
+      const list = Array.isArray(store.banners) && store.banners.length ? store.banners : DEFAULT_STORE.banners;
+      slideIdx = slideIdx % list.length;
+      const b = list[slideIdx];
+      const box = document.getElementById('bannerSlider');
+      document.getElementById('sliderTitle').textContent = b.title || store.brandName;
+      document.getElementById('sliderSub').textContent = b.subtitle || '';
+      box.style.backgroundImage = b.image
+        ? `url('${b.image.replace(/'/g, '%27')}')`
+        : 'linear-gradient(135deg, #1d1236, #311245)';
+
+      const nav = document.getElementById('sliderNav');
+      if (list.length > 1) nav.classList.remove('hidden');
+      else nav.classList.add('hidden');
+
+      if (slideTimer) clearInterval(slideTimer);
+      if (list.length > 1) {
+        slideTimer = setInterval(() => {
+          slideIdx = (slideIdx + 1) % list.length;
+          renderSlider(getStore());
+        }, 4200);
+      }
+    }
+
+    document.getElementById('prevSlideBtn').addEventListener('click', () => {
+      const len = (getStore().banners || DEFAULT_STORE.banners).length;
+      slideIdx = (slideIdx - 1 + len) % len;
+      renderSlider(getStore());
+    });
+    document.getElementById('nextSlideBtn').addEventListener('click', () => {
+      const len = (getStore().banners || DEFAULT_STORE.banners).length;
+      slideIdx = (slideIdx + 1) % len;
+      renderSlider(getStore());
+    });
+
+    document.querySelectorAll('.cat-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.cat-chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeCategory = chip.getAttribute('data-cat');
+        renderPanels(getStore());
+      });
+    });
+
+    function getActivePackages(panel) {
+      const pkgs = panel.packages && typeof panel.packages === 'object' ? panel.packages : {};
+      return Object.entries(pkgs)
+        .filter(([, price]) => price !== '' && price !== null && price !== undefined && Number(price) > 0)
+        .map(([label, price]) => ({ label, price: Number(price) }));
+    }
+
+    function renderPanels(store) {
+      const grid = document.getElementById('panelsGrid');
+      const all = Array.isArray(store.panels) ? store.panels : [];
+      const filtered = activeCategory === 'ALL'
+        ? all
+        : all.filter((p) => String(p.category || '').toUpperCase() === activeCategory.toUpperCase());
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:24px;">এই ক্যাটাগরিতে কোনো প্যানেল নেই।</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map((panel) => {
+        const pkgs = getActivePackages(panel);
+        const minPrice = pkgs.length ? Math.min(...pkgs.map((x) => x.price)) : null;
+        const priceLabel = panel.maintenance
+          ? 'MAINTENANCE'
+          : (minPrice !== null ? `শুরু ৳${minPrice}` : 'প্যাকেজ দেখুন');
+        const imgSrc = panel.image || `https://via.placeholder.com/400x250/19132b/f472b6?text=${encodeURIComponent(panel.category || 'PANEL')}`;
+
+        return `
+          <article class="panel-card">
+            <div class="panel-thumb-wrap">
+              <img class="panel-thumb" src="${esc(imgSrc)}" alt="${esc(panel.name)}" />
+              <span class="cat-badge">${esc(panel.category || 'PANEL')}</span>
+              ${panel.maintenance ? '<span class="maint-badge">MAINTENANCE</span>' : ''}
+            </div>
+            <div class="panel-body">
+              <div class="panel-name">${esc(panel.name)}</div>
+              <div class="panel-feats">${esc(panel.features || '')}</div>
+              <div class="panel-price">${priceLabel}</div>
+              <button type="button" class="pkg-btn ${panel.maintenance ? 'maint' : ''}" data-panel-id="${esc(panel.id)}">
+                ${panel.maintenance ? 'মেইনটেনেন্স' : 'প্যাকেজ দেখুন'}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.pkg-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const pid = btn.getAttribute('data-panel-id');
+          const p = (getStore().panels || []).find((item) => item.id === pid);
+          if (p) handlePanelClick(p);
+        });
+      });
+    }
+
+    function handlePanelClick(panel) {
+      const store = getStore();
+      if (!isStoreOpen(store)) {
+        alert(`${store.storeControl.closedMessage}
+ওপেনিং টাইম: ${store.storeControl.openTime} - ${store.storeControl.closeTime}`);
+        return;
+      }
+      if (panel.maintenance) {
+        alert(panel.maintenanceMsg || 'এই প্যানেলটি বর্তমানে আপডেটে আছে। পরবর্তী সময় নতুন ভার্সন আসা পর্যন্ত অপেক্ষা করুন।');
+        return;
+      }
+      openPackageModal(panel);
+    }
+
+    function openPackageModal(panel) {
+      selectedPanel = panel;
+      document.getElementById('pkgModalTitle').textContent = `${panel.name} — প্যাকেজ দেখুন`;
+      document.getElementById('pkgPanelMeta').textContent = `ক্যাটাগরি: ${panel.category || 'PANEL'} | ${panel.features || ''}`;
+      const pkgs = getActivePackages(panel);
+      const box = document.getElementById('pkgListContainer');
+
+      if (!pkgs.length) {
+        box.innerHTML = '<p style="font-size:0.84rem;color:var(--muted);">এই প্যানেলে কোনো প্যাকেজের দাম সেট করা নেই।</p>';
+      } else {
+        box.innerHTML = pkgs.map((item) => `
+          <button type="button" class="pkg-option" data-pkg-label="${esc(item.label)}" data-pkg-price="${item.price}">
+            <span>${esc(item.label)}</span>
+            <span style="color:#f472b6;">৳${item.price} — Buy Now</span>
+          </button>
+        `).join('');
+
+        box.querySelectorAll('.pkg-option').forEach((optBtn) => {
+          optBtn.addEventListener('click', () => {
+            selectedPkgLabel = optBtn.getAttribute('data-pkg-label');
+            selectedPkgPrice = Number(optBtn.getAttribute('data-pkg-price') || 0);
+            document.getElementById('packageModal').style.display = 'none';
+            if (!getSession()) {
+              openAuthModal();
+            } else {
+              openPaymentModal();
+            }
+          });
+        });
+      }
+      document.getElementById('packageModal').style.display = 'flex';
+    }
+
+    document.getElementById('closePkgBtn').addEventListener('click', () => {
+      document.getElementById('packageModal').style.display = 'none';
+    });
+
+    function openAuthModal() {
+      document.getElementById('authFeedback').textContent = '';
+      document.getElementById('authModal').style.display = 'flex';
+    }
+    document.getElementById('closeAuthBtn').addEventListener('click', () => {
+      document.getElementById('authModal').style.display = 'none';
+    });
+    document.getElementById('topAuthBtn').addEventListener('click', () => {
+      if (getSession()) openProfileModal();
+      else openAuthModal();
+    });
+
+    function completeLogin(identifier, methodLabel) {
+      const users = getUsers();
+      const deviceBound = localStorage.getItem(KEY_DEVICE);
+      if (deviceBound && deviceBound !== identifier && !users[identifier]) {
+        document.getElementById('authFeedback').textContent = 'এই ডিভাইসে ইতিমধ্যে অন্য একটি অ্যাকাউন্ট রেজিস্টার করা আছে।';
+        return;
+      }
+      if (!users[identifier]) {
+        users[identifier] = {
+          id: identifier,
+          method: methodLabel,
+          avatar: 'https://via.placeholder.com/120/19132b/f472b6?text=User'
+        };
+        saveUsers(users);
+      }
+      if (!deviceBound) localStorage.setItem(KEY_DEVICE, identifier);
+      setSession({ id: identifier, method: methodLabel });
+      syncAuthUI();
+      document.getElementById('authModal').style.display = 'none';
+      if (selectedPanel && selectedPkgLabel) {
+        openPaymentModal();
+      }
+    }
+
+    document.getElementById('googleQuickBtn').addEventListener('click', () => {
+      const existing = localStorage.getItem(KEY_DEVICE);
+      const acc = existing && existing.includes('@') ? existing : 'user.google@gmail.com';
+      completeLogin(acc, 'Google Account');
+    });
+
+    document.getElementById('phoneAuthSubmit').addEventListener('click', () => {
+      const phone = document.getElementById('phoneInput').value.trim();
+      const pass = document.getElementById('phonePassInput').value.trim();
+      if (phone.length < 6 || !pass) {
+        document.getElementById('authFeedback').textContent = 'সঠিক ফোন নাম্বার ও পাসওয়ার্ড দিন।';
+        return;
+      }
+      completeLogin(phone, 'Phone Number');
+    });
+
+    document.getElementById('emailRegisterBtn').addEventListener('click', () => {
+      const em = document.getElementById('authEmailInput').value.trim().toLowerCase();
+      const pw = document.getElementById('authPassInput').value.trim();
+      if (!em || !pw) {
+        document.getElementById('authFeedback').textContent = 'ইমেইল ও পাসওয়ার্ড দিন।';
+        return;
+      }
+      const users = getUsers();
+      const deviceBound = localStorage.getItem(KEY_DEVICE);
+      if (users[em]) {
+        document.getElementById('authFeedback').textContent = 'এই ইমেইল দিয়ে ইতিমধ্যে অ্যাকাউন্ট খোলা আছে। Login চাপুন।';
+        return;
+      }
+      if (deviceBound && deviceBound !== em) {
+        document.getElementById('authFeedback').textContent = 'এই ডিভাইসে ইতিমধ্যে আরেকটি অ্যাকাউন্ট খোলা আছে।';
+        return;
+      }
+      users[em] = {
+        id: em,
+        password: pw,
+        method: 'Email Account',
+        avatar: 'https://via.placeholder.com/120/19132b/f472b6?text=User'
+      };
+      saveUsers(users);
+      localStorage.setItem(KEY_DEVICE, em);
+      setSession({ id: em, method: 'Email Account' });
+      syncAuthUI();
+      document.getElementById('authModal').style.display = 'none';
+      if (selectedPanel && selectedPkgLabel) openPaymentModal();
+    });
+
+    document.getElementById('emailLoginBtn').addEventListener('click', () => {
+      const em = document.getElementById('authEmailInput').value.trim().toLowerCase();
+      const pw = document.getElementById('authPassInput').value.trim();
+      const users = getUsers();
+      if (!users[em] || (users[em].password && users[em].password !== pw)) {
+        document.getElementById('authFeedback').textContent = 'ইমেইল বা পাসওয়ার্ড সঠিক নয়।';
+        return;
+      }
+      setSession({ id: em, method: users[em].method || 'Email Account' });
+      syncAuthUI();
+      document.getElementById('authModal').style.display = 'none';
+      if (selectedPanel && selectedPkgLabel) openPaymentModal();
+    });
+
+    function openPaymentModal() {
+      const store = getStore();
+      document.getElementById('paymentMsg').textContent = '';
+      document.getElementById('paymentSuccessBox').textContent = '';
+      document.getElementById('paymentOrderSummary').textContent =
+        `${selectedPanel ? selectedPanel.name : ''} (${selectedPkgLabel}) — মোট ৳${selectedPkgPrice}`;
+
+      const pm = store.payments || {};
+      const enabledList = [];
+      if (pm.bkash && pm.bkash.enabled) enabledList.push({ key: 'bKash', ...pm.bkash });
+      if (pm.nagad && pm.nagad.enabled) enabledList.push({ key: 'Nagad', ...pm.nagad });
+      if (pm.rocket && pm.rocket.enabled) enabledList.push({ key: 'Rocket', ...pm.rocket });
+      if (pm.upay && pm.upay.enabled) enabledList.push({ key: 'Upay', ...pm.upay });
+
+      const infoBox = document.getElementById('activePaymentMethodsBox');
+      const selectEl = document.getElementById('payMethodSelect');
+
+      if (!enabledList.length) {
+        infoBox.innerHTML = '<div class="msg-warn">বর্তমানে কোনো পেমেন্ট মেথড চালু নেই।</div>';
+        selectEl.innerHTML = '';
+      } else {
+        infoBox.innerHTML = enabledList.map((m) => `
+          <div style="background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin-bottom:8px;font-size:0.82rem;">
+            <strong>${esc(m.key)}</strong> (${esc(m.type || 'Send Money')}): <span style="color:#34d399;font-weight:700;">${esc(m.number)}</span>
+          </div>
+        `).join('');
+        selectEl.innerHTML = enabledList.map((m) => `<option value="${esc(m.key)}">${esc(m.key)} (${esc(m.number)})</option>`).join('');
+      }
+
+      document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    document.getElementById('closePaymentBtn').addEventListener('click', () => {
+      document.getElementById('paymentModal').style.display = 'none';
+    });
+
+    document.getElementById('paymentSubmitForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const method = document.getElementById('payMethodSelect').value;
+      const trx = document.getElementById('payTrxInput').value.trim();
+      const custName = document.getElementById('payCustomerNameInput').value.trim();
+      const fullPhone = document.getElementById('payCustomerPhoneInput').value.trim();
+
+      if (!method) {
+        document.getElementById('paymentMsg').textContent = 'কোনো পেমেন্ট মেথড সিলেক্ট করা নেই।';
+        return;
+      }
+      if (trx.length < 8) {
+        document.getElementById('paymentMsg').textContent = 'দয়া করে সঠিক ৮ সংখ্যার ট্রানজেকশন আইডি দিন।';
+        return;
+      }
+      const digitsOnly = fullPhone.replace(/\D/g, '');
+      const maskedPhone = digitsOnly.length >= 4 ? `XXXXXX${digitsOnly.slice(-4)}` : fullPhone;
+
+      const store = getStore();
+      let serialLine = '';
+      if (store.serialControl && store.serialControl.enabled) {
+        const nextSerial = Number(store.serialControl.current || 0) + 1;
+        store.serialControl.current = nextSerial;
+        localStorage.setItem(KEY_STORE, JSON.stringify(store));
+        serialLine = `অর্ডার সিরিয়াল: #${nextSerial}
+`;
+      }
+
+      document.getElementById('paymentMsg').textContent = '';
+      document.getElementById('paymentSuccessBox').textContent =
+        `${serialLine}প্যানেল: ${selectedPanel ? selectedPanel.name : ''} (${selectedPkgLabel} - ৳${selectedPkgPrice})
+` +
+        `মেথড: ${method} | TrxID: ${trx}
+` +
+        `নাম: ${custName} | নাম্বার: ${maskedPhone}`;
+      document.getElementById('paymentSubmitForm').reset();
+    });
+
+    function renderSocialAndPopup(store) {
+      const pop = store.popup || {};
+      document.getElementById('popupHeading').textContent = pop.title || 'জরুরি আপডেট!';
+      document.getElementById('popupBodyText').textContent = pop.message || '';
+      const chBox = document.getElementById('popupChannelsBox');
+      const chans = Array.isArray(pop.channels) ? pop.channels.filter((c) => c && c.url) : [];
+      if (pop.showChannels !== false && chans.length) {
+        chBox.innerHTML = chans.map((c) => `<a class="tg-join-btn" href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.label || 'Telegram Channel')}</a>`).join('');
+      } else {
+        chBox.innerHTML = '';
+      }
+
+      const soc = store.socials || {};
+      const items = [];
+      if (soc.youtubeEnabled && soc.youtubeUrl) items.push(`<a class="social-link-btn" href="${esc(soc.youtubeUrl)}" target="_blank" rel="noopener noreferrer">YouTube</a>`);
+      if (soc.tiktokEnabled && soc.tiktokUrl) items.push(`<a class="social-link-btn" href="${esc(soc.tiktokUrl)}" target="_blank" rel="noopener noreferrer">TikTok</a>`);
+      if (soc.discordEnabled && soc.discordUrl) items.push(`<a class="social-link-btn" href="${esc(soc.discordUrl)}" target="_blank" rel="noopener noreferrer">Discord</a>`);
+
+      const socialGrid = document.getElementById('socialGrid');
+      const footerTg = document.getElementById('footerTgLinks');
+      socialGrid.innerHTML = items.join('');
+      footerTg.innerHTML = (soc.telegramFooterEnabled && soc.telegramFooterUrl)
+        ? `<a class="tg-join-btn" href="${esc(soc.telegramFooterUrl)}" target="_blank" rel="noopener noreferrer">${esc(soc.telegramFooterLabel || 'আমাদের টেলিগ্রামে জয়েন করুন')}</a>`
+        : '';
+
+      const sec = document.getElementById('socialSection');
+      if (items.length || footerTg.innerHTML) sec.classList.remove('hidden');
+      else sec.classList.add('hidden');
+    }
+
+    document.getElementById('closePopupBtn').addEventListener('click', () => {
+      document.getElementById('updatePopupModal').style.display = 'none';
+    });
+
+    document.getElementById('floatingSupportBtn').addEventListener('click', () => {
+      const sup = getStore().support || {};
+      const links = [];
+      if (sup.whatsapp) links.push(`<a class="tg-join-btn" style="background:#16a34a;" href="${esc(sup.whatsapp)}" target="_blank" rel="noopener noreferrer">WhatsApp সাপোর্ট</a>`);
+      if (sup.telegram) links.push(`<a class="tg-join-btn" href="${esc(sup.telegram)}" target="_blank" rel="noopener noreferrer">Telegram সাপোর্ট</a>`);
+      document.getElementById('supportLinksContainer').innerHTML = links.join('') || '<p style="color:var(--muted);font-size:0.84rem;">সাপোর্ট লিংক সেট করা নেই।</p>';
+      document.getElementById('supportModal').style.display = 'flex';
+    });
+    document.getElementById('closeSupportBtn').addEventListener('click', () => {
+      document.getElementById('supportModal').style.display = 'none';
+    });
+
+    function openProfileModal() {
+      const sess = getSession();
+      const users = getUsers();
+      const loggedOut = document.getElementById('profileLoggedOutView');
+      const loggedIn = document.getElementById('profileLoggedInView');
+      if (!sess || !users[sess.id]) {
+        loggedOut.classList.remove('hidden');
+        loggedIn.classList.add('hidden');
+      } else {
+        loggedOut.classList.add('hidden');
+        loggedIn.classList.remove('hidden');
+        document.getElementById('profileDisplayId').textContent = users[sess.id].id;
+        document.getElementById('profileDisplayMethod').textContent = users[sess.id].method || '';
+        document.getElementById('profileAvatarImg').src = users[sess.id].avatar || 'https://via.placeholder.com/120/19132b/f472b6?text=User';
+      }
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    document.getElementById('navHomeBtn').addEventListener('click', () => {
+      document.getElementById('navHomeBtn').classList.add('active');
+      document.getElementById('navProfileBtn').classList.remove('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.getElementById('navProfileBtn').addEventListener('click', () => {
+      openProfileModal();
+    });
+    document.getElementById('closeProfileBtn').addEventListener('click', () => {
+      document.getElementById('profileModal').style.display = 'none';
+    });
+    document.getElementById('profileOpenAuthBtn').addEventListener('click', () => {
+      document.getElementById('profileModal').style.display = 'none';
+      openAuthModal();
+    });
+    document.getElementById('profilePicInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const sess = getSession();
+      if (!file || !sess) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const users = getUsers();
+        if (users[sess.id]) {
+          users[sess.id].avatar = reader.result;
+          saveUsers(users);
+          document.getElementById('profileAvatarImg').src = reader.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('profileLogoutBtn').addEventListener('click', () => {
+      setSession(null);
+      syncAuthUI();
+      openProfileModal();
+    });
+
+    function syncAuthUI() {
+      const sess = getSession();
+      const btn = document.getElementById('topAuthBtn');
+      btn.textContent = sess ? 'প্রোফাইল' : 'Login / Sign Up';
+    }
+
+    function initStore() {
+      const store = getStore();
+      renderHeaderAndNotices(store);
+      renderSlider(store);
+      renderPanels(store);
+      renderSocialAndPopup(store);
+      syncAuthUI();
+      if (store.popup && store.popup.enabled !== false) {
+        document.getElementById('updatePopupModal').style.display = 'flex';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initStore);
+  </script>
+</body>
+</html>
