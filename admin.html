@@ -1,0 +1,997 @@
+<!-- Mazed Panel House Live Admin Panel v3 -->
+<!-- Mazed Panel House Live Admin Panel - admin.html -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAIN ADMIN PANEL - MAZED PANEL HOUSE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #080810;
+      --bg-card: #11111e;
+      --bg-input: #0a0a14;
+      --border: #25253c;
+      --green: #10b981;
+      --blue: #2563eb;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --pink: #e048b9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+    body { background: var(--bg-main); color: #f8fafc; padding: 14px; max-width: 740px; margin: 0 auto; padding-bottom: 60px; }
+
+    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .admin-badge {
+      background: #1e1b4b; border: 1px solid #6366f1; color: #c7d2fe;
+      padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 800;
+    }
+    .view-store-btn {
+      background: linear-gradient(135deg, #06b6d4, #2563eb); color: #fff;
+      text-decoration: none; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800;
+    }
+    .live-pill {
+      background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7; padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 700;
+      text-align: center; margin-bottom: 14px;
+    }
+
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px; margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 15px; font-weight: 800; color: #facc15; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .card-sub { font-size: 12px; color: #94a3b8; line-height: 1.5; margin-bottom: 12px; }
+
+    .sub-box {
+      background: #0c0c17; border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px; margin-bottom: 12px;
+    }
+    .label { display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
+    .input, .textarea, .select {
+      width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+      color: #fff; padding: 10px 12px; border-radius: 10px; font-size: 13px; outline: none;
+      margin-bottom: 10px;
+    }
+    .textarea { min-height: 76px; resize: vertical; }
+
+    .btn {
+      width: 100%; border: none; padding: 11px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 800; cursor: pointer; color: #fff;
+    }
+    .btn-green { background: #10b981; color: #042f1e; }
+    .btn-blue { background: #2563eb; }
+    .btn-amber { background: #d97706; }
+    .btn-pink { background: #db2777; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .switch-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #0a0a14; border: 1px solid var(--border); padding: 10px 12px;
+      border-radius: 10px; margin-bottom: 10px;
+    }
+    .switch-row span { font-size: 13px; font-weight: 700; }
+
+    .social-control-row {
+      background: #0a0a14; border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px; margin-bottom: 10px;
+    }
+    .social-top-line { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .toggle-pill-btn {
+      padding: 5px 12px; border-radius: 999px; border: none; font-size: 11px;
+      font-weight: 800; cursor: pointer;
+    }
+    .toggle-pill-btn.on { background: #10b981; color: #042f1e; }
+    .toggle-pill-btn.off { background: #334155; color: #f87171; }
+
+    .pkg-builder-row {
+      display: grid; grid-template-columns: 1fr 110px 36px; gap: 8px; margin-bottom: 8px; align-items: center;
+    }
+
+    .panel-admin-item {
+      background: #0c0c17; border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px; margin-bottom: 10px;
+    }
+    .panel-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-sm {
+      padding: 7px 12px; border-radius: 8px; border: none; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100;
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-card {
+      background: #121220; border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 500px; padding: 18px; max-height: 90vh; overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Gate -->
+  <div id="adminLoginGate" class="card" style="margin-top:40px;">
+    <div class="card-title">🔐 অ্যাডমিন / রিসেলার লগইন</div>
+    <p class="card-sub">মেইন অ্যাডমিন পিন (ডিফল্ট: 1234) অথবা রিসেলার পাসওয়ার্ড দিয়ে প্রবেশ করুন।</p>
+    <input type="password" id="adminPassInput" class="input" placeholder="পাসওয়ার্ড / PIN লিখুন">
+    <button class="btn btn-green" onclick="loginAdmin()">প্রবেশ করুন</button>
+  </div>
+
+  <!-- Main Admin Content -->
+  <div id="adminContent" style="display:none;">
+    <div class="top-bar">
+      <div class="admin-badge" id="activeRoleBadge">👑 MAIN ADMIN PANEL</div>
+      <a href="index.html" id="viewStoreLink" class="view-store-btn">View Store →</a>
+    </div>
+
+    <div class="live-pill">
+      🔥 Firebase Realtime Database সবসময় লাইভ ও কানেক্টেড আছে — সব সেটিংস ও আপডেট লাইভ সিঙ্ক হচ্ছে।
+    </div>
+
+
+    <!-- 0. STORE OPEN / CLOSED CONTROL, AUTO SCHEDULE (8 AM - 11 PM) & SHUTDOWN NOTICE -->
+    <div class="card" style="border-color: rgba(245, 158, 11, 0.5);">
+      <div class="card-title">🏪 স্টোর চালু / বন্ধ করার বাটন, অটো টাইমিং ও বন্ধের নোটিশ</div>
+      <p class="card-sub">অটোমেটিক প্রতিদিন সকাল 8:00 টা থেকে রাত 11:00 টা পর্যন্ত স্টোর চালু থাকবে এবং রাত 11:00 টায় বন্ধ হবে। পাশাপাশি নিজের ইচ্ছামতো যেকোনো সময় অন/অফ বাটন ব্যবহার করতে পারবেন।</p>
+
+      <div class="switch-row" style="border-color: rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.08);">
+        <span id="storeStatusLabel" style="color:#fca5a5;">স্টোর বর্তমানে চালু আছে (OPEN)</span>
+        <button type="button" id="storeShutdownToggleBtn" class="toggle-pill-btn on" onclick="toggleStoreShutdown()">স্টোর চালু (ON)</button>
+      </div>
+
+      <div class="switch-row" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.07);">
+        <span>⏰ অটো টাইমিং চালু রাখুন (সকাল 8:00 AM – রাত 11:00 PM)</span>
+        <input type="checkbox" id="autoScheduleToggle" style="width:18px; height:18px;" onchange="onAutoScheduleChange()">
+      </div>
+
+      <label class="label">স্টোর বন্ধ থাকলে যে নোটিশ ভেসে উঠবে (কেন স্টোর বন্ধ):</label>
+      <textarea id="storeClosedNoticeInput" class="textarea" placeholder="যেমন: সার্ভার আপডেট ও মেইনটেনেন্সের কারণে স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে।"></textarea>
+
+      <button type="button" class="btn btn-amber" onclick="saveStoreShutdownSettings()">স্টোর স্ট্যাটাস, অটো টাইম ও বন্ধের নোটিশ সেভ করুন</button>
+    </div>
+
+    <!-- 1. LOGO BANNER (1 Banner Changeable) & UNLIMITED SLIDER BANNERS -->
+    <div class="card">
+      <div class="card-title">🖼️ অ্যাপ লোগো ব্যানার (১টি) ও আনলিমিটেড স্লাইডার ব্যানার</div>
+      <p class="card-sub">লোগো ব্যানার ১টি সেট/পরিবর্তন করুন, এবং নিচে যত খুশি তত স্লাইডার ব্যানার অ্যাড করুন।</p>
+
+      <div class="sub-box">
+        <label class="label">অ্যাপ লোগো ব্যানার (১টি ব্যানার — চেঞ্জ করা যাবে)</label>
+        <input type="file" accept="image/*" class="input" onchange="handleLogoBannerUpload(this)">
+        <div id="logoBannerPreview" style="margin-bottom:8px; font-size:11px; color:#10b981;"></div>
+
+        <label class="label">আনলিমিটেড স্লাইডার ব্যানার (একাধিক ছবি একবারে বা আলাদাভাবে অ্যাড করুন)</label>
+        <input type="file" accept="image/*" multiple class="input" onchange="handleUnlimitedBannersUpload(this)">
+        <div id="adminBannerPreviewList" style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px;"></div>
+
+        <label class="label">স্লাইডার ব্যানার ক্লিক লিংক (ঐচ্ছিক)</label>
+        <input type="text" id="bannerLinkInput" class="input" placeholder="https://example.com">
+
+        <button class="btn btn-green" onclick="saveLogoAndBanners()">লোগো ব্যানার ও স্লাইডার ব্যানার সেভ করুন</button>
+      </div>
+    </div>
+
+    <!-- 2. SHARED WHATSAPP & TELEGRAM USERNAME (@mazedvai12) -->
+    <div class="card">
+      <div class="card-title">📲 WhatsApp ও Telegram ইউজারনেম সেটআপ</div>
+      <p class="card-sub">WhatsApp এবং Telegram উভয়ের জন্য একই ইউজারনেম সেট করা আছে (ডিফল্ট: mazedvai12)।</p>
+
+      <label class="label">WhatsApp & Telegram ইউজারনেম (@ ছাড়া বা সহ)</label>
+      <input type="text" id="sharedHandleInput" class="input" placeholder="mazedvai12">
+      <button class="btn btn-blue" onclick="saveSharedHandle()">ইউজারনেম সেভ করুন</button>
+    </div>
+
+    <!-- 3. PAYMENT METHODS CONTROL (Nagad, bKash, Rocket) -->
+    <div class="card">
+      <div class="card-title">📱 নগদ, বিকাশ ও রকেট পেমেন্ট নম্বর ও অন/অফ কন্ট্রোল</div>
+      <div class="sub-box">
+        <div class="switch-row">
+          <span>Nagad (নগদ) চালু রাখুন</span>
+          <input type="checkbox" id="nagadEnabled" style="width:18px; height:18px;">
+        </div>
+        <input type="text" id="nagadNumber" class="input" placeholder="নগদ নম্বর">
+
+        <div class="switch-row">
+          <span>bKash (বিকাশ) চালু রাখুন</span>
+          <input type="checkbox" id="bkashEnabled" style="width:18px; height:18px;">
+        </div>
+        <input type="text" id="bkashNumber" class="input" placeholder="বিকাশ নম্বর">
+
+        <div class="switch-row">
+          <span>Rocket (রকেট) চালু রাখুন</span>
+          <input type="checkbox" id="rocketEnabled" style="width:18px; height:18px;">
+        </div>
+        <input type="text" id="rocketNumber" class="input" placeholder="রকেট নম্বর">
+
+        <button class="btn btn-green" onclick="savePaymentSettings()">পেমেন্ট সেটিংস সেভ করুন</button>
+      </div>
+    </div>
+
+    <!-- 4. SOCIAL CHANNELS (SAVE ONLY SOCIAL LINKS) -->
+    <div class="card">
+      <div class="card-title">🔗 সোশ্যাল চ্যানেল লিংক ও Show / Off বাটন</div>
+      <p class="card-sub">শুধু সোশ্যাল লিংক ও Show/Off অবস্থা সেভ হবে।</p>
+
+      <div class="social-control-row">
+        <div class="social-top-line">
+          <strong style="font-size:13px;">▶️ YouTube</strong>
+          <button type="button" id="ytToggleBtn" class="toggle-pill-btn on" onclick="toggleSocialShow('youtube')">Show ON</button>
+        </div>
+        <input type="text" id="ytLinkInput" class="input" style="margin-bottom:0;" placeholder="https://youtube.com/...">
+      </div>
+
+      <div class="social-control-row">
+        <div class="social-top-line">
+          <strong style="font-size:13px;">🎵 TikTok</strong>
+          <button type="button" id="ttToggleBtn" class="toggle-pill-btn on" onclick="toggleSocialShow('tiktok')">Show ON</button>
+        </div>
+        <input type="text" id="ttLinkInput" class="input" style="margin-bottom:0;" placeholder="https://tiktok.com/...">
+      </div>
+
+      <div class="social-control-row">
+        <div class="social-top-line">
+          <strong style="font-size:13px;">💬 Discord</strong>
+          <button type="button" id="dcToggleBtn" class="toggle-pill-btn on" onclick="toggleSocialShow('discord')">Show ON</button>
+        </div>
+        <input type="text" id="dcLinkInput" class="input" style="margin-bottom:0;" placeholder="https://discord.gg/...">
+      </div>
+
+      <button class="btn btn-blue" onclick="saveOnlySocialLinks()">সোশ্যাল লিংক সেভ করুন</button>
+    </div>
+
+    <!-- 5. NOTICE SETTINGS (SAVE ONLY NOTICES) -->
+    <div class="card">
+      <div class="card-title">📢 নোটিশ সেটিংস</div>
+      <p class="card-sub">শুধু নোটিশ সেটিংস সেভ হবে।</p>
+
+      <label class="label">স্লাইডার নোটিশ লেখা (যেমন: Welcome to Mazed Panel House)</label>
+      <input type="text" id="sliderNoticeInput" class="input" placeholder="Welcome to Mazed Panel House">
+
+      <label class="label">স্লাইডার নোটিশ লিংক (ঐচ্ছিক)</label>
+      <input type="text" id="sliderNoticeLinkInput" class="input" placeholder="https://...">
+
+      <div class="switch-row">
+        <span>স্টোরে Important Notice শো করান</span>
+        <input type="checkbox" id="showImportantNotice" style="width:18px; height:18px;">
+      </div>
+
+      <label class="label">Important Notice মেসেজ:</label>
+      <textarea id="importantNoticeInput" class="textarea" placeholder="এখানে আপনার ইম্পর্টেন্ট নোটিশ লিখুন..."></textarea>
+
+      <button class="btn btn-pink" onclick="saveOnlyNotices()">নোটিশ সেভ করুন</button>
+    </div>
+
+    <!-- 6. PANEL MANAGEMENT (GALLERY IMAGE + EXACT TIME 1-24H / 1-31D + GUILD BOT) -->
+    <div class="card">
+      <div class="card-title">🎮 প্যানেল ম্যানেজমেন্ট (গ্যালারি ছবি + নির্দিষ্ট টাইম ও দাম)</div>
+      <p class="card-sub">আপনি যে টাইম ও দাম যোগ করবেন শুধু সেটাই শো হবে।</p>
+
+      <div class="sub-box">
+        <label class="label">➕ নতুন প্যানেল যোগ করুন</label>
+        <div class="grid-2">
+          <input type="text" id="newPanelName" class="input" placeholder="প্যানেলের নাম">
+          <select id="newPanelCat" class="select">
+            <option value="ROOT">ROOT</option>
+            <option value="NON ROOT">NON ROOT</option>
+            <option value="iOS">iOS</option>
+            <option value="PC PANEL">PC PANEL</option>
+            <option value="GUILD BOT">GUILD BOT</option>
+          </select>
+        </div>
+
+        <label class="label">প্যানেলের ছবি গ্যালারি থেকে সিলেক্ট করুন</label>
+        <input type="file" accept="image/*" class="input" onchange="handleNewPanelImage(this)">
+        <div id="newPanelImgPreview" style="font-size:11px; color:#10b981; margin-bottom:8px;"></div>
+
+        <input type="text" id="newPanelDesc" class="input" placeholder="ফিচারসমূহ">
+
+        <label class="label">প্যাকেজ টাইম ও দাম</label>
+        <div id="newPanelPkgList"></div>
+        <button type="button" class="btn-sm" style="background:#1e293b; color:#38bdf8; margin-bottom:10px;" onclick="addNewPkgRow('newPanelPkgList')">+ নতুন টাইম/প্যাকেজ যোগ করুন</button>
+
+        <button class="btn btn-green" onclick="addNewPanel()">নতুন প্যানেল যুক্ত করুন</button>
+      </div>
+
+      <div id="adminPanelsList"></div>
+    </div>
+
+    <!-- 7. RESELLER ADMIN & MAIN PASSWORD -->
+    <div class="card" id="resellerSectionCard">
+      <div class="card-title">👥 রিসেলার অ্যাডমিন তৈরি ও পাসওয়ার্ড পরিবর্তন</div>
+      <div class="grid-2">
+        <input type="text" id="resellerNameInput" class="input" placeholder="রিসেলারের নাম">
+        <input type="password" id="resellerPassInput" class="input" placeholder="রিসেলারের নতুন পাসওয়ার্ড">
+      </div>
+      <button class="btn btn-blue" style="margin-bottom:12px;" onclick="createResellerAdmin()">+ রিসেলার অ্যাডমিন তৈরি করুন</button>
+
+      <div id="resellerListBox" style="margin-bottom:14px;"></div>
+
+      <label class="label">🔑 মেইন অ্যাডমিন পাসওয়ার্ড / PIN পরিবর্তন</label>
+      <div class="grid-2">
+        <input type="password" id="newAdminPin" class="input" placeholder="নতুন মেইন পাসওয়ার্ড">
+        <button class="btn btn-amber" onclick="changeAdminPin()">মেইন পাসওয়ার্ড আপডেট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PANEL MODAL -->
+  <div class="modal-overlay" id="editPanelModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="font-size:16px;">✏️ প্যানেল এডিট করুন</h3>
+        <button onclick="closeEditModal()" style="background:#1e293b; color:#fff; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
+      </div>
+
+      <input type="hidden" id="editPanelId">
+
+      <label class="label">প্যানেলের নাম</label>
+      <input type="text" id="editPanelName" class="input">
+
+      <label class="label">ক্যাটাগরি</label>
+      <select id="editPanelCat" class="select">
+        <option value="ROOT">ROOT</option>
+        <option value="NON ROOT">NON ROOT</option>
+        <option value="iOS">iOS</option>
+        <option value="PC PANEL">PC PANEL</option>
+        <option value="GUILD BOT">GUILD BOT</option>
+      </select>
+
+      <label class="label">ছবি গ্যালারি থেকে পরিবর্তন করুন</label>
+      <input type="file" accept="image/*" class="input" onchange="handleEditPanelImage(this)">
+      <div id="editPanelImgPreview" style="font-size:11px; color:#10b981; margin-bottom:8px;"></div>
+
+      <label class="label">বিবরণ / ফিচার</label>
+      <input type="text" id="editPanelDesc" class="input">
+
+      <label class="label">প্যাকেজ টাইম ও দাম</label>
+      <div id="editPanelPkgList"></div>
+      <button type="button" class="btn-sm" style="background:#1e293b; color:#38bdf8; margin-bottom:12px;" onclick="addNewPkgRow('editPanelPkgList')">+ নতুন টাইম/প্যাকেজ যোগ করুন</button>
+
+      <div class="switch-row" style="border-color:#f59e0b; background:rgba(245, 158, 11, 0.08);">
+        <span style="color:#fbbf24;">🛠️ এই প্যানেলটি মেইনটেনেন্সে রাখুন</span>
+        <input type="checkbox" id="editPanelMaint" style="width:18px; height:18px;">
+      </div>
+
+      <button class="btn btn-green" onclick="saveEditedPanel()">পরিবর্তন সেভ করুন</button>
+    </div>
+  </div>
+
+  <!-- FIREBASE COMPAT SDK (REALTIME DATABASE) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    const FIREBASE_CONFIG_STORAGE_KEY = 'MAZED_FIREBASE_CONFIG_V17';
+    const DEFAULT_FIREBASE_CONFIG = {
+      databaseURL: "https://mazed-panel-house-default-rtdb.firebaseio.com"
+    };
+
+    function getActiveFirebaseConfig() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(FIREBASE_CONFIG_STORAGE_KEY) || 'null');
+        if (saved && saved.databaseURL) return saved;
+      } catch (e) {}
+      return DEFAULT_FIREBASE_CONFIG;
+    }
+
+    const DB_KEY = 'MAZED_PANEL_STORE_DB_V17';
+    const ADMIN_PIN_KEY = 'MAZED_ADMIN_PIN_V17';
+
+    let rtdb = null;
+    let firebaseConnected = false;
+    let adminFirebaseTimer = null;
+    let cachedDB = null;
+    let isResellerSession = false;
+
+    let tempLogoBannerData = '';
+    let tempUnlimitedBanners = [];
+    let tempNewPanelImg = '';
+    let tempEditPanelImg = '';
+
+    let socialShowState = {
+      youtube: true,
+      tiktok: true,
+      discord: true
+    };
+
+    const TIME_OPTIONS = [
+      ...Array.from({ length: 24 }, (_, i) => `${i + 1} ${i === 0 ? 'Hour' : 'Hours'}`),
+      ...Array.from({ length: 31 }, (_, i) => `${i + 1} ${i === 0 ? 'Day' : 'Days'}`)
+    ];
+
+    function buildTimeSelectHtml(selectedValue = '1 Day') {
+      return `<select class="select pkg-time-sel" style="margin-bottom:0;">
+        ${TIME_OPTIONS.map(t => `<option value="${t}" ${t === selectedValue ? 'selected' : ''}>${t}</option>`).join('')}
+      </select>`;
+    }
+
+    function addNewPkgRow(containerId, presetDuration = '1 Day', presetPrice = '') {
+      const container = document.getElementById(containerId);
+      const div = document.createElement('div');
+      div.className = 'pkg-builder-row';
+      div.innerHTML = `
+        ${buildTimeSelectHtml(presetDuration)}
+        <input type="number" class="input pkg-price-inp" style="margin-bottom:0;" placeholder="দাম (৳)" value="${presetPrice}">
+        <button type="button" onclick="this.parentElement.remove()" style="background:#dc2626; color:#fff; border:none; height:36px; border-radius:8px; cursor:pointer; font-weight:800;">✕</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function readPkgRows(containerId) {
+      const rows = document.querySelectorAll(`#${containerId} .pkg-builder-row`);
+      const out = [];
+      rows.forEach(r => {
+        const duration = r.querySelector('.pkg-time-sel')?.value || '';
+        const priceVal = r.querySelector('.pkg-price-inp')?.value;
+        if (duration && priceVal !== '' && Number(priceVal) >= 0) {
+          out.push({ duration, price: Number(priceVal) });
+        }
+      });
+      return out;
+    }
+
+    /* Always-live Firebase Realtime listener & keepalive */
+    function connectFirebaseRealtime() {
+      const cfg = getActiveFirebaseConfig();
+      if (!cfg || !cfg.databaseURL || typeof firebase === 'undefined') return;
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(cfg);
+        } else {
+          firebase.app();
+        }
+        rtdb = firebase.database();
+        try { rtdb.goOnline(); } catch (e) {}
+
+        rtdb.ref('.info/connected').on('value', (snap) => {
+          firebaseConnected = Boolean(snap.val());
+          if (!firebaseConnected && rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+
+        rtdb.ref('mazedPanelStoreV17').off();
+        rtdb.ref('mazedPanelStoreV17').on('value', (snapshot) => {
+          const val = snapshot.val();
+          if (val) {
+            cachedDB = val;
+            localStorage.setItem(DB_KEY, JSON.stringify(val));
+            if (document.getElementById('adminContent').style.display !== 'none') {
+              renderAdminPanels();
+              renderResellerList();
+            }
+          }
+        });
+
+        if (!adminFirebaseTimer) {
+          adminFirebaseTimer = setInterval(() => {
+            try {
+              if (rtdb) rtdb.goOnline();
+            } catch (e) {}
+          }, 15000);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden && rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+
+        window.addEventListener('online', () => {
+          if (rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+      } catch (e) {
+        console.error('Firebase error:', e);
+        firebaseConnected = false;
+      }
+    }
+
+    function getDB() {
+      if (cachedDB) return cachedDB;
+      const raw = localStorage.getItem(DB_KEY);
+      if (!raw) {
+        return {
+          settings: {
+            payments: {
+              nagad: { enabled: true, number: '01723711057', label: 'Nagad' },
+              bkash: { enabled: true, number: '01723711057', label: 'bKash' },
+              rocket: { enabled: true, number: '01723711057', label: 'Rocket' }
+            },
+            socials: {
+              youtube: { url: '', show: true },
+              tiktok: { url: '', show: true },
+              discord: { url: '', show: true }
+            },
+            banners: [],
+            bannerLink: '',
+            contactUsername: 'mazedvai12',
+            resellers: []
+          },
+          panels: [],
+          users: {},
+          orders: []
+        };
+      }
+      const parsed = JSON.parse(raw);
+      parsed.settings = parsed.settings || {};
+      parsed.settings.payments = parsed.settings.payments || {
+        nagad: { enabled: true, number: '01723711057', label: 'Nagad' },
+        bkash: { enabled: true, number: '01723711057', label: 'bKash' },
+        rocket: { enabled: true, number: '01723711057', label: 'Rocket' }
+      };
+      parsed.settings.socials = parsed.settings.socials || {};
+      parsed.settings.banners = Array.isArray(parsed.settings.banners) ? parsed.settings.banners : [];
+      parsed.settings.resellers = Array.isArray(parsed.settings.resellers) ? parsed.settings.resellers : [];
+      parsed.panels = parsed.panels || [];
+      parsed.users = parsed.users || {};
+      parsed.orders = parsed.orders || [];
+      cachedDB = parsed;
+      return parsed;
+    }
+
+    function saveDB(db) {
+      cachedDB = db;
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+      if (rtdb) {
+        try { rtdb.goOnline(); } catch (e) {}
+        rtdb.ref('mazedPanelStoreV17').set(db).catch(err => console.error('Firebase write error:', err));
+      }
+    }
+
+    function loginAdmin() {
+      const savedPin = localStorage.getItem(ADMIN_PIN_KEY) || '1234';
+      const entered = document.getElementById('adminPassInput').value.trim();
+      const db = getDB();
+      const resellers = db.settings.resellers || [];
+      const matchedReseller = resellers.find(r => r.password === entered);
+
+      if (entered === savedPin) {
+        isResellerSession = false;
+        document.getElementById('activeRoleBadge').textContent = '👑 MAIN ADMIN PANEL';
+        document.getElementById('resellerSectionCard').style.display = 'block';
+        openAdminWorkspace();
+      } else if (matchedReseller) {
+        isResellerSession = true;
+        document.getElementById('activeRoleBadge').textContent = `🤝 RESELLER (${matchedReseller.name})`;
+        document.getElementById('resellerSectionCard').style.display = 'none';
+        openAdminWorkspace();
+      } else {
+        alert('ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।');
+      }
+    }
+
+    function openAdminWorkspace() {
+      document.getElementById('adminLoginGate').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+      connectFirebaseRealtime();
+      loadAdminUI();
+    }
+
+    function changeAdminPin() {
+      const pin = document.getElementById('newAdminPin').value.trim();
+      if (!pin || pin.length < 4) return alert('কমপক্ষে ৪ সংখ্যার পাসওয়ার্ড দিন।');
+      localStorage.setItem(ADMIN_PIN_KEY, pin);
+      document.getElementById('newAdminPin').value = '';
+      alert('✅ মেইন অ্যাডমিন পাসওয়ার্ড পরিবর্তন হয়েছে!');
+    }
+
+    function createResellerAdmin() {
+      const name = document.getElementById('resellerNameInput').value.trim();
+      const password = document.getElementById('resellerPassInput').value.trim();
+      if (!name || !password) return alert('রিসেলারের নাম এবং পাসওয়ার্ড দিন।');
+
+      const db = getDB();
+      db.settings.resellers = db.settings.resellers || [];
+      db.settings.resellers.push({
+        id: 'RES_' + Date.now(),
+        name,
+        password
+      });
+      saveDB(db);
+      document.getElementById('resellerNameInput').value = '';
+      document.getElementById('resellerPassInput').value = '';
+      renderResellerList();
+      alert(`✅ রিসেলার "${name}" তৈরি হয়েছে!`);
+    }
+
+    function deleteReseller(id) {
+      const db = getDB();
+      db.settings.resellers = (db.settings.resellers || []).filter(r => r.id !== id);
+      saveDB(db);
+      renderResellerList();
+    }
+
+    function renderResellerList() {
+      const list = getDB().settings.resellers || [];
+      const box = document.getElementById('resellerListBox');
+      if (!list.length) {
+        box.innerHTML = '<div style="font-size:12px; color:#94a3b8;">কোনো রিসেলার অ্যাডমিন নেই।</div>';
+        return;
+      }
+      box.innerHTML = list.map(r => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#0a0a14; border:1px solid #25253c; padding:8px 12px; border-radius:10px; margin-bottom:6px; font-size:12px;">
+          <span><strong>${r.name}</strong> • পাসওয়ার্ড: <code>${r.password}</code></span>
+          <button class="btn-sm" style="background:#dc2626; color:#fff;" onclick="deleteReseller('${r.id}')">মুছুন</button>
+        </div>
+      `).join('');
+    }
+
+    /* Gallery Readers */
+    function handleLogoBannerUpload(input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        tempLogoBannerData = e.target.result;
+        document.getElementById('logoBannerPreview').textContent = '✓ লোগো ব্যানার সিলেক্ট হয়েছে: ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUnlimitedBannersUpload(input) {
+      const files = Array.from(input.files || []);
+      if (!files.length) return;
+      let done = 0;
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          tempUnlimitedBanners.push(e.target.result);
+          done++;
+          if (done === files.length) {
+            renderAdminBannerPreviews();
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderAdminBannerPreviews() {
+      const list = document.getElementById('adminBannerPreviewList');
+      list.innerHTML = tempUnlimitedBanners.map((src, i) => `
+        <div style="position:relative; border:1px solid #25253c; border-radius:8px; overflow:hidden; height:56px;">
+          <img src="${src}" style="width:100%; height:100%; object-fit:cover;">
+          <button type="button" onclick="removeUnlimitedBanner(${i})" style="position:absolute; top:2px; right:2px; background:#ef4444; color:#fff; border:none; border-radius:4px; font-size:10px; padding:1px 4px; cursor:pointer;">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function removeUnlimitedBanner(idx) {
+      tempUnlimitedBanners.splice(idx, 1);
+      renderAdminBannerPreviews();
+    }
+
+    function saveLogoAndBanners() {
+      const db = getDB();
+      if (tempLogoBannerData) db.settings.logoUrl = tempLogoBannerData;
+      db.settings.banners = tempUnlimitedBanners.slice();
+      db.settings.bannerLink = document.getElementById('bannerLinkInput').value.trim();
+      saveDB(db);
+      alert('✅ লোগো ব্যানার ও আনলিমিটেড স্লাইডার ব্যানার সেভ হয়েছে!');
+    }
+
+    function saveSharedHandle() {
+      const raw = document.getElementById('sharedHandleInput').value.trim().replace(/^@/, '') || 'mazedvai12';
+      const db = getDB();
+      db.settings.contactUsername = raw;
+      saveDB(db);
+      alert('✅ WhatsApp ও Telegram ইউজারনেম সেভ হয়েছে!');
+    }
+
+    function handleNewPanelImage(input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        tempNewPanelImg = e.target.result;
+        document.getElementById('newPanelImgPreview').textContent = '✓ ছবি সিলেক্ট হয়েছে: ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleEditPanelImage(input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        tempEditPanelImg = e.target.result;
+        document.getElementById('editPanelImgPreview').textContent = '✓ নতুন ছবি সিলেক্ট হয়েছে: ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+
+
+    let storeClosedState = false;
+
+    function updateStoreShutdownButtonUI() {
+      const btn = document.getElementById('storeShutdownToggleBtn');
+      const lbl = document.getElementById('storeStatusLabel');
+      if (!btn || !lbl) return;
+      if (storeClosedState) {
+        btn.textContent = 'স্টোর বন্ধ (OFF)';
+        btn.className = 'toggle-pill-btn off';
+        lbl.textContent = 'স্টোর বর্তমানে বন্ধ আছে (CLOSED — নোটিশ শো হচ্ছে)';
+        lbl.style.color = '#f87171';
+      } else {
+        btn.textContent = 'স্টোর চালু (ON)';
+        btn.className = 'toggle-pill-btn on';
+        lbl.textContent = 'স্টোর বর্তমানে চালু আছে (OPEN)';
+        lbl.style.color = '#6ee7b7';
+      }
+    }
+
+    function toggleStoreShutdown() {
+      storeClosedState = !storeClosedState;
+      updateStoreShutdownButtonUI();
+      const db = getDB();
+      db.settings = db.settings || {};
+      db.settings.storeClosed = storeClosedState;
+      db.settings.manualOverrideMode = storeClosedState ? 'force_closed' : 'force_open';
+      db.settings.autoScheduleEnabled = document.getElementById('autoScheduleToggle')?.checked ?? true;
+      db.settings.storeClosedNotice = document.getElementById('storeClosedNoticeInput').value || db.settings.storeClosedNotice || 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে।';
+      saveDB(db);
+    }
+
+    function onAutoScheduleChange() {
+      const db = getDB();
+      db.settings = db.settings || {};
+      db.settings.autoScheduleEnabled = Boolean(document.getElementById('autoScheduleToggle').checked);
+      if (db.settings.autoScheduleEnabled) {
+        db.settings.manualOverrideMode = 'auto';
+      }
+      saveDB(db);
+    }
+
+    function saveStoreShutdownSettings() {
+      const db = getDB();
+      db.settings = db.settings || {};
+      db.settings.storeClosed = storeClosedState;
+      db.settings.autoScheduleEnabled = Boolean(document.getElementById('autoScheduleToggle')?.checked);
+      db.settings.manualOverrideMode = storeClosedState ? 'force_closed' : (db.settings.autoScheduleEnabled ? 'auto' : 'force_open');
+      db.settings.storeClosedNotice = document.getElementById('storeClosedNoticeInput').value.trim() || 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে। প্রতিদিন সকাল 8:00 টা থেকে রাত 11:00 টা পর্যন্ত স্টোর চালু থাকে।';
+      saveDB(db);
+      alert(storeClosedState ? '✅ স্টোর বন্ধ করা হয়েছে এবং নোটিশ লাইভ হয়েছে!' : '✅ স্টোর স্ট্যাটাস ও অটো টাইমিং সেভ হয়েছে!');
+    }
+
+    function loadAdminUI() {
+      const db = getDB();
+      const s = db.settings;
+      storeClosedState = Boolean(s.storeClosed);
+      if (document.getElementById('autoScheduleToggle')) {
+        document.getElementById('autoScheduleToggle').checked = s.autoScheduleEnabled !== false;
+      }
+      updateStoreShutdownButtonUI();
+      document.getElementById('storeClosedNoticeInput').value = s.storeClosedNotice || 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে।';
+
+      tempLogoBannerData = s.logoUrl || '';
+      if (tempLogoBannerData) {
+        document.getElementById('logoBannerPreview').textContent = '✓ লোগো ব্যানার সেট করা আছে';
+      }
+      tempUnlimitedBanners = Array.isArray(s.banners) ? s.banners.slice() : [];
+      renderAdminBannerPreviews();
+      document.getElementById('bannerLinkInput').value = s.bannerLink || '';
+
+      document.getElementById('sharedHandleInput').value = s.contactUsername || 'mazedvai12';
+
+      document.getElementById('nagadEnabled').checked = s.payments.nagad?.enabled ?? true;
+      document.getElementById('nagadNumber').value = s.payments.nagad?.number || '';
+      document.getElementById('bkashEnabled').checked = s.payments.bkash?.enabled ?? true;
+      document.getElementById('bkashNumber').value = s.payments.bkash?.number || '';
+      document.getElementById('rocketEnabled').checked = s.payments.rocket?.enabled ?? true;
+      document.getElementById('rocketNumber').value = s.payments.rocket?.number || '';
+
+      const ytObj = typeof s.socials?.youtube === 'object' ? s.socials.youtube : { url: s.socials?.youtube || '', show: true };
+      const ttObj = typeof s.socials?.tiktok === 'object' ? s.socials.tiktok : { url: s.socials?.tiktok || '', show: true };
+      const dcObj = typeof s.socials?.discord === 'object' ? s.socials.discord : { url: s.socials?.discord || '', show: true };
+
+      socialShowState = {
+        youtube: ytObj.show !== false,
+        tiktok: ttObj.show !== false,
+        discord: dcObj.show !== false
+      };
+      updateSocialToggleButtons();
+
+      document.getElementById('ytLinkInput').value = ytObj.url || '';
+      document.getElementById('ttLinkInput').value = ttObj.url || '';
+      document.getElementById('dcLinkInput').value = dcObj.url || '';
+
+      document.getElementById('sliderNoticeInput').value = s.sliderNoticeText || 'Welcome to Mazed Panel House';
+      document.getElementById('sliderNoticeLinkInput').value = s.sliderNoticeLink || '';
+      document.getElementById('showImportantNotice').checked = Boolean(s.showImportantNotice);
+      document.getElementById('importantNoticeInput').value = s.importantNoticeText || '';
+
+      const newPkgContainer = document.getElementById('newPanelPkgList');
+      if (!newPkgContainer.children.length) {
+        addNewPkgRow('newPanelPkgList', '1 Day', '');
+      }
+
+      renderAdminPanels();
+      renderResellerList();
+    }
+
+    function toggleSocialShow(key) {
+      socialShowState[key] = !socialShowState[key];
+      updateSocialToggleButtons();
+    }
+
+    function updateSocialToggleButtons() {
+      const map = { youtube: 'ytToggleBtn', tiktok: 'ttToggleBtn', discord: 'dcToggleBtn' };
+      Object.keys(map).forEach(k => {
+        const btn = document.getElementById(map[k]);
+        const isOn = socialShowState[k];
+        btn.textContent = isOn ? 'Show ON' : 'Show OFF';
+        btn.className = `toggle-pill-btn ${isOn ? 'on' : 'off'}`;
+      });
+    }
+
+    function savePaymentSettings() {
+      const db = getDB();
+      db.settings.payments = {
+        nagad: {
+          enabled: document.getElementById('nagadEnabled').checked,
+          number: document.getElementById('nagadNumber').value.trim(),
+          label: 'Nagad'
+        },
+        bkash: {
+          enabled: document.getElementById('bkashEnabled').checked,
+          number: document.getElementById('bkashNumber').value.trim(),
+          label: 'bKash'
+        },
+        rocket: {
+          enabled: document.getElementById('rocketEnabled').checked,
+          number: document.getElementById('rocketNumber').value.trim(),
+          label: 'Rocket'
+        }
+      };
+      saveDB(db);
+      alert('✅ পেমেন্ট সেটিংস সেভ হয়েছে!');
+    }
+
+    /* Saves ONLY social links */
+    function saveOnlySocialLinks() {
+      const db = getDB();
+      db.settings.socials = {
+        youtube: { url: document.getElementById('ytLinkInput').value.trim(), show: socialShowState.youtube },
+        tiktok: { url: document.getElementById('ttLinkInput').value.trim(), show: socialShowState.tiktok },
+        discord: { url: document.getElementById('dcLinkInput').value.trim(), show: socialShowState.discord }
+      };
+      saveDB(db);
+      alert('✅ শুধু সোশ্যাল লিংক সেভ হয়েছে!');
+    }
+
+    /* Saves ONLY notices */
+    function saveOnlyNotices() {
+      const db = getDB();
+      db.settings.sliderNoticeText = document.getElementById('sliderNoticeInput').value.trim() || 'Welcome to Mazed Panel House';
+      db.settings.sliderNoticeLink = document.getElementById('sliderNoticeLinkInput').value.trim();
+      db.settings.showImportantNotice = document.getElementById('showImportantNotice').checked;
+      db.settings.importantNoticeText = document.getElementById('importantNoticeInput').value;
+      saveDB(db);
+      alert('✅ শুধু নোটিশ সেটিংস সেভ হয়েছে!');
+    }
+
+    function renderAdminPanels() {
+      const db = getDB();
+      const list = document.getElementById('adminPanelsList');
+
+      if (!db.panels.length) {
+        list.innerHTML = '<div style="color:#94a3b8; font-size:12px;">কোনো প্যানেল নেই।</div>';
+        return;
+      }
+
+      list.innerHTML = db.panels.map(p => {
+        const pkgSummary = (p.packages || []).map(x => `${x.duration}: ৳${x.price}`).join(' | ');
+        return `
+          <div class="panel-admin-item">
+            <div>
+              <strong style="font-size:14px; color:#fff;">${p.name}</strong>
+              <span style="font-size:11px; color:#38bdf8; margin-left:6px;">[${p.category}]</span>
+              ${p.maintenance ? '<span style="font-size:11px; color:#f59e0b; margin-left:6px;">(🛠️ Maintenance ON)</span>' : ''}
+              <div style="font-size:11px; color:#10b981; margin-top:3px;">${pkgSummary}</div>
+            </div>
+            <div class="panel-actions">
+              <button class="btn-sm" style="background:#2563eb; color:#fff;" onclick="openEditPanel('${p.id}')">✏️ Edit</button>
+              <button class="btn-sm" style="background:#dc2626; color:#fff;" onclick="deletePanel('${p.id}')">🗑️ Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addNewPanel() {
+      const name = document.getElementById('newPanelName').value.trim();
+      const category = document.getElementById('newPanelCat').value;
+      const desc = document.getElementById('newPanelDesc').value.trim();
+      const pkgs = readPkgRows('newPanelPkgList');
+
+      if (!name) return alert('প্যানেলের নাম লিখুন।');
+      if (!pkgs.length) return alert('অন্তত ১টি টাইম ও দাম যুক্ত করুন।');
+
+      const db = getDB();
+      db.panels.push({
+        id: 'p_' + Date.now(),
+        name,
+        category,
+        image: tempNewPanelImg || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80',
+        desc,
+        maintenance: false,
+        packages: pkgs
+      });
+      saveDB(db);
+
+      document.getElementById('newPanelName').value = '';
+      document.getElementById('newPanelDesc').value = '';
+      document.getElementById('newPanelImgPreview').textContent = '';
+      tempNewPanelImg = '';
+      document.getElementById('newPanelPkgList').innerHTML = '';
+      addNewPkgRow('newPanelPkgList', '1 Day', '');
+
+      renderAdminPanels();
+      alert('✅ নতুন প্যানেল যুক্ত হয়েছে!');
+    }
+
+    function openEditPanel(id) {
+      const db = getDB();
+      const p = db.panels.find(item => item.id === id);
+      if (!p) return;
+
+      tempEditPanelImg = p.image || '';
+      document.getElementById('editPanelId').value = p.id;
+      document.getElementById('editPanelName').value = p.name;
+      document.getElementById('editPanelCat').value = p.category || 'ROOT';
+      document.getElementById('editPanelImgPreview').textContent = 'বর্তমান ছবি সংরক্ষিত আছে (নতুন ছবি চাইলে গ্যালারি থেকে সিলেক্ট করুন)';
+      document.getElementById('editPanelDesc').value = p.desc || '';
+      document.getElementById('editPanelMaint').checked = Boolean(p.maintenance);
+
+      const pkgBox = document.getElementById('editPanelPkgList');
+      pkgBox.innerHTML = '';
+      (p.packages || []).forEach(item => {
+        addNewPkgRow('editPanelPkgList', item.duration, item.price);
+      });
+
+      document.getElementById('editPanelModal').classList.add('show');
+    }
+
+    function saveEditedPanel() {
+      const id = document.getElementById('editPanelId').value;
+      const db = getDB();
+      const p = db.panels.find(item => item.id === id);
+      if (!p) return;
+
+      const pkgs = readPkgRows('editPanelPkgList');
+      if (!pkgs.length) return alert('অন্তত ১টি প্যাকেজ টাইম ও দাম রাখুন।');
+
+      p.name = document.getElementById('editPanelName').value.trim();
+      p.category = document.getElementById('editPanelCat').value;
+      if (tempEditPanelImg) p.image = tempEditPanelImg;
+      p.desc = document.getElementById('editPanelDesc').value.trim();
+      p.packages = pkgs;
+      p.maintenance = document.getElementById('editPanelMaint').checked;
+
+      saveDB(db);
+      closeEditModal();
+      renderAdminPanels();
+      alert('✅ প্যানেল আপডেট হয়েছে!');
+    }
+
+    function deletePanel(id) {
+      if (!confirm('আপনি কি নিশ্চিতভাবে এই প্যানেলটি ডিলিট করতে চান?')) return;
+      const db = getDB();
+      db.panels = db.panels.filter(p => p.id !== id);
+      saveDB(db);
+      renderAdminPanels();
+    }
+
+    function closeEditModal() {
+      document.getElementById('editPanelModal').classList.remove('show');
+    }
+  </script>
+</body>
+</html>
