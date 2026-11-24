@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MAZED PANEL HOUSE - Verified Gaming Panel Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #090910;
+      --bg-card: #12121f;
+      --bg-card-2: #181829;
+      --border: #25253d;
+      --accent-pink: #e048b9;
+      --accent-purple: #7c3aed;
+      --accent-green: #10b981;
+      --accent-cyan: #06b6d4;
+      --accent-yellow: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; min-height: 100vh; }
+
+    /* Top Header */
+    .top-header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(9, 9, 16, 0.94); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand-box { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #e048b9);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px; color: #fff; overflow: hidden;
+      flex-shrink: 0; border: 1px solid rgba(255,255,255,0.12);
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .brand-title { font-size: 15px; font-weight: 800; letter-spacing: 0.4px; color: #fff; }
+    .brand-sub { font-size: 10px; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px; }
+
+    .account-pill {
+      background: rgba(124, 58, 237, 0.16);
+      border: 1px solid #7c3aed;
+      color: #e9d5ff;
+      padding: 7px 12px; border-radius: 999px;
+      font-weight: 800; font-size: 12px;
+      display: flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+
+    /* Slider Notice / Welcome Bar */
+    .slider-notice-wrap { padding: 10px 14px 4px; }
+    .slider-notice-box {
+      background: linear-gradient(135deg, #17152b, #1e1633);
+      border: 1px solid rgba(224, 72, 185, 0.45);
+      border-radius: 14px;
+      padding: 14px 16px;
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .slider-notice-badge {
+      background: #e048b9; color: #fff; font-size: 10.5px; font-weight: 800;
+      padding: 4px 10px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+    }
+    .slider-notice-text {
+      font-size: 13px; font-weight: 700; color: #f8fafc; line-height: 1.5; flex: 1; word-break: break-word;
+    }
+
+    /* Unlimited Banner Slider */
+    .banner-wrap { padding: 10px 14px 4px; }
+    .banner-box {
+      width: 100%; height: 168px; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); position: relative; background: #121222; cursor: pointer;
+    }
+    .banner-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .banner-dots { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .banner-dot { width: 7px; height: 7px; border-radius: 50%; background: #334155; cursor: pointer; }
+    .banner-dot.active { background: #e048b9; width: 18px; border-radius: 999px; }
+
+    /* Category Pills */
+    .cat-scroll {
+      display: flex; gap: 8px; overflow-x: auto; padding: 10px 14px 12px; scrollbar-width: none;
+    }
+    .cat-scroll::-webkit-scrollbar { display: none; }
+    .cat-pill {
+      background: var(--bg-card-2); border: 1px solid var(--border); color: #e2e8f0;
+      padding: 8px 15px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      white-space: nowrap; cursor: pointer; transition: 0.2s;
+    }
+    .cat-pill.active { background: var(--accent-pink); border-color: var(--accent-pink); color: #fff; }
+
+    /* Panel Grid */
+    .panels-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 4px 14px 16px;
+    }
+    .panel-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; position: relative;
+    }
+    .panel-img-wrap { position: relative; width: 100%; height: 125px; background: #1a1a2e; }
+    .panel-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .panel-tag {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(15, 23, 42, 0.88); border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #38bdf8; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px;
+    }
+    .panel-body { padding: 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .panel-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 5px; text-transform: uppercase; }
+    .panel-desc {
+      font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .panel-price { font-size: 13px; font-weight: 800; color: #10b981; margin-bottom: 8px; }
+    .btn-buy-pkg {
+      width: 100%; background: var(--accent-pink); color: #fff; border: none;
+      padding: 9px 10px; border-radius: 10px; font-size: 12px; font-weight: 800;
+      cursor: pointer; text-align: center;
+    }
+    .btn-buy-pkg.maint {
+      background: #334155; color: #f59e0b; border: 1px solid #f59e0b; cursor: not-allowed;
+    }
+
+    /* Social Channels Section */
+    .social-section { padding: 4px 14px 14px; }
+    .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .social-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 6px; text-align: center; text-decoration: none; color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    }
+    .social-card.yt { border-color: rgba(239, 68, 68, 0.45); }
+    .social-card.tt { border-color: rgba(6, 182, 212, 0.45); }
+    .social-card.dc { border-color: rgba(99, 102, 241, 0.45); }
+    .social-icon { font-size: 18px; }
+    .social-name { font-size: 11px; font-weight: 700; color: #e2e8f0; }
+
+    /* Important Notice Box */
+    .notice-wrapper { padding: 0 14px 18px; }
+    .important-notice-box {
+      background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.45);
+      border-radius: 14px; padding: 14px;
+    }
+    .notice-head {
+      display: flex; align-items: center; gap: 6px; color: #f59e0b;
+      font-size: 13px; font-weight: 800; padding-bottom: 8px; margin-bottom: 8px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    .notice-body { font-size: 12.5px; color: #e2e8f0; line-height: 1.55; white-space: pre-line; }
+
+    /* Floating Support Button */
+    .support-fab {
+      position: fixed; right: 14px; bottom: 82px; z-index: 45;
+      background: linear-gradient(135deg, #2563eb, #0284c7); color: #fff; border: none;
+      border-radius: 999px; padding: 10px 16px; font-size: 13px; font-weight: 700;
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45); display: flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: #0d0d17; border-top: 1px solid var(--border); height: 66px;
+      display: flex; align-items: center; justify-content: space-around; padding: 0 12px; gap: 10px;
+    }
+    .nav-btn {
+      flex: 1; background: transparent; border: none; color: var(--text-muted);
+      font-size: 13.5px; font-weight: 700; padding: 11px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+    }
+    .nav-btn.active {
+      background: rgba(124, 58, 237, 0.22); color: #fff; border: 1px solid rgba(124, 58, 237, 0.45);
+    }
+
+    /* Store Closed / Shutdown Notice Overlay (NO Support button when closed) */
+    .store-closed-screen {
+      position: fixed; inset: 0; z-index: 200;
+      background: radial-gradient(circle at top, #1a1128 0%, #090910 70%);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .store-closed-screen.show { display: flex; }
+    .store-closed-card {
+      width: 100%; max-width: 440px; background: rgba(18, 18, 31, 0.96);
+      border: 1px solid rgba(245, 158, 11, 0.55); border-radius: 20px;
+      padding: 24px 20px; text-align: center; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+    }
+    .store-closed-badge {
+      display: inline-block; background: rgba(239, 68, 68, 0.16);
+      border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5;
+      font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+    }
+    .store-closed-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 10px; }
+    .store-closed-notice {
+      background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 14px; padding: 14px; font-size: 13.5px; color: #fde68a;
+      line-height: 1.65; white-space: pre-line; margin-bottom: 12px;
+    }
+    .store-schedule-box {
+      background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 700;
+      color: #7dd3fc; line-height: 1.5; margin-bottom: 4px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+      z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-card {
+      background: #131322; border: 1px solid var(--border); border-radius: 18px;
+      width: 100%; max-width: 430px; padding: 18px; max-height: 88vh; overflow-y: auto;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 16px; font-weight: 800; color: #fff; }
+    .modal-close {
+      background: #1e1e32; border: none; color: #94a3b8; width: 30px; height: 30px;
+      border-radius: 50%; font-size: 16px; cursor: pointer;
+    }
+
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
+    .form-input, .form-select {
+      width: 100%; background: #0b0b14; border: 1px solid var(--border);
+      color: #fff; padding: 11px 12px; border-radius: 10px; font-size: 13px; outline: none;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--accent-pink); }
+
+    .number-box {
+      background: #0b0b14; border: 1px dashed #10b981; border-radius: 10px;
+      padding: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .copy-btn {
+      background: #10b981; color: #052e16; border: none; padding: 6px 10px;
+      border-radius: 7px; font-size: 11px; font-weight: 800; cursor: pointer;
+    }
+
+    .btn-primary {
+      width: 100%; background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: #fff; border: none; padding: 12px; border-radius: 12px;
+      font-size: 13.5px; font-weight: 800; cursor: pointer; text-decoration: none;
+      display: block; text-align: center;
+    }
+    .btn-wa {
+      width: 100%; background: #10b981; color: #042f1e; border: none;
+      padding: 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800;
+      cursor: pointer; text-decoration: none; display: block; text-align: center;
+    }
+    .btn-tg {
+      width: 100%; background: #0284c7; color: #fff; border: none;
+      padding: 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800;
+      cursor: pointer; text-decoration: none; display: block; text-align: center;
+    }
+
+    .admin-channel-group {
+      background: #0c0c18; border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px; margin-bottom: 12px;
+    }
+    .admin-channel-heading {
+      font-size: 13px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .admin-btn-stack { display: flex; flex-direction: column; gap: 8px; }
+
+    .pkg-item {
+      background: #0d0d18; border: 1px solid var(--border); border-radius: 12px;
+      padding: 11px 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer;
+    }
+    .pkg-item.selected { border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
+
+    .locked-msg-box {
+      background: #090912; border: 1px solid #334155; border-radius: 12px;
+      padding: 12px; font-size: 12.5px; color: #e2e8f0; line-height: 1.6;
+      white-space: pre-line; user-select: none; -webkit-user-select: none;
+      pointer-events: none; margin-bottom: 12px;
+    }
+
+    /* Profile Section */
+    .profile-view { display: none; padding: 16px 14px; }
+    .profile-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px; margin-bottom: 14px;
+    }
+    .auth-method-tabs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px;
+    }
+    .auth-tab-btn {
+      background: #0b0b14; border: 1px solid var(--border); color: #cbd5e1;
+      padding: 8px 6px; border-radius: 10px; font-size: 11.5px; font-weight: 700; cursor: pointer;
+    }
+    .auth-tab-btn.active {
+      background: rgba(224, 72, 185, 0.18); border-color: #e048b9; color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STORE CLOSED NOTICE OVERLAY (NO SUPPORT BUTTON) -->
+  <div class="store-closed-screen" id="storeClosedOverlay">
+    <div class="store-closed-card">
+      <div class="store-closed-badge">🔴 STORE CLOSED</div>
+      <div class="store-closed-title" id="closedStoreBrand">MAZED PANEL HOUSE</div>
+      <div class="store-closed-notice" id="closedStoreNoticeText">স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে। দ্রুত আবার চালু করা হবে।</div>
+      <div class="store-schedule-box" id="closedStoreScheduleText">
+        🕒 ওপেনিং টাইম সকাল 8:00 টা • অফ টাইম রাত 11:00 টা<br>
+        (সকাল 8:00 টা থেকে রাত 11:00 টা পর্যন্ত স্টোর চালু থাকে, এরপর বন্ধ থাকে।)
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="top-header">
+    <div class="brand-box">
+      <div class="brand-logo" id="storeLogo">MP</div>
+      <div>
+        <div class="brand-title" id="storeTitle">MAZED PANEL HOUSE</div>
+        <div class="brand-sub">VERIFIED GAMING PANEL STORE</div>
+      </div>
+    </div>
+    <div class="account-pill" onclick="switchTab('profile')">
+      <span>👤</span> <span id="headerAccountLabel">অ্যাকাউন্ট নেই</span>
+    </div>
+  </header>
+
+  <!-- Slider Notice / Welcome Bar -->
+  <div class="slider-notice-wrap" id="homeSliderNoticeWrap">
+    <div class="slider-notice-box" id="sliderNoticeBox" onclick="handleSliderNoticeClick()">
+      <span class="slider-notice-badge">NOTICE</span>
+      <div class="slider-notice-text" id="sliderNoticeText">Welcome to Mazed Panel House</div>
+    </div>
+  </div>
+
+  <!-- HOME VIEW -->
+  <main id="homeView">
+    <!-- Unlimited Banner Slider -->
+    <div class="banner-wrap" id="bannerSection">
+      <div class="banner-box" id="bannerBox" onclick="handleBannerClick()"></div>
+      <div class="banner-dots" id="bannerDots"></div>
+    </div>
+
+    <!-- Categories -->
+    <div class="cat-scroll" id="categoryBar">
+      <button class="cat-pill active" onclick="filterCategory('ALL', this)">All Panels</button>
+      <button class="cat-pill" onclick="filterCategory('ROOT', this)">ROOT</button>
+      <button class="cat-pill" onclick="filterCategory('NON ROOT', this)">NON ROOT</button>
+      <button class="cat-pill" onclick="filterCategory('iOS', this)">iOS</button>
+      <button class="cat-pill" onclick="filterCategory('PC PANEL', this)">PC PANEL</button>
+      <button class="cat-pill" onclick="filterCategory('GUILD BOT', this)">GUILD BOT</button>
+    </div>
+
+    <!-- Panels Grid -->
+    <div class="panels-grid" id="panelsGrid"></div>
+
+    <!-- Social Channels (Below Panels, controlled by Show / Off buttons in Admin) -->
+    <div class="social-section" id="socialSection">
+      <div class="social-grid" id="socialGrid"></div>
+    </div>
+
+    <!-- Important Notice -->
+    <div class="notice-wrapper" id="importantNoticeWrapper" style="display:none;">
+      <div class="important-notice-box">
+        <div class="notice-head">⚠️ IMPORTANT NOTICE</div>
+        <div class="notice-body" id="importantNoticeBody"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PROFILE VIEW -->
+  <section class="profile-view" id="profileView">
+    <div class="profile-card" id="authBox">
+      <h3 style="font-size:16px; margin-bottom:6px;">অ্যাকাউন্ট তৈরি / লগইন</h3>
+      <p style="font-size:12px; color:#94a3b8; margin-bottom:12px; line-height:1.45;">
+        শুধু Gmail/Google অথবা ফোন নাম্বার দিয়ে অ্যাকাউন্ট রেজিস্ট্রেশন বা লগইন করুন।
+      </p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+        <button type="button" class="auth-tab-btn active" id="modeRegisterBtn" onclick="setAuthMode('register')">নতুন রেজিস্ট্রেশন</button>
+        <button type="button" class="auth-tab-btn" id="modeLoginBtn" onclick="setAuthMode('login')">লগইন করুন</button>
+      </div>
+
+      <div class="auth-method-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabGmail" onclick="setAuthProvider('Gmail / Google', this)">Gmail / Google</button>
+        <button type="button" class="auth-tab-btn" id="tabPhone" onclick="setAuthProvider('Phone Number', this)">ফোন নাম্বার</button>
+      </div>
+
+      <div class="form-group" id="regNameGroup">
+        <label class="form-label">আপনার নাম</label>
+        <input type="text" id="userNameInput" class="form-input" placeholder="আপনার পূর্ণ নাম লিখুন">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="userIdentifierLabel">Google / Gmail ঠিকানা</label>
+        <input type="text" id="userIdentifierInput" class="form-input" placeholder="example@gmail.com">
+      </div>
+
+      <div class="form-group" id="passGroup">
+        <label class="form-label">পাসওয়ার্ড</label>
+        <input type="password" id="userPassInput" class="form-input" placeholder="পাসওয়ার্ড দিন">
+      </div>
+
+      <button type="button" class="btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">অ্যাকাউন্ট রেজিস্ট্রেশন করুন</button>
+
+      <div style="margin-top:10px; text-align:center;">
+        <button type="button" onclick="toggleForgotPasswordBox(true)" style="background:none; border:none; color:#38bdf8; font-size:12px; font-weight:700; cursor:pointer; text-decoration:underline;">
+          পাসওয়ার্ড ভুলে গেছেন? (Forgot Password)
+        </button>
+      </div>
+
+      <div id="forgotPasswordBox" style="display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+        <div style="font-size:13px; font-weight:800; color:#f59e0b; margin-bottom:8px;">🔑 পাসওয়ার্ড রিসেট / ফরগেট</div>
+        <div class="form-group">
+          <label class="form-label">রেজিস্টার্ড Gmail অথবা ফোন নাম্বার</label>
+          <input type="text" id="forgotIdInput" class="form-input" placeholder="example@gmail.com অথবা 01XXXXXXXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">নতুন পাসওয়ার্ড দিন</label>
+          <input type="password" id="forgotNewPassInput" class="form-input" placeholder="নতুন পাসওয়ার্ড লিখুন">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <button type="button" class="btn-primary" onclick="resetForgottenPassword()">পাসওয়ার্ড রিসেট করুন</button>
+          <button type="button" onclick="toggleForgotPasswordBox(false)" style="background:#1e293b; color:#cbd5e1; border:none; border-radius:12px; font-weight:700; cursor:pointer;">বাতিল</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-card" id="userDashboard" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <div style="font-size:16px; font-weight:800;" id="dashUserName">User</div>
+          <div style="font-size:12px; color:#94a3b8;" id="dashUserId">id</div>
+          <div style="font-size:11px; color:#38bdf8; margin-top:3px;" id="dashProvider">Verified Account</div>
+        </div>
+        <button onclick="logoutUser()" style="background:#1e293b; color:#f87171; border:1px solid #334155; border-radius:10px; padding:8px 12px; font-weight:700; cursor:pointer;">লগআউট</button>
+      </div>
+      <div style="font-size:12px; color:#10b981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); padding:10px; border-radius:10px;">
+        ✅ আপনার অ্যাকাউন্ট ভেরিফায়েড। এখন যেকোনো প্যানেল অর্ডার করতে পারবেন।
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Support Button -->
+  <button class="support-fab" onclick="openSupportModal()">🎧 সাপোর্ট</button>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="navHome" onclick="switchTab('home')">🏠 হোম</button>
+    <button class="nav-btn" id="navProfile" onclick="switchTab('profile')">👤 প্রোফাইল</button>
+  </nav>
+
+  <!-- BUY NOW / PACKAGE & PAYMENT MODAL -->
+  <div class="modal-overlay" id="packageModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="pkgModalTitle">Buy Now</div>
+        <button class="modal-close" onclick="closeModal('packageModal')">✕</button>
+      </div>
+
+      <div id="pkgListContainer"></div>
+
+      <div class="form-group" style="margin-top:10px;">
+        <label class="form-label">পেমেন্ট মাধ্যম নির্বাচন করুন</label>
+        <select id="buyPaymentMethod" class="form-select" onchange="updateBuyPaymentBox()"></select>
+      </div>
+
+      <div id="buyPaymentNumberBox" class="number-box">
+        <div>
+          <div style="font-size:11px; color:#94a3b8;" id="buyPayLabel">Send Money নম্বর:</div>
+          <div style="font-size:15px; font-weight:900; color:#10b981;" id="buyPayNumber">01723711057</div>
+        </div>
+        <button type="button" class="copy-btn" onclick="copyBuyPayNumber()">নম্বর কপি</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">যে নম্বর থেকে টাকা পাঠিয়েছেন (সম্পূর্ণ নম্বর দিন)</label>
+        <input type="text" id="buyerSenderNumber" class="form-input" placeholder="01XXXXXXXXX">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Transaction ID (TrxID)</label>
+        <input type="text" id="buyerTrxId" class="form-input" placeholder="যেমন: TXN987654">
+      </div>
+
+      <button class="btn-primary" onclick="proceedToSendOrder()">Buy Now</button>
+    </div>
+  </div>
+
+  <!-- SEND ORDER MESSAGE MODAL (WHATSAPP & TELEGRAM WITH MULTIPLE ADMINS) -->
+  <div class="modal-overlay" id="sendOrderModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">অর্ডার মেসেজ পাঠান</div>
+        <button class="modal-close" onclick="closeModal('sendOrderModal')">✕</button>
+      </div>
+
+      <div id="lockedOrderMessageBox" class="locked-msg-box"></div>
+
+      <div id="orderChannelButtonsWrap"></div>
+    </div>
+  </div>
+
+  <!-- SUPPORT MODAL (WHATSAPP & TELEGRAM WITH MULTIPLE ADMINS, USERNAME HIDDEN) -->
+  <div class="modal-overlay" id="supportModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">সাপোর্ট</div>
+        <button class="modal-close" onclick="closeModal('supportModal')">✕</button>
+      </div>
+      <div id="supportChannelButtonsWrap"></div>
+    </div>
+  </div>
+
+  <!-- FIREBASE COMPAT SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    const FIREBASE_CONFIG_STORAGE_KEY = 'MAZED_FIREBASE_CONFIG_V17';
+    const DEFAULT_FIREBASE_CONFIG = {
+      databaseURL: "https://mazed-panel-house-default-rtdb.firebaseio.com"
+    };
+
+    function getActiveFirebaseConfig() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(FIREBASE_CONFIG_STORAGE_KEY) || 'null');
+        if (saved && saved.databaseURL) return saved;
+      } catch (e) {}
+      return DEFAULT_FIREBASE_CONFIG;
+    }
+
+    let rtdb = null;
+    let firebaseConnected = false;
+    let firebaseReconnectTimer = null;
+    let firebaseConnectedRef = null;
+
+    const DB_KEY = 'MAZED_PANEL_STORE_DB_V17';
+    const USER_KEY = 'MAZED_CURRENT_USER_V17';
+
+    const DEFAULT_DB = {
+      settings: {
+        storeName: 'MAZED PANEL HOUSE',
+        logoUrl: '',
+        sliderNoticeText: 'Welcome to Mazed Panel House',
+        sliderNoticeLink: '',
+        banners: [],
+        bannerLink: '',
+        storeClosed: false,
+        autoScheduleEnabled: true,
+        manualOverrideMode: 'auto',
+        storeClosedNotice: 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে। দ্রুত আবার চালু করা হবে।',
+        showImportantNotice: true,
+        importantNoticeText: 'যেকোনো প্যানেল বা Key কেনার আগে নিজ দায়িত্বে সাপোর্টে যোগাযোগ করে বিস্তারিত জেনে নিন।',
+        serialCounterEnabled: true,
+        serialCounter: 0,
+        contactUsername: 'mazedvai12',
+        whatsappEnabled: true,
+        telegramEnabled: true,
+        whatsappAdmins: [
+          { id: 'wa_1', label: 'Admin 1', handle: 'mazedvai12', enabled: true }
+        ],
+        telegramAdmins: [
+          { id: 'tg_1', label: 'Admin 1', handle: 'mazedvai12', enabled: true }
+        ],
+        socials: {
+          youtube: { url: '', show: false },
+          tiktok: { url: '', show: false },
+          discord: { url: '', show: false }
+        },
+        payments: {
+          nagad: { enabled: true, number: '01723711057', label: 'Nagad' },
+          bkash: { enabled: true, number: '01723711057', label: 'bKash' },
+          rocket: { enabled: true, number: '01723711057', label: 'Rocket' }
+        },
+        resellers: []
+      },
+      panels: [],
+      users: {},
+      orders: []
+    };
+
+    let cachedDB = null;
+    let bannerSlideIndex = 0;
+    let bannerTimer = null;
+    let currentCategory = 'ALL';
+    let activePanel = null;
+    let selectedPkgIndex = 0;
+    let selectedAuthProvider = 'Gmail / Google';
+    let latestOrderMessageText = 'হ্যালো, আমি প্যানেল সম্পর্কে জানতে চাচ্ছি।';
+
+    function normalizeAdminsList(list, fallbackHandle) {
+      if (!Array.isArray(list)) {
+        return [{ id: 'adm_' + Date.now(), label: 'Admin 1', handle: fallbackHandle || 'mazedvai12', enabled: true }];
+      }
+      return list.map((item, idx) => ({
+        id: item.id || ('adm_' + (idx + 1)),
+        label: (item.label || `Admin ${idx + 1}`).trim(),
+        handle: (item.handle || '').replace(/^@/, '').trim(),
+        enabled: item.enabled !== false
+      }));
+    }
+
+    function normalizeDB(parsed) {
+      const base = JSON.parse(JSON.stringify(DEFAULT_DB));
+      if (!parsed || typeof parsed !== 'object') return base;
+      const sIn = parsed.settings || {};
+      const socIn = sIn.socials || {};
+
+      const normSocial = (entry) => {
+        if (typeof entry === 'string') return { url: entry, show: Boolean(entry.trim()) };
+        if (entry && typeof entry === 'object') return { url: entry.url || '', show: entry.show === true };
+        return { url: '', show: false };
+      };
+
+      const bannersArr = Array.isArray(sIn.banners)
+        ? sIn.banners.filter(Boolean)
+        : (sIn.bannerUrl ? [sIn.bannerUrl] : []);
+
+      const fallbackHandle = (sIn.contactUsername || 'mazedvai12').replace(/^@/, '').trim() || 'mazedvai12';
+
+      return {
+        ...base,
+        ...parsed,
+        settings: {
+          ...base.settings,
+          ...sIn,
+          storeClosed: Boolean(sIn.storeClosed),
+          autoScheduleEnabled: sIn.autoScheduleEnabled !== false,
+          manualOverrideMode: sIn.manualOverrideMode || (sIn.storeClosed ? 'force_closed' : 'auto'),
+          storeClosedNotice: (sIn.storeClosedNotice !== undefined && sIn.storeClosedNotice !== null)
+            ? sIn.storeClosedNotice
+            : 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে। দ্রুত আবার চালু করা হবে।',
+          sliderNoticeText: sIn.sliderNoticeText || 'Welcome to Mazed Panel House',
+          sliderNoticeLink: sIn.sliderNoticeLink || '',
+          banners: bannersArr,
+          bannerLink: sIn.bannerLink || '',
+          contactUsername: fallbackHandle,
+          whatsappEnabled: sIn.whatsappEnabled !== false,
+          telegramEnabled: sIn.telegramEnabled !== false,
+          whatsappAdmins: normalizeAdminsList(sIn.whatsappAdmins, fallbackHandle),
+          telegramAdmins: normalizeAdminsList(sIn.telegramAdmins, fallbackHandle),
+          socials: {
+            youtube: normSocial(socIn.youtube),
+            tiktok: normSocial(socIn.tiktok),
+            discord: normSocial(socIn.discord)
+          },
+          payments: { ...base.settings.payments, ...(sIn.payments || {}) },
+          resellers: Array.isArray(sIn.resellers) ? sIn.resellers : []
+        },
+        panels: Array.isArray(parsed.panels) ? parsed.panels : [],
+        users: parsed.users && typeof parsed.users === 'object' ? parsed.users : {},
+        orders: Array.isArray(parsed.orders) ? parsed.orders : []
+      };
+    }
+
+    function getDB() {
+      if (cachedDB) return cachedDB;
+      const raw = localStorage.getItem(DB_KEY);
+      if (!raw) {
+        const fresh = JSON.parse(JSON.stringify(DEFAULT_DB));
+        fresh.panels = [];
+        localStorage.setItem(DB_KEY, JSON.stringify(fresh));
+        cachedDB = fresh;
+        return fresh;
+      }
+      try {
+        cachedDB = normalizeDB(JSON.parse(raw));
+        return cachedDB;
+      } catch (e) {
+        cachedDB = JSON.parse(JSON.stringify(DEFAULT_DB));
+        cachedDB.panels = [];
+        return cachedDB;
+      }
+    }
+
+    function saveDB(db) {
+      const normalized = normalizeDB(db);
+      cachedDB = normalized;
+      localStorage.setItem(DB_KEY, JSON.stringify(normalized));
+      if (rtdb) {
+        try { rtdb.goOnline(); } catch (e) {}
+        rtdb.ref('mazedPanelStoreV17').set(normalized).catch(err => console.error('Firebase write error:', err));
+      }
+    }
+
+    function connectFirebaseRealtime() {
+      const cfg = getActiveFirebaseConfig();
+      if (!cfg || !cfg.databaseURL || typeof firebase === 'undefined') return;
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(cfg);
+        } else {
+          firebase.app();
+        }
+        rtdb = firebase.database();
+        try { rtdb.goOnline(); } catch (e) {}
+
+        if (firebaseConnectedRef) {
+          firebaseConnectedRef.off();
+        }
+        firebaseConnectedRef = rtdb.ref('.info/connected');
+        firebaseConnectedRef.on('value', (snap) => {
+          firebaseConnected = Boolean(snap.val());
+          if (!firebaseConnected && rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+
+        rtdb.ref('mazedPanelStoreV17').off();
+        rtdb.ref('mazedPanelStoreV17').on('value', (snapshot) => {
+          const val = snapshot.val();
+          if (val) {
+            cachedDB = normalizeDB(val);
+            localStorage.setItem(DB_KEY, JSON.stringify(cachedDB));
+            renderStoreFromDB();
+          } else {
+            rtdb.ref('mazedPanelStoreV17').set(getDB());
+          }
+        });
+
+        if (!firebaseReconnectTimer) {
+          firebaseReconnectTimer = setInterval(() => {
+            try {
+              if (rtdb) rtdb.goOnline();
+            } catch (e) {}
+          }, 15000);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden && rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+
+        window.addEventListener('online', () => {
+          if (rtdb) {
+            try { rtdb.goOnline(); } catch (e) {}
+          }
+        });
+      } catch (e) {
+        console.error('Firebase init error:', e);
+        firebaseConnected = false;
+      }
+    }
+
+    function buildWhatsappUrl(handle, text) {
+      const clean = (handle || '').replace(/^@/, '').trim();
+      if (!clean) return '#';
+      return `https://wa.me/${encodeURIComponent(clean)}?text=${encodeURIComponent(text)}`;
+    }
+
+    function buildTelegramUrl(handle, text) {
+      const clean = (handle || '').replace(/^@/, '').trim();
+      if (!clean) return '#';
+      return `https://t.me/${encodeURIComponent(clean)}?text=${encodeURIComponent(text)}`;
+    }
+
+    function renderAdminChannelButtonsInto(containerId, messageText) {
+      const s = getDB().settings || {};
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const waOn = s.whatsappEnabled !== false;
+      const tgOn = s.telegramEnabled !== false;
+
+      const activeWa = waOn ? (s.whatsappAdmins || []).filter(a => a.enabled !== false && (a.handle || '').trim() !== '') : [];
+      const activeTg = tgOn ? (s.telegramAdmins || []).filter(a => a.enabled !== false && (a.handle || '').trim() !== '') : [];
+
+      let html = '';
+
+      if (activeWa.length) {
+        html += `
+          <div class="admin-channel-group">
+            <div class="admin-channel-heading" style="color:#34d399;"><span>🟢</span><span>WhatsApp</span></div>
+            <div class="admin-btn-stack">
+              ${activeWa.map((adm, i) => {
+                const label = (adm.label || `Admin ${i + 1}`).trim();
+                const href = buildWhatsappUrl(adm.handle, messageText);
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="btn-wa">WhatsApp • ${label}</a>`;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (activeTg.length) {
+        html += `
+          <div class="admin-channel-group">
+            <div class="admin-channel-heading" style="color:#38bdf8;"><span>🔵</span><span>Telegram</span></div>
+            <div class="admin-btn-stack">
+              ${activeTg.map((adm, i) => {
+                const label = (adm.label || `Admin ${i + 1}`).trim();
+                const href = buildTelegramUrl(adm.handle, messageText);
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="btn-tg">Telegram • ${label}</a>`;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (!html) {
+        html = `<div style="text-align:center; padding:14px; color:#94a3b8; font-size:12.5px;">বর্তমানে কোনো কন্ট্যাক্ট চ্যানেল চালু নেই।</div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function getStoreClosureInfo() {
+      const db = getDB();
+      const s = db.settings || {};
+      const manualClosed = Boolean(s.storeClosed) || s.manualOverrideMode === 'force_closed';
+      const forceOpen = s.manualOverrideMode === 'force_open';
+      const autoScheduleOn = s.autoScheduleEnabled !== false;
+
+      const now = new Date();
+      const hour = now.getHours(); // 0..23
+      const withinAutoOpenHours = (hour >= 9 && hour < 23);
+
+      const defaultClosedText = 'স্টোরটি সাময়িকভাবে বন্ধ রাখা হয়েছে। দ্রুত আবার চালু করা হবে।';
+      const userReason = (s.storeClosedNotice && s.storeClosedNotice.trim())
+        ? s.storeClosedNotice.trim()
+        : defaultClosedText;
+
+      if (manualClosed) {
+        return { closed: true, reason: userReason };
+      }
+
+      if (autoScheduleOn && !forceOpen && !withinAutoOpenHours) {
+        return { closed: true, reason: userReason };
+      }
+
+      return { closed: false, reason: '' };
+    }
+
+    function renderStoreClosedState() {
+      const db = getDB();
+      const s = db.settings || {};
+      const overlay = document.getElementById('storeClosedOverlay');
+      if (!overlay) return;
+      const info = getStoreClosureInfo();
+      if (info.closed) {
+        document.getElementById('closedStoreBrand').textContent = s.storeName || 'MAZED PANEL HOUSE';
+        document.getElementById('closedStoreNoticeText').textContent = info.reason;
+        document.getElementById('closedStoreScheduleText').innerHTML =
+          '🕒 ওপেনিং টাইম সকাল 8:00 টা • অফ টাইম রাত 11:00 টা<br>(সকাল 8:00 টা থেকে রাত 11:00 টা পর্যন্ত স্টোর চালু থাকে, এরপর বন্ধ থাকে।)';
+        overlay.classList.add('show');
+      } else {
+        overlay.classList.remove('show');
+      }
+    }
+
+    setInterval(() => {
+      renderStoreClosedState();
+    }, 30000);
+
+    function renderStoreFromDB() {
+      renderStoreClosedState();
+      const db = getDB();
+      const s = db.settings;
+
+      document.getElementById('storeTitle').textContent = s.storeName || 'MAZED PANEL HOUSE';
+      if (s.logoUrl) {
+        document.getElementById('storeLogo').innerHTML = `<img src="${s.logoUrl}" alt="Logo">`;
+      } else {
+        document.getElementById('storeLogo').innerHTML = 'MP';
+      }
+
+      document.getElementById('sliderNoticeText').textContent = s.sliderNoticeText || 'Welcome to Mazed Panel House';
+      renderBannerSlider();
+      renderPanels();
+      renderSocials();
+      renderImportantNotice();
+      updateUserUI();
+    }
+
+    function handleSliderNoticeClick() {
+      const link = (getDB().settings.sliderNoticeLink || '').trim();
+      if (link) window.open(link, '_blank');
+    }
+
+    function renderBannerSlider() {
+      const db = getDB();
+      const banners = db.settings.banners || [];
+      const section = document.getElementById('bannerSection');
+      const box = document.getElementById('bannerBox');
+      const dots = document.getElementById('bannerDots');
+
+      if (bannerTimer) {
+        clearInterval(bannerTimer);
+        bannerTimer = null;
+      }
+
+      if (!banners.length) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      if (bannerSlideIndex >= banners.length) bannerSlideIndex = 0;
+
+      const drawSlide = () => {
+        box.innerHTML = `<img src="${banners[bannerSlideIndex]}" alt="Banner">`;
+        if (banners.length > 1) {
+          dots.innerHTML = banners.map((_, i) => `<span class="banner-dot ${i === bannerSlideIndex ? 'active' : ''}" onclick="event.stopPropagation(); setBannerIndex(${i})"></span>`).join('');
+        } else {
+          dots.innerHTML = '';
+        }
+      };
+
+      drawSlide();
+
+      if (banners.length > 1) {
+        bannerTimer = setInterval(() => {
+          bannerSlideIndex = (bannerSlideIndex + 1) % banners.length;
+          drawSlide();
+        }, 3500);
+      }
+    }
+
+    function setBannerIndex(idx) {
+      bannerSlideIndex = idx;
+      renderBannerSlider();
+    }
+
+    function handleBannerClick() {
+      const link = (getDB().settings.bannerLink || '').trim();
+      if (link) window.open(link, '_blank');
+    }
+
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderPanels();
+    }
+
+    function renderPanels() {
+      const db = getDB();
+      const grid = document.getElementById('panelsGrid');
+      const list = (db.panels || []).filter(p => currentCategory === 'ALL' || (p.category || '').toUpperCase() === currentCategory.toUpperCase());
+
+      if (!list.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#94a3b8;">এই ক্যাটাগরিতে কোনো প্যানেল নেই।</div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(panel => {
+        const pkgs = panel.packages || [];
+        const minPrice = pkgs.length ? Math.min(...pkgs.map(x => Number(x.price) || 0)) : 0;
+        const isMaint = Boolean(panel.maintenance);
+
+        return `
+          <div class="panel-card">
+            <div>
+              <div class="panel-img-wrap">
+                <img src="${panel.image || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80'}" alt="${panel.name}">
+                <span class="panel-tag">${panel.category || 'PANEL'}</span>
+              </div>
+              <div class="panel-body">
+                <div>
+                  <div class="panel-title">${panel.name}</div>
+                  <div class="panel-desc">${panel.desc || ''}</div>
+                </div>
+                <div>
+                  <div class="panel-price">৳${minPrice}</div>
+                  ${isMaint
+                    ? `<button class="btn-buy-pkg maint" onclick="alert('এই প্যানেলটি বর্তমানে মেইনটেনেন্সে আছে।')">🛠️ মেইনটেনেন্স চলছে</button>`
+                    : `<button class="btn-buy-pkg" onclick="openPackageModal('${panel.id}')">Buy Now</button>`
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function normalizeExternalUrl(rawUrl) {
+      const u = (rawUrl || '').trim();
+      if (!u) return '';
+      if (/^https?:\/\//i.test(u)) return u;
+      return 'https://' + u;
+    }
+
+    function renderSocials() {
+      const db = getDB();
+      const soc = db.settings.socials || {};
+      const items = [];
+
+      const checkSoc = (entry, cls, icon, label) => {
+        if (!entry) return;
+        const isShown = entry.show === true;
+        const href = normalizeExternalUrl(entry.url);
+        if (isShown && href) {
+          items.push(`<a href="${href}" target="_blank" rel="noopener noreferrer" class="social-card ${cls}"><span class="social-icon">${icon}</span><span class="social-name">${label}</span></a>`);
+        }
+      };
+
+      checkSoc(soc.youtube, 'yt', '▶️', 'YouTube');
+      checkSoc(soc.tiktok, 'tt', '🎵', 'TikTok');
+      checkSoc(soc.discord, 'dc', '💬', 'Discord');
+
+      const section = document.getElementById('socialSection');
+      const grid = document.getElementById('socialGrid');
+      if (!items.length) {
+        section.style.display = 'none';
+        grid.innerHTML = '';
+      } else {
+        section.style.display = 'block';
+        grid.innerHTML = items.join('');
+      }
+    }
+
+    function renderImportantNotice() {
+      const db = getDB();
+      const s = db.settings;
+      const wrapper = document.getElementById('importantNoticeWrapper');
+      if (s.showImportantNotice && s.importantNoticeText && s.importantNoticeText.trim() !== '') {
+        wrapper.style.display = 'block';
+        document.getElementById('importantNoticeBody').textContent = s.importantNoticeText;
+      } else {
+        wrapper.style.display = 'none';
+      }
+    }
+
+    function isUserLoggedIn() {
+      const activeKey = localStorage.getItem(USER_KEY);
+      if (!activeKey) return false;
+      const db = getDB();
+      return Boolean(db.users && db.users[activeKey]);
+    }
+
+    function openPackageModal(panelId) {
+      if (!isUserLoggedIn()) {
+        switchTab('profile');
+        alert('প্যানেল কিনতে হলে Gmail অথবা ফোন নাম্বার দিয়ে অ্যাকাউন্ট রেজিস্ট্রেশন বা লগইন করতে হবে।');
+        return;
+      }
+
+      const db = getDB();
+      activePanel = (db.panels || []).find(p => p.id === panelId);
+      if (!activePanel) return;
+
+      if (activePanel.maintenance) {
+        alert('এই প্যানেলটি বর্তমানে মেইনটেনেন্সে আছে।');
+        return;
+      }
+
+      const payments = db.settings.payments || {};
+      const enabledKeys = Object.keys(payments).filter(k => payments[k] && payments[k].enabled);
+      if (!enabledKeys.length) {
+        alert('বর্তমানে কোনো পেমেন্ট মাধ্যম চালু নেই।');
+        return;
+      }
+
+      const selectEl = document.getElementById('buyPaymentMethod');
+      selectEl.innerHTML = enabledKeys.map(k => `<option value="${k}">${payments[k].label || k.toUpperCase()}</option>`).join('');
+
+      selectedPkgIndex = 0;
+      document.getElementById('pkgModalTitle').textContent = activePanel.name + ' - Buy Now';
+      renderPkgItems();
+      updateBuyPaymentBox();
+      document.getElementById('packageModal').classList.add('show');
+    }
+
+    function renderPkgItems() {
+      const container = document.getElementById('pkgListContainer');
+      const pkgs = activePanel.packages || [];
+      if (!pkgs.length) {
+        container.innerHTML = '<div style="color:#94a3b8; font-size:12px; margin-bottom:10px;">এই প্যানেলে কোনো প্যাকেজ নেই।</div>';
+        return;
+      }
+      container.innerHTML = pkgs.map((pkg, idx) => `
+        <div class="pkg-item ${idx === selectedPkgIndex ? 'selected' : ''}" onclick="selectPkg(${idx})">
+          <div style="font-weight:700; font-size:13px;">${pkg.duration}</div>
+          <div style="font-weight:900; color:#10b981; font-size:14px;">৳${pkg.price}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectPkg(idx) {
+      selectedPkgIndex = idx;
+      renderPkgItems();
+    }
+
+    function updateBuyPaymentBox() {
+      const key = document.getElementById('buyPaymentMethod').value;
+      const pay = (getDB().settings.payments || {})[key];
+      if (pay) {
+        document.getElementById('buyPayLabel').textContent = `${pay.label || key.toUpperCase()} Send Money নম্বর:`;
+        document.getElementById('buyPayNumber').textContent = pay.number || '';
+      }
+    }
+
+    function copyBuyPayNumber() {
+      const num = document.getElementById('buyPayNumber').textContent;
+      navigator.clipboard?.writeText(num);
+      alert('নম্বর কপি হয়েছে: ' + num);
+    }
+
+    function proceedToSendOrder() {
+      if (!isUserLoggedIn()) {
+        closeModal('packageModal');
+        switchTab('profile');
+        alert('প্যানেল কিনতে আগে অ্যাকাউন্ট লগইন করুন।');
+        return;
+      }
+
+      const pkgs = activePanel?.packages || [];
+      if (!pkgs.length) return alert('কোনো প্যাকেজ নেই।');
+      const pkg = pkgs[selectedPkgIndex] || pkgs[0];
+      const price = Number(pkg.price) || 0;
+
+      const methodKey = document.getElementById('buyPaymentMethod').value;
+      const methodLabel = ((getDB().settings.payments || {})[methodKey]?.label || methodKey).toUpperCase();
+      const senderFull = document.getElementById('buyerSenderNumber').value.trim();
+      const trxId = document.getElementById('buyerTrxId').value.trim().toUpperCase();
+
+      if (!senderFull) return alert('যে নম্বর থেকে টাকা পাঠিয়েছেন তা লিখুন।');
+      if (!trxId) return alert('Transaction ID (TrxID) লিখুন।');
+
+      const digitsOnly = senderFull.replace(/[^0-9]/g, '');
+      const last4Digits = digitsOnly.length >= 4 ? digitsOnly.slice(-4) : digitsOnly;
+
+      const db = getDB();
+      let serialTag = '';
+      if (db.settings.serialCounterEnabled) {
+        db.settings.serialCounter = (Number(db.settings.serialCounter) || 0) + 1;
+        serialTag = '#' + db.settings.serialCounter;
+      }
+
+      const adjustedMsg = `Order ${serialTag}
+Panel: ${activePanel.name}
+Package: ${pkg.duration}
+Amount: ৳${price}
+Method: ${methodLabel}
+Last 4 Digits: ${last4Digits}
+TrxID: ${trxId}`;
+
+      latestOrderMessageText = adjustedMsg;
+
+      db.orders.unshift({
+        id: 'ORD_' + Date.now(),
+        serial: serialTag,
+        panelName: activePanel.name,
+        duration: pkg.duration,
+        price: price,
+        method: methodLabel,
+        last4Digits: last4Digits,
+        trxId: trxId,
+        time: new Date().toLocaleString()
+      });
+      saveDB(db);
+
+      document.getElementById('lockedOrderMessageBox').textContent = adjustedMsg;
+      renderAdminChannelButtonsInto('orderChannelButtonsWrap', adjustedMsg);
+
+      closeModal('packageModal');
+      document.getElementById('sendOrderModal').classList.add('show');
+    }
+
+    function openSupportModal() {
+      const greeting = 'হ্যালো, আমি প্যানেল সম্পর্কে জানতে চাচ্ছি।';
+      renderAdminChannelButtonsInto('supportChannelButtonsWrap', greeting);
+      document.getElementById('supportModal').classList.add('show');
+    }
+
+    let currentAuthMode = 'register';
+
+    function setAuthMode(mode) {
+      currentAuthMode = mode;
+      const isReg = mode === 'register';
+      document.getElementById('modeRegisterBtn').classList.toggle('active', isReg);
+      document.getElementById('modeLoginBtn').classList.toggle('active', !isReg);
+      document.getElementById('regNameGroup').style.display = isReg ? 'block' : 'none';
+      document.getElementById('authSubmitBtn').textContent = isReg ? 'অ্যাকাউন্ট রেজিস্ট্রেশন করুন' : 'লগইন করুন';
+    }
+
+    function setAuthProvider(provider, btn) {
+      selectedAuthProvider = provider;
+      document.getElementById('tabGmail').classList.toggle('active', provider === 'Gmail / Google');
+      document.getElementById('tabPhone').classList.toggle('active', provider === 'Phone Number');
+
+      const labelEl = document.getElementById('userIdentifierLabel');
+      const inputEl = document.getElementById('userIdentifierInput');
+      if (provider === 'Gmail / Google') {
+        labelEl.textContent = 'Google / Gmail ঠিকানা';
+        inputEl.placeholder = 'example@gmail.com';
+      } else {
+        labelEl.textContent = 'ফোন নাম্বার';
+        inputEl.placeholder = '01XXXXXXXXX';
+      }
+    }
+
+    function toggleForgotPasswordBox(show) {
+      document.getElementById('forgotPasswordBox').style.display = show ? 'block' : 'none';
+    }
+
+    function findAccountKeyByIdentifier(rawId) {
+      const db = getDB();
+      const users = db.users || {};
+      const cleaned = rawId.trim().toLowerCase();
+      if (!cleaned) return null;
+
+      const directKeys = [`Gmail / Google::${cleaned}`, `Phone Number::${cleaned}`];
+      for (const k of directKeys) {
+        if (users[k]) return k;
+      }
+      for (const [k, u] of Object.entries(users)) {
+        if ((u.identifier || '').toLowerCase() === cleaned) return k;
+      }
+      return null;
+    }
+
+    function resetForgottenPassword() {
+      const rawId = document.getElementById('forgotIdInput').value.trim().toLowerCase();
+      const newPass = document.getElementById('forgotNewPassInput').value.trim();
+      if (!rawId) return alert('আপনার রেজিস্টার্ড Gmail অথবা ফোন নাম্বার লিখুন।');
+      if (!newPass || newPass.length < 4) return alert('কমপক্ষে ৪ সংখ্যার নতুন পাসওয়ার্ড দিন।');
+
+      const key = findAccountKeyByIdentifier(rawId);
+      if (!key) return alert('এই Gmail বা ফোন নাম্বারে কোনো অ্যাকাউন্ট পাওয়া যায়নি!');
+
+      const db = getDB();
+      db.users[key].password = newPass;
+      saveDB(db);
+
+      document.getElementById('forgotIdInput').value = '';
+      document.getElementById('forgotNewPassInput').value = '';
+      toggleForgotPasswordBox(false);
+      setAuthMode('login');
+      alert('✅ পাসওয়ার্ড সফলভাবে রিসেট হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।');
+    }
+
+    function switchTab(tab) {
+      const isHome = tab === 'home';
+      document.getElementById('homeView').style.display = isHome ? 'block' : 'none';
+      document.getElementById('homeSliderNoticeWrap').style.display = isHome ? 'block' : 'none';
+      document.getElementById('profileView').style.display = isHome ? 'none' : 'block';
+      document.getElementById('navHome').classList.toggle('active', isHome);
+      document.getElementById('navProfile').classList.toggle('active', !isHome);
+      updateUserUI();
+    }
+
+    function handleAuthSubmit() {
+      const name = document.getElementById('userNameInput').value.trim();
+      const rawId = document.getElementById('userIdentifierInput').value.trim().toLowerCase();
+      const pass = document.getElementById('userPassInput').value.trim();
+
+      if (!rawId || !pass) return alert('আপনার Gmail/ফোন নাম্বার এবং পাসওয়ার্ড দিন।');
+
+      if (selectedAuthProvider === 'Gmail / Google' && !rawId.includes('@')) {
+        return alert('সঠিক Gmail / Google ঠিকানা লিখুন।');
+      }
+
+      const accountKey = `${selectedAuthProvider}::${rawId}`;
+      const db = getDB();
+
+      if (currentAuthMode === 'register') {
+        if (!name) return alert('রেজিস্ট্রেশনের জন্য আপনার নাম লিখুন।');
+        if (db.users[accountKey]) {
+          return alert('এই অ্যাকাউন্টটি ইতিমধ্যে রেজিস্টার করা আছে! অনুগ্রহ করে লগইন করুন অথবা পাসওয়ার্ড ভুলে গেলে ফরগেট দিন।');
+        }
+        db.users[accountKey] = {
+          name: name,
+          identifier: rawId,
+          provider: selectedAuthProvider,
+          password: pass
+        };
+        saveDB(db);
+        localStorage.setItem(USER_KEY, accountKey);
+        updateUserUI();
+        alert('✅ রেজিস্ট্রেশন সফল হয়েছে!');
+      } else {
+        const existingKey = db.users[accountKey] ? accountKey : findAccountKeyByIdentifier(rawId);
+        if (!existingKey || !db.users[existingKey]) {
+          return alert('এই অ্যাকাউন্টটি পাওয়া যায়নি! আগে রেজিস্ট্রেশন করুন।');
+        }
+        if (db.users[existingKey].password !== pass) {
+          return alert('পাসওয়ার্ড ভুল হয়েছে! ভুলে গেলে নিচে Forgot Password ব্যবহার করুন।');
+        }
+        localStorage.setItem(USER_KEY, existingKey);
+        updateUserUI();
+        alert('✅ লগইন সফল হয়েছে!');
+      }
+    }
+
+    function logoutUser() {
+      localStorage.removeItem(USER_KEY);
+      updateUserUI();
+    }
+
+    function updateUserUI() {
+      const db = getDB();
+      const accountKey = localStorage.getItem(USER_KEY);
+      const user = accountKey && db.users ? db.users[accountKey] : null;
+
+      if (user) {
+        document.getElementById('headerAccountLabel').textContent = user.name || 'Account';
+        document.getElementById('authBox').style.display = 'none';
+        document.getElementById('userDashboard').style.display = 'block';
+        document.getElementById('dashUserName').textContent = user.name;
+        document.getElementById('dashUserId').textContent = user.identifier;
+        document.getElementById('dashProvider').textContent = 'মাধ্যম: ' + (user.provider || 'Verified');
+      } else {
+        document.getElementById('headerAccountLabel').textContent = 'অ্যাকাউন্ট নেই';
+        document.getElementById('authBox').style.display = 'block';
+        document.getElementById('userDashboard').style.display = 'none';
+      }
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    window.addEventListener('storage', () => {
+      cachedDB = null;
+      renderStoreFromDB();
+    });
+
+    renderStoreFromDB();
+    connectFirebaseRealtime();
+  </script>
+</body>
+</html>
