@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #3b82f6;
+      --border: #262b36;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+    }
+    .brand { font-size: 1.15rem; font-weight: 700; }
+    .container { max-width: 900px; margin: 28px auto; padding: 0 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    input { background: var(--bg); color: var(--text); }
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary { background: #272c38; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--accent);
+    }
+    .hidden { display: none; }
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; max-width: 400px; width: 100%;
+    }
+    .modal a {
+      display: block; text-align: center; padding: 10px; margin-top: 8px;
+      background: #1d4ed8; color: #fff; text-decoration: none; border-radius: 8px;
+    }
+    .msg { font-size: 0.9rem; color: #fbbf24; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Mazed Panel House</div>
+    <button id="openTgBtn" class="secondary" style="width:auto;margin:0;padding:8px 14px;">Telegram Channels</button>
+  </header>
+
+  <div class="container">
+    <div id="authCard" class="card">
+      <h2 id="authTitle">Sign In</h2>
+      <form id="authForm">
+        <input type="email" id="emailInput" placeholder="Your Gmail address" required />
+        <input type="password" id="passwordInput" placeholder="Password" required />
+        <button type="submit" id="authSubmitBtn">Sign In</button>
+      </form>
+      <button type="button" id="toggleAuthMode" class="secondary">Create a New Account</button>
+      <div id="authMsg" class="msg"></div>
+    </div>
+
+    <div id="portalCard" class="card hidden">
+      <div style="display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <img id="profileImg" class="avatar" src="" alt="Profile" />
+          <div>
+            <div id="userEmailLabel" style="font-weight:600;"></div>
+            <label style="font-size:0.85rem;color:var(--muted);cursor:pointer;">
+              Change Profile Photo
+              <input type="file" id="avatarInput" accept="image/*" class="hidden" />
+            </label>
+          </div>
+        </div>
+        <button id="logoutBtn" class="secondary" style="width:auto;padding:8px 14px;">Sign Out</button>
+      </div>
+
+      <hr style="border:0;border-top:1px solid var(--border);margin:20px 0;" />
+
+      <h3>Available Panels</h3>
+      <div class="grid">
+        <div class="card" style="margin:0;">
+          <strong>Starter Panel</strong>
+          <p style="color:var(--muted);font-size:0.9rem;">Quick setup and core features.</p>
+          <button onclick="selectPanel('Starter Panel')">One-Click Select</button>
+        </div>
+        <div class="card" style="margin:0;">
+          <strong>Pro Panel</strong>
+          <p style="color:var(--muted);font-size:0.9rem;">Full features and priority updates.</p>
+          <button onclick="selectPanel('Pro Panel')">One-Click Select</button>
+        </div>
+      </div>
+      <div id="orderMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <div id="tgModal" class="modal-backdrop">
+    <div class="modal">
+      <h3 style="margin-top:0;">Official Telegram Channels</h3>
+      <div id="tgLinksContainer"></div>
+      <button id="closeTgBtn" class="secondary" style="margin-top:14px;">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const DB_USERS_KEY = 'mph_users_v1';
+    const DB_DEVICE_KEY = 'mph_device_bound_v1';
+    const DB_SESSION_KEY = 'mph_session_v1';
+    const DB_TG_KEY = 'mph_tg_links_v1';
+
+    let isRegisterMode = false;
+
+    const getUsers = () => JSON.parse(localStorage.getItem(DB_USERS_KEY) || '{}');
+    const saveUsers = (u) => localStorage.setItem(DB_USERS_KEY, JSON.stringify(u));
+
+    function setAuthMessage(text) {
+      document.getElementById('authMsg').textContent = text;
+    }
+
+    document.getElementById('toggleAuthMode').addEventListener('click', () => {
+      isRegisterMode = !isRegisterMode;
+      document.getElementById('authTitle').textContent = isRegisterMode ? 'Create Account (1 Gmail & 1 Device)' : 'Sign In';
+      document.getElementById('authSubmitBtn').textContent = isRegisterMode ? 'Register' : 'Sign In';
+      document.getElementById('toggleAuthMode').textContent = isRegisterMode ? 'Already have an account? Sign In' : 'Create a New Account';
+      setAuthMessage('');
+    });
+
+    document.getElementById('authForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim().toLowerCase();
+      const password = document.getElementById('passwordInput').value;
+      const users = getUsers();
+      const boundDeviceEmail = localStorage.getItem(DB_DEVICE_KEY);
+
+      if (!email.endsWith('@gmail.com')) {
+        return setAuthMessage('Please use a valid @gmail.com address.');
+      }
+
+      if (isRegisterMode) {
+        if (users[email]) {
+          return setAuthMessage('An account with this Gmail already exists.');
+        }
+        if (boundDeviceEmail && boundDeviceEmail !== email) {
+          return setAuthMessage('Another account is already registered on this device.');
+        }
+        users[email] = {
+          password,
+          avatar: 'https://via.placeholder.com/120?text=User'
+        };
+        saveUsers(users);
+        localStorage.setItem(DB_DEVICE_KEY, email);
+        localStorage.setItem(DB_SESSION_KEY, email);
+        renderPortal(email);
+      } else {
+        const user = users[email];
+        if (!user || user.password !== password) {
+          return setAuthMessage('Invalid Gmail or password.');
+        }
+        localStorage.setItem(DB_SESSION_KEY, email);
+        renderPortal(email);
+      }
+    });
+
+    function renderPortal(email) {
+      const users = getUsers();
+      const user = users[email];
+      if (!user) return;
+      document.getElementById('authCard').classList.add('hidden');
+      document.getElementById('portalCard').classList.remove('hidden');
+      document.getElementById('userEmailLabel').textContent = email;
+      document.getElementById('profileImg').src = user.avatar;
+    }
+
+    document.getElementById('avatarInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const email = localStorage.getItem(DB_SESSION_KEY);
+      if (!file || !email) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const users = getUsers();
+        users[email].avatar = reader.result;
+        saveUsers(users);
+        document.getElementById('profileImg').src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem(DB_SESSION_KEY);
+      document.getElementById('portalCard').classList.add('hidden');
+      document.getElementById('authCard').classList.remove('hidden');
+    });
+
+    function selectPanel(panelName) {
+      document.getElementById('orderMsg').textContent = `"${panelName}" selected. Check Telegram channels or contact admin for details.`;
+    }
+
+    function renderTelegramPopup() {
+      const links = JSON.parse(localStorage.getItem(DB_TG_KEY) || '[]').slice(0, 3);
+      const container = document.getElementById('tgLinksContainer');
+      if (!links.length) {
+        container.innerHTML = '<p style="color:var(--muted);">No Telegram channels configured yet.</p>';
+        return;
+      }
+      container.innerHTML = links.map((item, idx) =>
+        `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.label || `Channel ${idx + 1}`}</a>`
+      ).join('');
+    }
+
+    document.getElementById('openTgBtn').addEventListener('click', () => {
+      renderTelegramPopup();
+      document.getElementById('tgModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeTgBtn').addEventListener('click', () => {
+      document.getElementById('tgModal').style.display = 'none';
+    });
+
+    const activeSession = localStorage.getItem(DB_SESSION_KEY);
+    if (activeSession) renderPortal(activeSession);
+  </script>
+</body>
+</html>

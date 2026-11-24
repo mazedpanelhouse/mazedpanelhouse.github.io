@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #10b981;
+      --border: #262b36;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); }
+    header {
+      padding: 16px 24px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+    }
+    .container { max-width: 820px; margin: 28px auto; padding: 0 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    input { background: var(--bg); color: var(--text); }
+    button {
+      background: var(--accent);
+      color: #06281e;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+    .row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; margin-bottom: 8px; }
+    .status { color: #34d399; margin-top: 10px; font-size: 0.9rem; }
+    ul { padding-left: 18px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>Mazed Panel House — Admin Control</header>
+
+  <div class="container">
+    <div class="card">
+      <h2 style="margin-top:0;">Telegram Channel Popup (Up to 3 Links)</h2>
+      <form id="tgForm">
+        <div class="row">
+          <input type="text" id="label1" placeholder="Channel 1 Name" />
+          <input type="url" id="url1" placeholder="https://t.me/channel_1" />
+        </div>
+        <div class="row">
+          <input type="text" id="label2" placeholder="Channel 2 Name" />
+          <input type="url" id="url2" placeholder="https://t.me/channel_2" />
+        </div>
+        <div class="row">
+          <input type="text" id="label3" placeholder="Channel 3 Name" />
+          <input type="url" id="url3" placeholder="https://t.me/channel_3" />
+        </div>
+        <button type="submit">Save Telegram Links</button>
+      </form>
+      <div id="saveStatus" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Registered Users (Local Browser Data)</h3>
+      <ul id="userList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const DB_TG_KEY = 'mph_tg_links_v1';
+    const DB_USERS_KEY = 'mph_users_v1';
+
+    function loadExistingLinks() {
+      const links = JSON.parse(localStorage.getItem(DB_TG_KEY) || '[]');
+      for (let i = 0; i < 3; i++) {
+        if (links[i]) {
+          document.getElementById(`label${i + 1}`).value = links[i].label || '';
+          document.getElementById(`url${i + 1}`).value = links[i].url || '';
+        }
+      }
+    }
+
+    document.getElementById('tgForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const links = [];
+      for (let i = 1; i <= 3; i++) {
+        const label = document.getElementById(`label${i}`).value.trim();
+        const url = document.getElementById(`url${i}`).value.trim();
+        if (url) links.push({ label: label || `Channel ${i}`, url });
+      }
+      localStorage.setItem(DB_TG_KEY, JSON.stringify(links));
+      document.getElementById('saveStatus').textContent = 'Telegram channel popup links updated.';
+    });
+
+    function renderUsers() {
+      const users = JSON.parse(localStorage.getItem(DB_USERS_KEY) || '{}');
+      const emails = Object.keys(users);
+      const listEl = document.getElementById('userList');
+      listEl.innerHTML = emails.length
+        ? emails.map((em) => `<li>${em}</li>`).join('')
+        : '<li>No registered users found.</li>';
+    }
+
+    loadExistingLinks();
+    renderUsers();
+  </script>
+</body>
+</html>
