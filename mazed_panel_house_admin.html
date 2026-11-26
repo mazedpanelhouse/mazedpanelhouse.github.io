@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #07050c;
+      --card: #120d1f;
+      --card-2: #19132b;
+      --text: #f5f3ff;
+      --muted: #a79ec2;
+      --border: #2c2147;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --grad: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+      --ok: #34d399;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 48px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(12, 8, 22, 0.94);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .sync-pill {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--ok);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .view-store-link {
+      text-decoration: none;
+      background: var(--grad);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .store-toggle-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .store-toggle-btn.on {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--ok);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+    }
+    .store-toggle-btn.off {
+      background: rgba(239, 68, 68, 0.22);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.6);
+    }
+    .container { max-width: 880px; margin: 18px auto; padding: 0 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card-title { margin: 0 0 10px 0; font-size: 1.02rem; font-weight: 800; color: #f9a8d4; }
+    label { display: block; font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 11px;
+      margin-top: 5px;
+      font-size: 0.88rem;
+    }
+    .btn-grad {
+      width: 100%;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-save-sec {
+      width: 100%;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-dark {
+      background: var(--card-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 12px;
+      margin-top: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-red {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: auto;
+    }
+    .btn-amber {
+      background: var(--warn);
+      color: #111827;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: auto;
+    }
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 8px;
+    }
+    @media (max-width: 640px) {
+      .pkg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .pkg-cell {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px;
+    }
+    .pkg-cell span { font-size: 0.72rem; color: var(--muted); display: block; }
+    .pkg-cell input { margin-top: 3px; padding: 6px 8px; font-size: 0.82rem; }
+    .row-item {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+    .toggle-inline { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 0.85rem; }
+    .toggle-inline input { width: auto; margin: 0; transform: scale(1.15); }
+    .sec-status { color: var(--ok); font-size: 0.84rem; font-weight: 700; margin-top: 6px; min-height: 18px; }
+    .err-msg { color: var(--danger); font-size: 0.85rem; font-weight: 700; margin-top: 8px; }
+    .avatar-preview {
+      width: 64px; height: 64px; border-radius: 14px;
+      object-fit: cover; border: 2px solid var(--pink);
+      cursor: pointer; background: var(--card-2);
+    }
+    .thumb-preview-box {
+      margin-top: 8px;
+      width: 140px;
+      aspect-ratio: 16 / 10;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      display: none;
+    }
+    .thumb-preview-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <strong>ADMIN DASHBOARD</strong>
+      <span id="firebaseSyncPill" class="sync-pill">● Firebase Live</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <button type="button" id="topStorePowerBtn" class="store-toggle-btn on">Store: Open (Close Store)</button>
+      <a href="index.html" class="view-store-link">View Store &#8599;</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="adminLoginBox" class="card" style="max-width:420px;margin:32px auto;">
+      <h2 class="card-title">Admin Login</h2>
+      <form id="adminLoginForm">
+        <label>Admin Username</label>
+        <input type="text" id="admUserInput" placeholder="admin" required />
+        <label>Password</label>
+        <input type="password" id="admPassInput" placeholder="••••••" required />
+        <button type="submit" class="btn-grad">Enter Dashboard</button>
+      </form>
+      <div id="admLoginErr" class="err-msg"></div>
+    </div>
+
+    <div id="adminPanelContent" class="hidden">
+      <!-- 1. Popup & Telegram Channel Control -->
+      <section class="card">
+        <h2 class="card-title">1. Popup Message & Telegram Channel Control</h2>
+        <div class="toggle-inline">
+          <input type="checkbox" id="popEnabledChk" />
+          <label for="popEnabledChk" style="margin:0;color:var(--text);">Show popup when visitors enter</label>
+        </div>
+        <div class="toggle-inline">
+          <input type="checkbox" id="popShowChChk" />
+          <label for="popShowChChk" style="margin:0;color:var(--text);">Show channel buttons inside popup</label>
+        </div>
+        <label>Popup Heading</label>
+        <input type="text" id="popTitleInp" placeholder="e.g., Important Update!" />
+        <label>Popup Message</label>
+        <textarea id="popMsgInp" rows="2" placeholder="Write popup message"></textarea>
+
+        <label style="margin-top:10px;">Channel Button List</label>
+        <div id="popChannelsList"></div>
+        <div class="two-col" style="margin-top:8px;">
+          <input type="text" id="newPopChLabel" placeholder="Channel Label" />
+          <input type="url" id="newPopChUrl" placeholder="https://t.me/..." />
+        </div>
+        <button type="button" id="addPopChBtn" class="btn-dark">+ Add Channel</button>
+
+        <button type="button" id="saveSec1Btn" class="btn-save-sec">Save Section 1</button>
+        <div id="sec1Msg" class="sec-status"></div>
+      </section>
+
+      <!-- 2A. Brand Logo & Store Name -->
+      <section class="card">
+        <h2 class="card-title">2A. Logo Picture & Store Name</h2>
+        <p style="margin:0 0 8px 0;font-size:0.78rem;color:var(--muted);">
+          Click the logo image or choose a file from your device, then click save.
+        </p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <img id="logoPreviewImg" class="avatar-preview" src="https://via.placeholder.com/80x80/19132b/f472b6?text=MPH" alt="Logo" title="Click to change logo" />
+          <div style="flex:1;">
+            <input type="file" id="logoFileInput" accept="image/*" style="margin-top:0;" />
+          </div>
+        </div>
+        <div class="two-col">
+          <div>
+            <label>Store Name</label>
+            <input type="text" id="brandNameInp" />
+          </div>
+          <div>
+            <label>Subtitle</label>
+            <input type="text" id="brandSubInp" />
+          </div>
+        </div>
+        <button type="button" id="saveSec2LogoBtn" class="btn-save-sec">Save Logo & Name</button>
+        <div id="sec2LogoMsg" class="sec-status"></div>
+      </section>
+
+      <!-- 2B. Scrolling Notice, Bottom Notice & Unlimited Slider -->
+      <section class="card">
+        <h2 class="card-title">2B. Top Marquee Notice, Bottom Notice & Unlimited Slider</h2>
+
+        <div class="toggle-inline">
+          <input type="checkbox" id="topNoticeChk" />
+          <label for="topNoticeChk" style="margin:0;color:var(--text);">Enable top scrolling notice (right to left)</label>
+        </div>
+        <input type="text" id="topNoticeInp" placeholder="Top scrolling notice text" />
+
+        <div class="toggle-inline">
+          <input type="checkbox" id="botNoticeChk" />
+          <label for="botNoticeChk" style="margin:0;color:var(--text);">Enable bottom important notice below panels</label>
+        </div>
+        <textarea id="botNoticeInp" rows="2" placeholder="Important notice text"></textarea>
+
+        <label style="margin-top:14px;">Unlimited Slider Banners (optional title & subtitle; click opens link if set)</label>
+        <div id="bannersAdminList"></div>
+        <div class="two-col">
+          <input type="text" id="newBannerTitle" placeholder="Slider Title (optional)" />
+          <input type="text" id="newBannerSub" placeholder="Slider Subtitle (optional)" />
+        </div>
+        <div class="two-col">
+          <input type="file" id="newBannerFile" accept="image/*" />
+          <input type="url" id="newBannerLink" placeholder="Video / Buy Link (optional)" />
+        </div>
+        <button type="button" id="addBannerBtn" class="btn-dark">+ Add Slider</button>
+
+        <button type="button" id="saveSec2NoticeBtn" class="btn-save-sec">Save Notices & Slider</button>
+        <div id="sec2NoticeMsg" class="sec-status"></div>
+      </section>
+
+      <!-- 3. Store Open / Close Control -->
+      <section class="card">
+        <h2 class="card-title">3. Store Open / Close Control</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <button type="button" id="permanentCloseBtn" class="btn-red">Close Store Permanently</button>
+          <button type="button" id="permanentOpenBtn" class="btn-dark" style="margin:0;border-color:rgba(16,185,129,0.5);color:var(--ok);">Reopen Store</button>
+        </div>
+        <label>Store Mode</label>
+        <select id="storeModeSel">
+          <option value="auto">Automatic Schedule (Open/Close by time)</option>
+          <option value="manual_on">Manually Open</option>
+          <option value="manual_off">Manually Closed (Stays closed until reopened)</option>
+        </select>
+        <div class="two-col">
+          <div>
+            <label>Opening Time</label>
+            <input type="time" id="openTimeInp" />
+          </div>
+          <div>
+            <label>Closing Time</label>
+            <input type="time" id="closeTimeInp" />
+          </div>
+        </div>
+        <label>Closed Screen Message</label>
+        <input type="text" id="closedMsgInp" />
+
+        <button type="button" id="saveSec3Btn" class="btn-save-sec">Save Section 3</button>
+        <div id="sec3Msg" class="sec-status"></div>
+      </section>
+
+      <!-- 4. Payment Methods Control -->
+      <section class="card">
+        <h2 class="card-title">4. Payment Methods Control (bKash, Nagad, Rocket, Upay)</h2>
+        <div class="two-col">
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="pmBkashChk" /> bKash</label>
+            <input type="text" id="pmBkashNum" placeholder="bKash Number" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="pmNagadChk" /> Nagad</label>
+            <input type="text" id="pmNagadNum" placeholder="Nagad Number" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="pmRocketChk" /> Rocket</label>
+            <input type="text" id="pmRocketNum" placeholder="Rocket Number" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="pmUpayChk" /> Upay</label>
+            <input type="text" id="pmUpayNum" placeholder="Upay Number" />
+          </div>
+        </div>
+
+        <button type="button" id="saveSec4Btn" class="btn-save-sec">Save Section 4</button>
+        <div id="sec4Msg" class="sec-status"></div>
+      </section>
+
+      <!-- 5. Add / Edit / Maintenance / Delete Panel -->
+      <section class="card">
+        <h2 class="card-title">5. Add / Edit / Maintenance Panels</h2>
+        <div class="two-col">
+          <div>
+            <label>Panel Name</label>
+            <input type="text" id="newPanelName" placeholder="e.g., Angry Mods Kpm" />
+          </div>
+          <div>
+            <label>Category</label>
+            <select id="newPanelCat">
+              <option value="ROOT">ROOT</option>
+              <option value="NON ROOT">NON ROOT</option>
+              <option value="iOS">iOS</option>
+              <option value="PC PANEL">PC PANEL</option>
+              <option value="GUILD BOT">GUILD BOT</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Panel Image (Select from device)</label>
+        <input type="file" id="newPanelFile" accept="image/*" />
+        <div id="newPanelThumbBox" class="thumb-preview-box">
+          <img id="newPanelThumbImg" src="" alt="Preview" />
+        </div>
+
+        <label>Features</label>
+        <input type="text" id="newPanelFeatures" placeholder="e.g., Aim Silent, Esp Line, Anti Ban" />
+
+        <div class="two-col" style="margin-top:12px;">
+          <button type="button" id="openHourlyBoxBtn" class="btn-dark" style="margin-top:0;padding:14px;border:1px solid var(--pink);">
+            1 to 24 Hours Price Box <span id="hourlySetCount" style="color:#f472b6;">(0 set)</span>
+          </button>
+          <button type="button" id="openDailyBoxBtn" class="btn-dark" style="margin-top:0;padding:14px;border:1px solid var(--purple);">
+            1 to 31 Days Price Box <span id="dailySetCount" style="color:#f472b6;">(0 set)</span>
+          </button>
+        </div>
+
+        <!-- Floating 1-24 Hours Price Popup -->
+        <div id="hourlyPopupModal" style="display:none;position:fixed;inset:0;background:rgba(4,3,9,0.82);z-index:120;align-items:center;justify-content:center;padding:14px;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;max-height:86vh;overflow-y:auto;padding:18px;">
+            <h3 class="card-title">Set Prices: 1 to 24 Hours</h3>
+            <div id="hourlyPkgGrid" class="pkg-grid"></div>
+            <button type="button" id="closeHourlyPopupBtn" class="btn-grad">Done</button>
+          </div>
+        </div>
+
+        <!-- Floating 1-31 Days Price Popup -->
+        <div id="dailyPopupModal" style="display:none;position:fixed;inset:0;background:rgba(4,3,9,0.82);z-index:120;align-items:center;justify-content:center;padding:14px;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;max-height:86vh;overflow-y:auto;padding:18px;">
+            <h3 class="card-title">Set Prices: 1 to 31 Days</h3>
+            <div id="dailyPkgGrid" class="pkg-grid"></div>
+            <button type="button" id="closeDailyPopupBtn" class="btn-grad">Done</button>
+          </div>
+        </div>
+
+        <button type="button" id="addPanelBtn" class="btn-grad">+ Add New Panel</button>
+
+        <h3 style="margin:18px 0 6px 0;font-size:0.95rem;">Live Panels</h3>
+        <div id="livePanelsList"></div>
+
+        <button type="button" id="saveSec5Btn" class="btn-save-sec">Save Section 5</button>
+        <div id="sec5Msg" class="sec-status"></div>
+      </section>
+
+      <!-- 6. Support, Social Links & Serial Number Control -->
+      <section class="card">
+        <h2 class="card-title">6. Support, Social Links & Order Serial (#) Control</h2>
+        <label>Support Username</label>
+        <input type="text" id="supUsernameInp" placeholder="mazedvai12" />
+
+        <div class="two-col" style="margin-top:6px;">
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="supWaChk" /> WhatsApp Support</label>
+            <input type="url" id="supWaUrlInp" placeholder="https://wa.me/mazedvai12" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="supTgChk" /> Telegram Support</label>
+            <input type="url" id="supTgUrlInp" placeholder="https://t.me/mazedvai12" />
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top:10px;">
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="socYtChk" /> YouTube</label>
+            <input type="url" id="socYtUrl" placeholder="YouTube URL" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="socTkChk" /> TikTok</label>
+            <input type="url" id="socTkUrl" placeholder="TikTok URL" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="socDcChk" /> Discord</label>
+            <input type="url" id="socDcUrl" placeholder="Discord URL" />
+          </div>
+          <div class="pkg-cell">
+            <label class="toggle-inline" style="margin:0;"><input type="checkbox" id="socTgChk" /> Join Telegram Channel</label>
+            <input type="url" id="socTgUrl" placeholder="Telegram Footer URL" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+          <div class="toggle-inline">
+            <input type="checkbox" id="serialEnabledChk" checked />
+            <label for="serialEnabledChk" style="margin:0;color:var(--text);">Enable Order Serial Number (#1, #2...)</label>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
+            <span id="serialCounterLabel" style="font-size:0.85rem;color:#f9a8d4;font-weight:700;">Current Serial: #0</span>
+            <button type="button" id="resetSerialBtn" class="btn-amber" style="margin:0;">Reset Serial</button>
+          </div>
+        </div>
+
+        <button type="button" id="saveSec6Btn" class="btn-save-sec">Save Section 6</button>
+        <div id="sec6Msg" class="sec-status"></div>
+      </section>
+
+      <!-- Registered Accounts Summary Box -->
+      <section class="card">
+        <h2 class="card-title">Registered Accounts Overview</h2>
+        <div id="accountsSummaryBox" style="background:var(--card-2);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;" title="Click to view all registered accounts">
+          <div>
+            <div style="font-size:0.8rem;color:var(--muted);">Total Accounts Created</div>
+            <div id="totalAccountsCountText" style="font-size:1.3rem;font-weight:800;color:#f472b6;margin-top:2px;">0 Accounts</div>
+            <div style="font-size:0.76rem;color:#c4b5fd;margin-top:4px;">Tap this box to view Name, Username, Gmail, Phone & Password</div>
+          </div>
+          <button type="button" id="openAccountsModalBtn" class="btn-grad" style="width:auto;margin:0;padding:10px 14px;">View All</button>
+        </div>
+      </section>
+
+      <!-- Accounts Details Modal -->
+      <div id="accountsDetailModal" style="display:none;position:fixed;inset:0;background:rgba(4,3,9,0.84);z-index:130;align-items:center;justify-content:center;padding:14px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;width:100%;max-width:560px;max-height:86vh;overflow-y:auto;padding:18px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">
+            <h3 class="card-title" style="margin:0;">All Registered Accounts (<span id="modalAccountsTotal">0</span>)</h3>
+            <button type="button" id="closeAccountsModalBtn" class="btn-dark" style="margin:0;padding:6px 12px;">Close</button>
+          </div>
+          <div id="registeredAccountsListBox"></div>
+        </div>
+      </div>
+
+      <!-- 7. Resellers & Main Admin Password -->
+      <section class="card">
+        <h2 class="card-title">7. Reseller Admins & Main Password</h2>
+        <div class="two-col">
+          <input type="text" id="resellerNameInp" placeholder="Reseller Username" />
+          <input type="text" id="resellerPassInp" placeholder="Reseller Password" />
+        </div>
+        <button type="button" id="addResellerBtn" class="btn-dark">+ Create Reseller Admin</button>
+        <div id="resellersList"></div>
+
+        <label style="margin-top:14px;">New Main Admin Password</label>
+        <div class="two-col">
+          <input type="text" id="newMainPassInp" placeholder="Enter new password" />
+          <button type="button" id="updateMainPassBtn" class="btn-dark" style="margin-top:5px;">Update Main Password</button>
+        </div>
+
+        <button type="button" id="saveSec7Btn" class="btn-save-sec">Save Section 7</button>
+        <div id="sec7Msg" class="sec-status"></div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqzL-6MtvpthQJIDesIasukPrDxjyAcJw",
+      authDomain: "mazed-panel-house.firebaseapp.com",
+      databaseURL: "https://mazed-panel-house-default-rtdb.firebaseio.com",
+      projectId: "mazed-panel-house",
+      storageBucket: "mazed-panel-house.firebasestorage.app",
+      messagingSenderId: "330997308435",
+      appId: "1:330997308435:web:c5e78c62ddc5acf7a8b3e6",
+      measurementId: "G-8PKDHT118T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const storeDbRef = ref(db, "mazed_store_live");
+    const adminsDbRef = ref(db, "mazed_admins_live");
+    const usersDbRef = ref(db, "mazed_users_live");
+
+    const KEY_STORE = 'mph_store_v4';
+    const KEY_ADMINS = 'mph_admins_v4';
+    const KEY_AUTH = 'mph_admin_session_v4';
+
+    const DEFAULT_STORE = {
+      brandName: 'MAZED PANEL HOUSE',
+      brandSub: 'VERIFIED GAMING PANEL STORE',
+      logoUrl: 'https://via.placeholder.com/80x80/19132b/f472b6?text=MPH',
+      popup: {
+        enabled: false,
+        title: '',
+        message: '',
+        showChannels: false,
+        channels: []
+      },
+      topNotice: {
+        enabled: false,
+        text: ''
+      },
+      bottomNotice: {
+        enabled: false,
+        text: ''
+      },
+      storeControl: {
+        mode: 'auto',
+        forceClosed: false,
+        openTime: '09:00',
+        closeTime: '23:00',
+        closedMessage: 'Store is currently closed. Open from 09:00 to 23:00.'
+      },
+      banners: [],
+      panels: [],
+      payments: {
+        bkash: { enabled: false, number: '', type: 'Send Money' },
+        nagad: { enabled: false, number: '', type: 'Send Money' },
+        rocket: { enabled: false, number: '', type: 'Send Money' },
+        upay: { enabled: false, number: '', type: 'Send Money' }
+      },
+      support: {
+        username: 'mazedvai12',
+        whatsappEnabled: false,
+        whatsappUrl: '',
+        telegramEnabled: false,
+        telegramUrl: ''
+      },
+      socials: {
+        youtubeEnabled: false, youtubeUrl: '',
+        tiktokEnabled: false, tiktokUrl: '',
+        discordEnabled: false, discordUrl: '',
+        telegramFooterEnabled: false, telegramFooterLabel: 'Join Our Telegram Channel', telegramFooterUrl: ''
+      },
+      serialControl: { enabled: true, current: 0 }
+    };
+
+    let draftStore = structuredClone(DEFAULT_STORE);
+    let adminsCache = [{ username: 'admin', password: 'admin123', role: 'Main Admin' }];
+    let uploadedPanelDataUrl = '';
+    let uploadedLogoDataUrl = '';
+    let uploadedBannerDataUrl = '';
+
+    function compressImageFile(file, maxWidth, quality) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const scale = Math.min(1, maxWidth / img.width);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = () => resolve(reader.result);
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function normalizeStore(parsed) {
+      if (!parsed || typeof parsed !== 'object') return structuredClone(DEFAULT_STORE);
+      return {
+        ...structuredClone(DEFAULT_STORE),
+        ...parsed,
+        popup: {
+          ...DEFAULT_STORE.popup,
+          ...(parsed.popup || {}),
+          channels: Array.isArray((parsed.popup || {}).channels) ? parsed.popup.channels : []
+        },
+        topNotice: { ...DEFAULT_STORE.topNotice, ...(parsed.topNotice || {}) },
+        bottomNotice: { ...DEFAULT_STORE.bottomNotice, ...(parsed.bottomNotice || {}) },
+        storeControl: { ...DEFAULT_STORE.storeControl, ...(parsed.storeControl || {}) },
+        banners: Array.isArray(parsed.banners) ? parsed.banners : [],
+        panels: Array.isArray(parsed.panels) ? parsed.panels : [],
+        payments: {
+          bkash: { ...DEFAULT_STORE.payments.bkash, ...((parsed.payments || {}).bkash || {}) },
+          nagad: { ...DEFAULT_STORE.payments.nagad, ...((parsed.payments || {}).nagad || {}) },
+          rocket: { ...DEFAULT_STORE.payments.rocket, ...((parsed.payments || {}).rocket || {}) },
+          upay: { ...DEFAULT_STORE.payments.upay, ...((parsed.payments || {}).upay || {}) }
+        },
+        support: { ...DEFAULT_STORE.support, ...(parsed.support || {}) },
+        socials: { ...DEFAULT_STORE.socials, ...(parsed.socials || {}) },
+        serialControl: { ...DEFAULT_STORE.serialControl, ...(parsed.serialControl || {}) }
+      };
+    }
+
+    function getAdmins() {
+      return adminsCache;
+    }
+
+    async function saveAdmins(list) {
+      adminsCache = list;
+      localStorage.setItem(KEY_ADMINS, JSON.stringify(list));
+      try {
+        await set(adminsDbRef, list);
+      } catch (e) {}
+    }
+
+    function showSecMsg(elId, text, isErr = false) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.style.color = isErr ? 'var(--danger)' : 'var(--ok)';
+      el.textContent = text;
+      setTimeout(() => { el.textContent = ''; }, 3500);
+    }
+
+    async function persistSection(secMsgId, text) {
+      localStorage.setItem(KEY_STORE, JSON.stringify(draftStore));
+      syncStorePowerButton();
+      const pill = document.getElementById('firebaseSyncPill');
+      pill.textContent = '● Syncing...';
+      try {
+        await set(storeDbRef, draftStore);
+        pill.textContent = '● Firebase Live';
+        if (secMsgId) showSecMsg(secMsgId, text);
+      } catch (err) {
+        pill.textContent = '● Sync Error';
+        if (secMsgId) showSecMsg(secMsgId, 'Firebase save failed: ' + (err.message || err), true);
+      }
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function isStoreCurrentlyOpen(sc) {
+      if (!sc) return true;
+      if (sc.forceClosed === true || sc.mode === 'manual_off') return false;
+      if (sc.mode === 'manual_on') return true;
+      const now = new Date();
+      const curMin = now.getHours() * 60 + now.getMinutes();
+      const [oh, om] = (sc.openTime || '09:00').split(':').map(Number);
+      const [ch, cm] = (sc.closeTime || '23:00').split(':').map(Number);
+      const openMin = (oh || 9) * 60 + (om || 0);
+      const closeMin = (ch || 23) * 60 + (cm || 0);
+      if (openMin <= closeMin) return curMin >= openMin && curMin <= closeMin;
+      return curMin >= openMin || curMin <= closeMin;
+    }
+
+    function syncStorePowerButton() {
+      const btn = document.getElementById('topStorePowerBtn');
+      if (!draftStore) return;
+      const open = isStoreCurrentlyOpen(draftStore.storeControl);
+      if (open) {
+        btn.className = 'store-toggle-btn on';
+        btn.textContent = 'Store: Open (Close Store)';
+      } else {
+        btn.className = 'store-toggle-btn off';
+        btn.textContent = 'Store: Closed (Open Store)';
+      }
+    }
+
+    async function setPermanentStoreClosed(closed) {
+      draftStore.storeControl.forceClosed = closed;
+      draftStore.storeControl.mode = closed ? 'manual_off' : 'auto';
+      document.getElementById('storeModeSel').value = draftStore.storeControl.mode;
+      await persistSection('sec3Msg', closed ? 'Store closed permanently.' : 'Store reopened.');
+    }
+
+    document.getElementById('topStorePowerBtn').addEventListener('click', () => {
+      const open = isStoreCurrentlyOpen(draftStore.storeControl);
+      setPermanentStoreClosed(open);
+    });
+    document.getElementById('permanentCloseBtn').addEventListener('click', () => setPermanentStoreClosed(true));
+    document.getElementById('permanentOpenBtn').addEventListener('click', () => setPermanentStoreClosed(false));
+
+    function buildPackageGrids() {
+      const hGrid = document.getElementById('hourlyPkgGrid');
+      const dGrid = document.getElementById('dailyPkgGrid');
+      let hHtml = '';
+      for (let h = 1; h <= 24; h++) {
+        const lbl = h === 1 ? '1 Hour' : `${h} Hours`;
+        hHtml += `<div class="pkg-cell"><span>${lbl}</span><input type="number" min="0" class="pkg-price-inp" data-pkg="${esc(lbl)}" placeholder="Price (৳)" /></div>`;
+      }
+      hGrid.innerHTML = hHtml;
+
+      let dHtml = '';
+      for (let d = 1; d <= 31; d++) {
+        const lbl = d === 1 ? '1 Day' : `${d} Days`;
+        dHtml += `<div class="pkg-cell"><span>${lbl}</span><input type="number" min="0" class="pkg-price-inp" data-pkg="${esc(lbl)}" placeholder="Price (৳)" /></div>`;
+      }
+      dGrid.innerHTML = dHtml;
+
+      function updateSetCounts() {
+        let hCount = 0, dCount = 0;
+        document.querySelectorAll('#hourlyPkgGrid .pkg-price-inp').forEach((inp) => { if (Number(inp.value) > 0) hCount++; });
+        document.querySelectorAll('#dailyPkgGrid .pkg-price-inp').forEach((inp) => { if (Number(inp.value) > 0) dCount++; });
+        document.getElementById('hourlySetCount').textContent = `(${hCount} set)`;
+        document.getElementById('dailySetCount').textContent = `(${dCount} set)`;
+      }
+
+      document.querySelectorAll('.pkg-price-inp').forEach((inp) => inp.addEventListener('input', updateSetCounts));
+      document.getElementById('openHourlyBoxBtn').addEventListener('click', () => {
+        document.getElementById('hourlyPopupModal').style.display = 'flex';
+      });
+      document.getElementById('closeHourlyPopupBtn').addEventListener('click', () => {
+        updateSetCounts();
+        document.getElementById('hourlyPopupModal').style.display = 'none';
+      });
+      document.getElementById('openDailyBoxBtn').addEventListener('click', () => {
+        document.getElementById('dailyPopupModal').style.display = 'flex';
+      });
+      document.getElementById('closeDailyPopupBtn').addEventListener('click', () => {
+        updateSetCounts();
+        document.getElementById('dailyPopupModal').style.display = 'none';
+      });
+    }
+
+    function unlockUI() {
+      sessionStorage.setItem(KEY_AUTH, '1');
+      document.getElementById('adminLoginBox').classList.add('hidden');
+      document.getElementById('adminPanelContent').classList.remove('hidden');
+      buildPackageGrids();
+      populateFormFromDraft();
+      syncStorePowerButton();
+    }
+
+    document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('admUserInput').value.trim();
+      const p = document.getElementById('admPassInput').value.trim();
+      const ok = getAdmins().some((a) => a.username === u && a.password === p);
+      if (ok) {
+        document.getElementById('admLoginErr').textContent = '';
+        unlockUI();
+      } else {
+        document.getElementById('admLoginErr').textContent = 'Invalid username or password.';
+      }
+    });
+
+    function populateFormFromDraft() {
+      document.getElementById('popEnabledChk').checked = Boolean(draftStore.popup.enabled);
+      document.getElementById('popShowChChk').checked = Boolean(draftStore.popup.showChannels);
+      document.getElementById('popTitleInp').value = draftStore.popup.title || '';
+      document.getElementById('popMsgInp').value = draftStore.popup.message || '';
+
+      document.getElementById('brandNameInp').value = draftStore.brandName || '';
+      document.getElementById('brandSubInp').value = draftStore.brandSub || '';
+      if (draftStore.logoUrl) document.getElementById('logoPreviewImg').src = draftStore.logoUrl;
+
+      document.getElementById('topNoticeChk').checked = Boolean(draftStore.topNotice.enabled);
+      document.getElementById('topNoticeInp').value = draftStore.topNotice.text || '';
+      document.getElementById('botNoticeChk').checked = Boolean(draftStore.bottomNotice.enabled);
+      document.getElementById('botNoticeInp').value = draftStore.bottomNotice.text || '';
+
+      document.getElementById('storeModeSel').value = draftStore.storeControl.mode || 'auto';
+      document.getElementById('openTimeInp').value = draftStore.storeControl.openTime || '09:00';
+      document.getElementById('closeTimeInp').value = draftStore.storeControl.closeTime || '23:00';
+      document.getElementById('closedMsgInp').value = draftStore.storeControl.closedMessage || '';
+
+      document.getElementById('pmBkashChk').checked = Boolean(draftStore.payments.bkash.enabled);
+      document.getElementById('pmBkashNum').value = draftStore.payments.bkash.number || '';
+      document.getElementById('pmNagadChk').checked = Boolean(draftStore.payments.nagad.enabled);
+      document.getElementById('pmNagadNum').value = draftStore.payments.nagad.number || '';
+      document.getElementById('pmRocketChk').checked = Boolean(draftStore.payments.rocket.enabled);
+      document.getElementById('pmRocketNum').value = draftStore.payments.rocket.number || '';
+      document.getElementById('pmUpayChk').checked = Boolean(draftStore.payments.upay.enabled);
+      document.getElementById('pmUpayNum').value = draftStore.payments.upay.number || '';
+
+      document.getElementById('supUsernameInp').value = draftStore.support.username || 'mazedvai12';
+      document.getElementById('supWaChk').checked = Boolean(draftStore.support.whatsappEnabled);
+      document.getElementById('supWaUrlInp').value = draftStore.support.whatsappUrl || '';
+      document.getElementById('supTgChk').checked = Boolean(draftStore.support.telegramEnabled);
+      document.getElementById('supTgUrlInp').value = draftStore.support.telegramUrl || '';
+
+      document.getElementById('socYtChk').checked = Boolean(draftStore.socials.youtubeEnabled);
+      document.getElementById('socYtUrl').value = draftStore.socials.youtubeUrl || '';
+      document.getElementById('socTkChk').checked = Boolean(draftStore.socials.tiktokEnabled);
+      document.getElementById('socTkUrl').value = draftStore.socials.tiktokUrl || '';
+      document.getElementById('socDcChk').checked = Boolean(draftStore.socials.discordEnabled);
+      document.getElementById('socDcUrl').value = draftStore.socials.discordUrl || '';
+      document.getElementById('socTgChk').checked = Boolean(draftStore.socials.telegramFooterEnabled);
+      document.getElementById('socTgUrl').value = draftStore.socials.telegramFooterUrl || '';
+
+      document.getElementById('serialEnabledChk').checked = draftStore.serialControl.enabled !== false;
+      document.getElementById('serialCounterLabel').textContent = `Current Serial: #${Number(draftStore.serialControl.current || 0)}`;
+
+      renderPopChannelsList();
+      renderBannersList();
+      renderLivePanelsList();
+      renderResellersList();
+    }
+
+    function renderPopChannelsList() {
+      const box = document.getElementById('popChannelsList');
+      const list = draftStore.popup.channels || [];
+      box.innerHTML = list.map((ch, idx) => `
+        <div class="row-item">
+          <div><strong>${esc(ch.label)}</strong><div style="font-size:0.75rem;color:var(--muted);">${esc(ch.url)}</div></div>
+          <button type="button" class="btn-red" data-idx="${idx}">Delete</button>
+        </div>
+      `).join('');
+      box.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          draftStore.popup.channels.splice(Number(btn.getAttribute('data-idx')), 1);
+          renderPopChannelsList();
+        });
+      });
+    }
+
+    document.getElementById('addPopChBtn').addEventListener('click', () => {
+      const lbl = document.getElementById('newPopChLabel').value.trim();
+      const url = document.getElementById('newPopChUrl').value.trim();
+      if (!url) return;
+      draftStore.popup.channels = draftStore.popup.channels || [];
+      draftStore.popup.channels.push({ label: lbl || 'Telegram Channel', url });
+      document.getElementById('newPopChLabel').value = '';
+      document.getElementById('newPopChUrl').value = '';
+      renderPopChannelsList();
+    });
+
+    document.getElementById('saveSec1Btn').addEventListener('click', async () => {
+      draftStore.popup.enabled = document.getElementById('popEnabledChk').checked;
+      draftStore.popup.showChannels = document.getElementById('popShowChChk').checked;
+      draftStore.popup.title = document.getElementById('popTitleInp').value.trim();
+      draftStore.popup.message = document.getElementById('popMsgInp').value.trim();
+      await persistSection('sec1Msg', 'Section 1 saved live.');
+    });
+
+    document.getElementById('logoPreviewImg').addEventListener('click', () => {
+      document.getElementById('logoFileInput').click();
+    });
+    document.getElementById('logoFileInput').addEventListener('change', async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const dataUrl = await compressImageFile(f, 300, 0.85);
+      uploadedLogoDataUrl = dataUrl;
+      document.getElementById('logoPreviewImg').src = dataUrl;
+    });
+
+    document.getElementById('saveSec2LogoBtn').addEventListener('click', async () => {
+      draftStore.brandName = document.getElementById('brandNameInp').value.trim() || 'MAZED PANEL HOUSE';
+      draftStore.brandSub = document.getElementById('brandSubInp').value.trim() || 'VERIFIED GAMING PANEL STORE';
+      if (uploadedLogoDataUrl) {
+        draftStore.logoUrl = uploadedLogoDataUrl;
+      }
+      await persistSection('sec2LogoMsg', 'Logo & store name saved live.');
+    });
+
+    document.getElementById('newBannerFile').addEventListener('change', async (e) => {
+      const f = e.target.files[0];
+      if (!f) {
+        uploadedBannerDataUrl = '';
+        return;
+      }
+      uploadedBannerDataUrl = await compressImageFile(f, 960, 0.82);
+    });
+
+    function renderBannersList() {
+      const box = document.getElementById('bannersAdminList');
+      const list = draftStore.banners || [];
+      box.innerHTML = list.map((b, idx) => `
+        <div class="row-item">
+          <div>
+            <strong>${esc(b.title || '(No Title)')}</strong>
+            ${b.subtitle ? `<div style="font-size:0.75rem;color:var(--muted);">${esc(b.subtitle)}</div>` : ''}
+            ${b.linkUrl ? `<div style="font-size:0.72rem;color:#f472b6;">Link: ${esc(b.linkUrl)}</div>` : ''}
+          </div>
+          <button type="button" class="btn-red" data-idx="${idx}">Delete</button>
+        </div>
+      `).join('');
+      box.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          draftStore.banners.splice(Number(btn.getAttribute('data-idx')), 1);
+          renderBannersList();
+          await persistSection('sec2NoticeMsg', 'Slider deleted and saved live.');
+        });
+      });
+    }
+
+    document.getElementById('addBannerBtn').addEventListener('click', async () => {
+      const t = document.getElementById('newBannerTitle').value.trim();
+      const s = document.getElementById('newBannerSub').value.trim();
+      const linkUrl = document.getElementById('newBannerLink').value.trim();
+      const fileInp = document.getElementById('newBannerFile');
+
+      if (!uploadedBannerDataUrl && fileInp.files && fileInp.files[0]) {
+        uploadedBannerDataUrl = await compressImageFile(fileInp.files[0], 960, 0.82);
+      }
+
+      if (!t && !s && !uploadedBannerDataUrl && !linkUrl) {
+        showSecMsg('sec2NoticeMsg', 'Please provide an image, title, subtitle, or link to add a slider.', true);
+        return;
+      }
+
+      draftStore.banners = draftStore.banners || [];
+      draftStore.banners.push({
+        title: t || '',
+        subtitle: s || '',
+        image: uploadedBannerDataUrl || '',
+        linkUrl: linkUrl || ''
+      });
+      uploadedBannerDataUrl = '';
+      document.getElementById('newBannerTitle').value = '';
+      document.getElementById('newBannerSub').value = '';
+      fileInp.value = '';
+      document.getElementById('newBannerLink').value = '';
+      renderBannersList();
+      await persistSection('sec2NoticeMsg', 'New slider added and saved live.');
+    });
+
+    document.getElementById('saveSec2NoticeBtn').addEventListener('click', async () => {
+      draftStore.topNotice.enabled = document.getElementById('topNoticeChk').checked;
+      draftStore.topNotice.text = document.getElementById('topNoticeInp').value.trim();
+      draftStore.bottomNotice.enabled = document.getElementById('botNoticeChk').checked;
+      draftStore.bottomNotice.text = document.getElementById('botNoticeInp').value.trim();
+      await persistSection('sec2NoticeMsg', 'Notices & slider settings saved live.');
+    });
+
+    document.getElementById('saveSec3Btn').addEventListener('click', async () => {
+      const modeVal = document.getElementById('storeModeSel').value;
+      draftStore.storeControl.mode = modeVal;
+      draftStore.storeControl.forceClosed = (modeVal === 'manual_off');
+      draftStore.storeControl.openTime = document.getElementById('openTimeInp').value || '09:00';
+      draftStore.storeControl.closeTime = document.getElementById('closeTimeInp').value || '23:00';
+      draftStore.storeControl.closedMessage = document.getElementById('closedMsgInp').value.trim();
+      await persistSection('sec3Msg', 'Section 3 saved live.');
+    });
+
+    document.getElementById('saveSec4Btn').addEventListener('click', async () => {
+      draftStore.payments.bkash = {
+        enabled: document.getElementById('pmBkashChk').checked,
+        number: document.getElementById('pmBkashNum').value.trim(),
+        type: 'Send Money'
+      };
+      draftStore.payments.nagad = {
+        enabled: document.getElementById('pmNagadChk').checked,
+        number: document.getElementById('pmNagadNum').value.trim(),
+        type: 'Send Money'
+      };
+      draftStore.payments.rocket = {
+        enabled: document.getElementById('pmRocketChk').checked,
+        number: document.getElementById('pmRocketNum').value.trim(),
+        type: 'Send Money'
+      };
+      draftStore.payments.upay = {
+        enabled: document.getElementById('pmUpayChk').checked,
+        number: document.getElementById('pmUpayNum').value.trim(),
+        type: 'Send Money'
+      };
+      await persistSection('sec4Msg', 'Section 4 saved live.');
+    });
+
+    document.getElementById('newPanelFile').addEventListener('change', async (e) => {
+      const f = e.target.files[0];
+      if (!f) {
+        uploadedPanelDataUrl = '';
+        document.getElementById('newPanelThumbBox').style.display = 'none';
+        return;
+      }
+      const dataUrl = await compressImageFile(f, 720, 0.8);
+      uploadedPanelDataUrl = dataUrl;
+      document.getElementById('newPanelThumbImg').src = dataUrl;
+      document.getElementById('newPanelThumbBox').style.display = 'block';
+    });
+
+    document.getElementById('addPanelBtn').addEventListener('click', async () => {
+      const name = document.getElementById('newPanelName').value.trim();
+      const category = document.getElementById('newPanelCat').value;
+      const features = document.getElementById('newPanelFeatures').value.trim();
+      if (!name) {
+        alert('Please enter a panel name.');
+        return;
+      }
+      const packages = {};
+      document.querySelectorAll('.pkg-price-inp').forEach((inp) => {
+        const val = Number(inp.value);
+        if (val > 0) packages[inp.getAttribute('data-pkg')] = val;
+      });
+
+      draftStore.panels = draftStore.panels || [];
+      draftStore.panels.unshift({
+        id: 'p_' + Date.now(),
+        name,
+        category,
+        image: uploadedPanelDataUrl || '',
+        features,
+        maintenance: false,
+        pinned: false,
+        maintenanceMsg: 'This panel is currently under maintenance. Please wait for the next update.',
+        packages
+      });
+
+      uploadedPanelDataUrl = '';
+      document.getElementById('newPanelName').value = '';
+      document.getElementById('newPanelFeatures').value = '';
+      document.getElementById('newPanelFile').value = '';
+      document.getElementById('newPanelThumbImg').src = '';
+      document.getElementById('newPanelThumbBox').style.display = 'none';
+      document.querySelectorAll('.pkg-price-inp').forEach((inp) => { inp.value = ''; });
+      renderLivePanelsList();
+      await persistSection('sec5Msg', 'New panel added and saved live.');
+    });
+
+    function renderLivePanelsList() {
+      const box = document.getElementById('livePanelsList');
+      const list = draftStore.panels || [];
+      if (!list.length) {
+        box.innerHTML = '<div style="font-size:0.84rem;color:var(--muted);">No panels added yet.</div>';
+        return;
+      }
+      box.innerHTML = list.map((p, idx) => {
+        const pkgSummary = Object.entries(p.packages || {}).map(([k, v]) => `${k}: ৳${v}`).join(' | ') || 'No prices set';
+        return `
+          <div class="row-item">
+            <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:200px;">
+              ${p.image ? `<img src="${esc(p.image)}" alt="" style="width:46px;height:32px;border-radius:6px;object-fit:cover;border:1px solid var(--border);" />` : ''}
+              <div>
+                <strong>${esc(p.name)} (${esc(p.category)})</strong>
+                ${p.pinned ? '<span style="color:#c084fc;font-size:0.75rem;font-weight:800;"> [PINNED]</span>' : ''}
+                ${p.maintenance ? '<span style="color:#fbbf24;font-size:0.75rem;font-weight:800;"> [MAINTENANCE]</span>' : ''}
+                <div style="font-size:0.76rem;color:var(--muted);">${esc(pkgSummary)}</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button type="button" class="btn-dark pin-p-btn" style="margin:0;padding:7px 10px;border-color:#8b5cf6;color:#ddd6fe;" data-idx="${idx}">${p.pinned ? 'Unpin' : 'Pin Top'}</button>
+              <button type="button" class="btn-amber edit-p-btn" data-idx="${idx}">Edit</button>
+              <button type="button" class="btn-dark maint-p-btn" style="margin:0;padding:7px 10px;" data-idx="${idx}">${p.maintenance ? 'Set Live' : 'Maintenance'}</button>
+              <button type="button" class="btn-red del-p-btn" data-idx="${idx}">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      box.querySelectorAll('.edit-p-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const idx = Number(btn.getAttribute('data-idx'));
+          const p = draftStore.panels[idx];
+          const newName = prompt('New panel name:', p.name);
+          if (newName === null) return;
+          const newFeats = prompt('Panel features:', p.features || '');
+          if (newFeats === null) return;
+          const newPkgStr = prompt('Package prices (e.g., 1 Day:50, 7 Days:250):', Object.entries(p.packages || {}).map(([k, v]) => `${k}:${v}`).join(', '));
+          if (newPkgStr === null) return;
+
+          const parsedPkgs = {};
+          newPkgStr.split(',').forEach((chunk) => {
+            const parts = chunk.split(':');
+            if (parts.length === 2) {
+              const k = parts[0].trim();
+              const val = Number(parts[1].trim());
+              if (k && val > 0) parsedPkgs[k] = val;
+            }
+          });
+
+          p.name = newName.trim() || p.name;
+          p.features = newFeats.trim();
+          if (Object.keys(parsedPkgs).length) p.packages = parsedPkgs;
+          renderLivePanelsList();
+          await persistSection('sec5Msg', 'Panel updated and saved live.');
+        });
+      });
+
+      box.querySelectorAll('.pin-p-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const idx = Number(btn.getAttribute('data-idx'));
+          const p = draftStore.panels[idx];
+          p.pinned = !p.pinned;
+          draftStore.panels.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+          renderLivePanelsList();
+          await persistSection('sec5Msg', p.pinned ? 'Panel pinned to top.' : 'Panel unpinned.');
+        });
+      });
+
+      box.querySelectorAll('.maint-p-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const idx = Number(btn.getAttribute('data-idx'));
+          const p = draftStore.panels[idx];
+          p.maintenance = !p.maintenance;
+          renderLivePanelsList();
+          await persistSection('sec5Msg', 'Panel maintenance status updated live.');
+        });
+      });
+
+      box.querySelectorAll('.del-p-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const idx = Number(btn.getAttribute('data-idx'));
+          draftStore.panels.splice(idx, 1);
+          renderLivePanelsList();
+          await persistSection('sec5Msg', 'Panel deleted and removed from store.');
+        });
+      });
+    }
+
+    document.getElementById('saveSec5Btn').addEventListener('click', async () => {
+      await persistSection('sec5Msg', 'Section 5 saved live.');
+    });
+
+    document.getElementById('resetSerialBtn').addEventListener('click', async () => {
+      draftStore.serialControl.current = 0;
+      document.getElementById('serialCounterLabel').textContent = 'Current Serial: #0';
+      await persistSection('sec6Msg', 'Serial counter reset to #0.');
+    });
+
+    document.getElementById('saveSec6Btn').addEventListener('click', async () => {
+      const uname = (document.getElementById('supUsernameInp').value.trim() || 'mazedvai12').replace(/^@/, '');
+      draftStore.support.username = uname;
+      draftStore.support.whatsappEnabled = document.getElementById('supWaChk').checked;
+      draftStore.support.whatsappUrl = document.getElementById('supWaUrlInp').value.trim() || `https://wa.me/${uname}`;
+      draftStore.support.telegramEnabled = document.getElementById('supTgChk').checked;
+      draftStore.support.telegramUrl = document.getElementById('supTgUrlInp').value.trim() || `https://t.me/${uname}`;
+
+      draftStore.socials.youtubeEnabled = document.getElementById('socYtChk').checked;
+      draftStore.socials.youtubeUrl = document.getElementById('socYtUrl').value.trim();
+      draftStore.socials.tiktokEnabled = document.getElementById('socTkChk').checked;
+      draftStore.socials.tiktokUrl = document.getElementById('socTkUrl').value.trim();
+      draftStore.socials.discordEnabled = document.getElementById('socDcChk').checked;
+      draftStore.socials.discordUrl = document.getElementById('socDcUrl').value.trim();
+      draftStore.socials.telegramFooterEnabled = document.getElementById('socTgChk').checked;
+      draftStore.socials.telegramFooterUrl = document.getElementById('socTgUrl').value.trim();
+
+      draftStore.serialControl.enabled = document.getElementById('serialEnabledChk').checked;
+      await persistSection('sec6Msg', 'Section 6 saved live.');
+    });
+
+    function renderResellersList() {
+      const box = document.getElementById('resellersList');
+      const list = getAdmins().filter((a) => a.role !== 'Main Admin');
+      if (!list.length) {
+        box.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);margin-top:6px;">No resellers added yet.</div>';
+        return;
+      }
+      box.innerHTML = list.map((r) => `
+        <div class="row-item">
+          <div><strong>${esc(r.username)}</strong> <span style="font-size:0.75rem;color:var(--muted);">(Pass: ${esc(r.password)})</span></div>
+          <button type="button" class="btn-red" data-ruser="${esc(r.username)}">Delete</button>
+        </div>
+      `).join('');
+      box.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const target = btn.getAttribute('data-ruser');
+          const next = getAdmins().filter((a) => a.username !== target);
+          await saveAdmins(next);
+          renderResellersList();
+        });
+      });
+    }
+
+    document.getElementById('addResellerBtn').addEventListener('click', async () => {
+      const uname = document.getElementById('resellerNameInp').value.trim();
+      const upass = document.getElementById('resellerPassInp').value.trim();
+      if (!uname || !upass) return;
+      const admins = getAdmins();
+      admins.push({ username: uname, password: upass, role: 'Reseller' });
+      await saveAdmins(admins);
+      document.getElementById('resellerNameInp').value = '';
+      document.getElementById('resellerPassInp').value = '';
+      renderResellersList();
+      showSecMsg('sec7Msg', 'New reseller admin created.');
+    });
+
+    document.getElementById('updateMainPassBtn').addEventListener('click', async () => {
+      const np = document.getElementById('newMainPassInp').value.trim();
+      if (!np) return;
+      const admins = getAdmins();
+      admins[0].password = np;
+      await saveAdmins(admins);
+      document.getElementById('newMainPassInp').value = '';
+      showSecMsg('sec7Msg', 'Main admin password updated.');
+    });
+
+    document.getElementById('saveSec7Btn').addEventListener('click', async () => {
+      await persistSection('sec7Msg', 'Section 7 saved live.');
+    });
+
+    try {
+      const cachedStore = JSON.parse(localStorage.getItem(KEY_STORE) || 'null');
+      if (cachedStore) draftStore = normalizeStore(cachedStore);
+      const cachedAdmins = JSON.parse(localStorage.getItem(KEY_ADMINS) || 'null');
+      if (Array.isArray(cachedAdmins) && cachedAdmins.length) adminsCache = cachedAdmins;
+    } catch (e) {}
+
+    onValue(adminsDbRef, (snapshot) => {
+      const list = snapshot.val();
+      if (Array.isArray(list) && list.length) {
+        adminsCache = list;
+        localStorage.setItem(KEY_ADMINS, JSON.stringify(list));
+        if (sessionStorage.getItem(KEY_AUTH) === '1') renderResellersList();
+      }
+    });
+
+    onValue(storeDbRef, (snapshot) => {
+      const val = snapshot.val();
+      draftStore = normalizeStore(val || DEFAULT_STORE);
+      localStorage.setItem(KEY_STORE, JSON.stringify(draftStore));
+      if (sessionStorage.getItem(KEY_AUTH) === '1') {
+        populateFormFromDraft();
+        syncStorePowerButton();
+      }
+    });
+
+    let registeredUsersCache = {};
+    try {
+      const localU = JSON.parse(localStorage.getItem('mph_users_v4') || '{}');
+      if (localU && typeof localU === 'object') registeredUsersCache = localU;
+    } catch (e) {}
+
+    function renderAccountsSummary() {
+      const entries = Object.values(registeredUsersCache || {}).filter((u) => u && (u.id || u.username || u.phone));
+      const count = entries.length;
+      const countText = document.getElementById('totalAccountsCountText');
+      const modalTotal = document.getElementById('modalAccountsTotal');
+      const listBox = document.getElementById('registeredAccountsListBox');
+
+      if (countText) countText.textContent = `${count} ${count === 1 ? 'Account' : 'Accounts'}`;
+      if (modalTotal) modalTotal.textContent = String(count);
+
+      if (!listBox) return;
+      if (!count) {
+        listBox.innerHTML = '<div style="font-size:0.84rem;color:var(--muted);padding:12px 0;">No user accounts registered yet.</div>';
+        return;
+      }
+
+      listBox.innerHTML = entries.map((u, i) => `
+        <div class="row-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+          <div style="font-weight:800;color:#f9a8d4;">#${i + 1} — ${esc(u.name || '(No Name)')} (@${esc(u.username || (u.id || '').split('@')[0])})</div>
+          <div style="font-size:0.8rem;color:var(--text);"><strong>Gmail:</strong> ${esc(u.id || '-')}</div>
+          <div style="font-size:0.8rem;color:var(--text);"><strong>Phone:</strong> ${esc(u.phone || '-')}</div>
+          <div style="font-size:0.8rem;color:#34d399;"><strong>Password:</strong> ${esc(u.password || '-')}</div>
+          ${u.createdAt ? `<div style="font-size:0.72rem;color:var(--muted);">Created: ${esc(u.createdAt)}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('accountsSummaryBox').addEventListener('click', () => {
+      renderAccountsSummary();
+      document.getElementById('accountsDetailModal').style.display = 'flex';
+    });
+    document.getElementById('openAccountsModalBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      renderAccountsSummary();
+      document.getElementById('accountsDetailModal').style.display = 'flex';
+    });
+    document.getElementById('closeAccountsModalBtn').addEventListener('click', () => {
+      document.getElementById('accountsDetailModal').style.display = 'none';
+    });
+
+    onValue(usersDbRef, (snapshot) => {
+      const val = snapshot.val();
+      if (val && typeof val === 'object') {
+        registeredUsersCache = val;
+        localStorage.setItem('mph_users_v4', JSON.stringify(val));
+      } else {
+        registeredUsersCache = {};
+      }
+      renderAccountsSummary();
+    });
+
+    renderAccountsSummary();
+
+    if (sessionStorage.getItem(KEY_AUTH) === '1') {
+      unlockUI();
+    }
+  </script>
+</body>
+</html>
