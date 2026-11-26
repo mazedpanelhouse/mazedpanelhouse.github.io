@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Reseller Manager</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0b1120; color: #f1f5f9; margin: 0; padding: 20px; }
+    .box { max-width: 900px; margin: 0 auto 24px; background: #1e293b; padding: 20px; border-radius: 12px; }
+    input, button { padding: 10px; border-radius: 8px; border: none; margin: 5px 0; }
+    input { width: 100%; box-sizing: border-box; }
+    button { background: #16a34a; color: #fff; font-weight: bold; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { border: 1px solid #334155; padding: 8px; text-align: left; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>অ্যাডমিন রিসেলার ম্যানেজমেন্ট</h2>
+    <form id="addResellerForm">
+      <input type="text" id="resellerName" placeholder="রিসেলারের নাম (যেমন: Rahim)" required />
+      <input type="text" id="resellerCode" placeholder="রিসেলার কোড (যেমন: rahim01)" required />
+      <input type="text" id="siteBaseUrl" placeholder="আপনার সাইটের লিংক (যেমন: https://username.github.io/repo/index.html)" required />
+      <button type="submit">রিসেলার লিংক তৈরি করুন</button>
+    </form>
+
+    <h3>তৈরিকৃত রিসেলার তালিকা</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>নাম</th>
+          <th>কোড</th>
+          <th>রিসেলার লিংক</th>
+          <th>মোট অর্ডার</th>
+        </tr>
+      </thead>
+      <tbody id="resellerTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <h3>সাম্প্রতিক অর্ডারসমূহ</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>অর্ডার আইডি</th>
+          <th>কাস্টমার</th>
+          <th>প্যানেল</th>
+          <th>রিসেলার কোড</th>
+          <th>স্ট্যাটাস</th>
+        </tr>
+      </thead>
+      <tbody id="orderTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadData() {
+      const resellers = JSON.parse(localStorage.getItem("mazed_resellers") || "[]");
+      const orders = JSON.parse(localStorage.getItem("mazed_orders") || "[]");
+
+      const rBody = document.getElementById("resellerTableBody");
+      rBody.innerHTML = "";
+      resellers.forEach(r => {
+        const count = orders.filter(o => o.resellerCode === r.code).length;
+        const link = r.baseUrl + (r.baseUrl.includes("?") ? "&" : "?") + "ref=" + encodeURIComponent(r.code);
+        rBody.innerHTML += `
+          <tr>
+            <td>${r.name}</td>
+            <td>${r.code}</td>
+            <td><input type="text" value="${link}" readonly onclick="this.select()" /></td>
+            <td>${count}</td>
+          </tr>
+        `;
+      });
+
+      const oBody = document.getElementById("orderTableBody");
+      oBody.innerHTML = "";
+      orders.slice().reverse().forEach(o => {
+        oBody.innerHTML += `
+          <tr>
+            <td>${o.id}</td>
+            <td>${o.name} (${o.phone})</td>
+            <td>${o.panel}</td>
+            <td>${o.resellerCode}</td>
+            <td>${o.status}</td>
+          </tr>
+        `;
+      });
+    }
+
+    document.getElementById("addResellerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const resellers = JSON.parse(localStorage.getItem("mazed_resellers") || "[]");
+      const code = document.getElementById("resellerCode").value.trim().toLowerCase();
+      const name = document.getElementById("resellerName").value.trim();
+      const baseUrl = document.getElementById("siteBaseUrl").value.trim();
+
+      const filtered = resellers.filter(item => item.code !== code);
+      filtered.push({ name, code, baseUrl });
+      localStorage.setItem("mazed_resellers", JSON.stringify(filtered));
+      this.reset();
+      loadData();
+    });
+
+    loadData();
+  </script>
+</body>
+</html>
