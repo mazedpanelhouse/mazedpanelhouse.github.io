@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #07050c;
+      --card: #120d1f;
+      --card-2: #19132b;
+      --text: #f5f3ff;
+      --muted: #a79ec2;
+      --border: #2c2147;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --grad: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+      --ok: #34d399;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 48px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(12, 8, 22, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .brand-left { display: flex; align-items: center; gap: 10px; }
+    .sync-pill {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--ok);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .view-store-link {
+      text-decoration: none;
+      background: var(--grad);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .store-toggle-btn {
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .store-toggle-btn.open { border-color: rgba(52, 211, 153, 0.5); color: var(--ok); }
+    .store-toggle-btn.closed { border-color: rgba(239, 68, 68, 0.5); color: #fca5a5; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card-title { margin: 0 0 10px 0; font-size: 1rem; font-weight: 800; }
+    .muted-note { margin: 0 0 10px 0; font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (max-width: 720px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 11px;
+      margin-top: 4px;
+      font-size: 0.88rem;
+    }
+    .chk-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 10px; font-size: 0.86rem; font-weight: 600;
+    }
+    .chk-row input[type="checkbox"] { width: auto; margin: 0; }
+    .btn-grad {
+      background: var(--grad); color: #fff; border: none; border-radius: 10px;
+      padding: 10px 14px; font-size: 0.88rem; font-weight: 700; cursor: pointer; margin-top: 10px;
+    }
+    .btn-dark {
+      background: var(--card-2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 8px 12px; font-size: 0.82rem; font-weight: 700; cursor: pointer; margin-top: 8px;
+    }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.16); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.45);
+      border-radius: 10px; padding: 8px 12px; font-size: 0.82rem; font-weight: 700; cursor: pointer; margin-top: 8px;
+    }
+    .item-row {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sub-box {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    .msg-ok { color: var(--ok); font-size: 0.84rem; font-weight: 700; margin-top: 8px; }
+    .msg-err { color: #fca5a5; font-size: 0.84rem; font-weight: 700; margin-top: 8px; }
+    .table-wrap { overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+    th { background: var(--card-2); color: #f9a8d4; }
+    .badge-pin {
+      background: rgba(139, 92, 246, 0.25);
+      color: #ddd6fe;
+      border: 1px solid rgba(139, 92, 246, 0.5);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+    .badge-maint {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Admin Gate Modal -->
+  <div id="adminGateBox" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;">
+    <div class="card" style="max-width:400px;width:100%;">
+      <h2 class="card-title">Admin Panel Access</h2>
+      <p class="muted-note">Enter Admin Password to open Mazed Panel House dashboard.</p>
+      <label for="adminPassInput">Admin Password</label>
+      <input type="password" id="adminPassInput" placeholder="Enter admin password" />
+      <button type="button" id="adminLoginBtn" class="btn-grad" style="width:100%;">Unlock Dashboard</button>
+      <div id="adminGateMsg" class="msg-err"></div>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard Content -->
+  <div id="adminDashboardRoot" class="hidden">
+    <header class="topbar">
+      <div class="brand-left">
+        <div>
+          <div style="font-weight:800;font-size:0.98rem;">MAZED PANEL HOUSE — ADMIN</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Real-Time Store &amp; Account Manager</div>
+        </div>
+        <span class="sync-pill">Firebase Live Sync</span>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="quickStoreStatusBtn" class="store-toggle-btn open">Store: AUTO</button>
+        <a href="index.html" class="view-store-link">Open Storefront</a>
+        <button type="button" id="adminLogoutBtn" class="btn-dark" style="margin-top:0;">Lock</button>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <!-- 1. Brand, Notices & Store Schedule -->
+      <section class="card">
+        <h2 class="card-title">1. Store Identity, Notices &amp; Schedule Control</h2>
+        <div class="grid-2">
+          <div>
+            <label>Brand Name</label>
+            <input type="text" id="brandNameInput" />
+          </div>
+          <div>
+            <label>Brand Subtitle</label>
+            <input type="text" id="brandSubInput" />
+          </div>
+        </div>
+
+        <label>Store Logo URL or Upload Image</label>
+        <div class="grid-2">
+          <input type="text" id="logoUrlInput" placeholder="https://... or data:image/..." />
+          <input type="file" id="logoFileInput" accept="image/*" />
+        </div>
+
+        <div class="chk-row">
+          <input type="checkbox" id="topNoticeEnabled" />
+          <label for="topNoticeEnabled" style="margin:0;">Enable Top Scrolling Notice</label>
+        </div>
+        <input type="text" id="topNoticeText" placeholder="Top right-to-left scrolling announcement..." />
+
+        <div class="chk-row">
+          <input type="checkbox" id="bottomNoticeEnabled" />
+          <label for="bottomNoticeEnabled" style="margin:0;">Enable Bottom Important Notice</label>
+        </div>
+        <textarea id="bottomNoticeText" rows="2" placeholder="Important store notice at bottom..."></textarea>
+
+        <div class="grid-3" style="margin-top:8px;">
+          <div>
+            <label>Store Open Mode</label>
+            <select id="storeModeSelect">
+              <option value="auto">Auto Schedule (Open/Close Time)</option>
+              <option value="manual_on">Force Open</option>
+              <option value="manual_off">Force Closed</option>
+            </select>
+          </div>
+          <div>
+            <label>Opening Time (24h)</label>
+            <input type="time" id="storeOpenTimeInput" />
+          </div>
+          <div>
+            <label>Closing Time (24h)</label>
+            <input type="time" id="storeCloseTimeInput" />
+          </div>
+        </div>
+        <label>Closed Screen Message</label>
+        <input type="text" id="storeClosedMsgInput" />
+
+        <button type="button" id="saveBrandNoticesBtn" class="btn-grad">Save Brand &amp; Notices</button>
+        <div id="brandSaveMsg" class="msg-ok"></div>
+      </section>
+
+      <!-- 2. Popup & Telegram Channels -->
+      <section class="card">
+        <h2 class="card-title">2. Startup Popup &amp; Telegram Channels</h2>
+        <div class="chk-row">
+          <input type="checkbox" id="popupEnabledChk" />
+          <label for="popupEnabledChk" style="margin:0;">Enable Startup Popup Modal</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="popupShowChannelsChk" />
+          <label for="popupShowChannelsChk" style="margin:0;">Show Telegram Channel Buttons Inside Popup</label>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label>Popup Heading</label>
+            <input type="text" id="popupTitleInput" placeholder="Important Update!" />
+          </div>
+          <div>
+            <label>Popup Message</label>
+            <input type="text" id="popupMsgInput" placeholder="Join our official Telegram channels for updates." />
+          </div>
+        </div>
+
+        <label style="margin-top:12px;">Add Telegram Channel Button (Up to 3 recommended)</label>
+        <div class="grid-2">
+          <input type="text" id="newChannelLabel" placeholder="Channel Title (e.g. Main Telegram Channel)" />
+          <input type="url" id="newChannelUrl" placeholder="https://t.me/yourchannel" />
+        </div>
+        <button type="button" id="addChannelBtn" class="btn-dark">+ Add Telegram Channel</button>
+
+        <div id="popupChannelsList"></div>
+        <button type="button" id="savePopupBtn" class="btn-grad">Save Popup &amp; Channels</button>
+        <div id="popupSaveMsg" class="msg-ok"></div>
+      </section>
+
+      <!-- 3. Banner Slider Manager -->
+      <section class="card">
+        <h2 class="card-title">3. Banner Slider Manager</h2>
+        <div class="grid-2">
+          <div>
+            <label>Banner Title (Optional)</label>
+            <input type="text" id="bannerTitleInput" placeholder="New Panel Drop" />
+          </div>
+          <div>
+            <label>Banner Subtitle (Optional)</label>
+            <input type="text" id="bannerSubInput" placeholder="100% Safe & Instant Delivery" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label>Banner Image URL or Upload</label>
+            <input type="text" id="bannerImgInput" placeholder="https://... or uploaded image" />
+            <input type="file" id="bannerFileInput" accept="image/*" />
+          </div>
+          <div>
+            <label>Click Destination URL (Optional)</label>
+            <input type="url" id="bannerLinkInput" placeholder="https://t.me/..." />
+          </div>
+        </div>
+        <button type="button" id="addBannerBtn" class="btn-grad">+ Add Banner Slide</button>
+        <div id="bannersList"></div>
+      </section>
+
+      <!-- 4. Panel & Package Manager (1-24 Hours & 1-30 Days Builder) -->
+      <section class="card">
+        <h2 class="card-title">4. Panel &amp; Package Manager</h2>
+        <p class="muted-note">
+          Create panels and build custom packages using <strong>1–24 Hours</strong> or <strong>1–30 Days</strong> selectors with price in BDT (৳). You can also add multiple packages to a single panel before saving.
+        </p>
+
+        <div class="grid-3">
+          <div>
+            <label>Panel Name</label>
+            <input type="text" id="panelNameInput" placeholder="e.g. VIP Aimbot Panel" />
+          </div>
+          <div>
+            <label>Category</label>
+            <select id="panelCatSelect">
+              <option value="ROOT">ROOT</option>
+              <option value="NON ROOT">NON ROOT</option>
+              <option value="iOS">iOS</option>
+              <option value="PC PANEL">PC PANEL</option>
+              <option value="GUILD BOT">GUILD BOT</option>
+            </select>
+          </div>
+          <div>
+            <label>Features Summary</label>
+            <input type="text" id="panelFeaturesInput" placeholder="Smooth aim, ESP, anti-ban" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Panel Thumbnail URL or Upload</label>
+            <input type="text" id="panelImgInput" placeholder="https://... or uploaded image" />
+            <input type="file" id="panelFileInput" accept="image/*" />
+          </div>
+          <div>
+            <label>Maintenance Note (if under maintenance)</label>
+            <input type="text" id="panelMaintMsgInput" placeholder="Updating offsets, back soon." />
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:10px;">
+          <!-- Box 1: 1 to 24 Hours Selector -->
+          <div class="sub-box">
+            <div style="font-weight:800;font-size:0.9rem;color:#f9a8d4;margin-bottom:6px;">Hourly Package (1 – 24 Hours)</div>
+            <label for="hourDurationSelect">Select Hours (1h – 24h)</label>
+            <select id="hourDurationSelect"></select>
+            <label for="hourPriceInput">Price in ৳ (BDT)</label>
+            <input type="number" id="hourPriceInput" min="1" placeholder="e.g. 120" />
+            <button type="button" id="addHourPkgBtn" class="btn-dark" style="width:100%;">+ Add Hour Package</button>
+          </div>
+
+          <!-- Box 2: 1 to 30 Days Selector -->
+          <div class="sub-box">
+            <div style="font-weight:800;font-size:0.9rem;color:#f9a8d4;margin-bottom:6px;">Daily Package (1 – 30 Days)</div>
+            <label for="dayDurationSelect">Select Days (1 Day – 30 Days)</label>
+            <select id="dayDurationSelect"></select>
+            <label for="dayPriceInput">Price in ৳ (BDT)</label>
+            <input type="number" id="dayPriceInput" min="1" placeholder="e.g. 500" />
+            <button type="button" id="addDayPkgBtn" class="btn-dark" style="width:100%;">+ Add Day Package</button>
+          </div>
+        </div>
+
+        <div class="sub-box" style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <strong style="font-size:0.86rem;">Selected Packages for This Panel:</strong>
+            <button type="button" id="clearDraftPkgsBtn" class="btn-danger" style="margin-top:0;padding:4px 10px;">Clear All Packages</button>
+          </div>
+          <div id="draftPackagesPreview" style="margin-top:8px;font-size:0.82rem;color:var(--muted);">No packages added yet. Choose hours (1–24h) or days (1–30d) above.</div>
+        </div>
+
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <div class="chk-row">
+            <input type="checkbox" id="panelPinnedChk" />
+            <label for="panelPinnedChk" style="margin:0;">Pin Panel to Top</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="panelMaintChk" />
+            <label for="panelMaintChk" style="margin:0;">Mark as Under Maintenance</label>
+          </div>
+        </div>
+
+        <button type="button" id="addPanelBtn" class="btn-grad">+ Add Panel to Store</button>
+        <div id="panelSaveMsg" class="msg-ok"></div>
+        <div id="panelsList"></div>
+      </section>
+
+      <!-- 5. Payment Numbers, Support, Socials & Separate Order Serial Reset -->
+      <section class="card">
+        <h2 class="card-title">5. Payment Methods, Support, Socials &amp; Order Serial Reset</h2>
+        <div class="grid-2">
+          <div>
+            <div class="chk-row"><input type="checkbox" id="bkashEnabled" /><label for="bkashEnabled" style="margin:0;">bKash Enabled</label></div>
+            <input type="text" id="bkashNumber" placeholder="01XXXXXXXXX" />
+            <input type="text" id="bkashType" placeholder="Send Money" />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="nagadEnabled" /><label for="nagadEnabled" style="margin:0;">Nagad Enabled</label></div>
+            <input type="text" id="nagadNumber" placeholder="01XXXXXXXXX" />
+            <input type="text" id="nagadType" placeholder="Send Money" />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="rocketEnabled" /><label for="rocketEnabled" style="margin:0;">Rocket Enabled</label></div>
+            <input type="text" id="rocketNumber" placeholder="01XXXXXXXXX" />
+            <input type="text" id="rocketType" placeholder="Send Money" />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="upayEnabled" /><label for="upayEnabled" style="margin:0;">Upay Enabled</label></div>
+            <input type="text" id="upayNumber" placeholder="01XXXXXXXXX" />
+            <input type="text" id="upayType" placeholder="Send Money" />
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;" />
+
+        <div class="grid-3">
+          <div>
+            <label>Support Username (fallback)</label>
+            <input type="text" id="supportUsernameInput" placeholder="mazedvai12" />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="waSupportEnabled" /><label for="waSupportEnabled" style="margin:0;">WhatsApp Support</label></div>
+            <input type="url" id="waSupportUrl" placeholder="https://wa.me/8801XXXXXXXXX" />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="tgSupportEnabled" /><label for="tgSupportEnabled" style="margin:0;">Telegram Support</label></div>
+            <input type="url" id="tgSupportUrl" placeholder="https://t.me/mazedvai12" />
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:8px;">
+          <div>
+            <div class="chk-row"><input type="checkbox" id="ytEnabled" /><label for="ytEnabled" style="margin:0;">YouTube</label></div>
+            <input type="url" id="ytUrl" placeholder="https://youtube.com/@..." />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="ttEnabled" /><label for="ttEnabled" style="margin:0;">TikTok</label></div>
+            <input type="url" id="ttUrl" placeholder="https://tiktok.com/@..." />
+          </div>
+          <div>
+            <div class="chk-row"><input type="checkbox" id="dcEnabled" /><label for="dcEnabled" style="margin:0;">Discord</label></div>
+            <input type="url" id="dcUrl" placeholder="https://discord.gg/..." />
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:8px;">
+          <div>
+            <div class="chk-row"><input type="checkbox" id="tgFooterEnabled" /><label for="tgFooterEnabled" style="margin:0;">Footer Telegram Button</label></div>
+            <input type="text" id="tgFooterLabel" placeholder="Join Our Telegram Channel" />
+          </div>
+          <div>
+            <label>Footer Telegram URL</label>
+            <input type="url" id="tgFooterUrl" placeholder="https://t.me/..." />
+          </div>
+        </div>
+
+        <!-- Dedicated Separate Order Serial Number & Reset Section -->
+        <div class="sub-box" style="margin-top:14px;">
+          <div style="font-weight:800;font-size:0.92rem;color:#f9a8d4;">Order Serial Number Control &amp; Reset</div>
+          <p class="muted-note" style="margin-top:4px;">
+            Set the starting/current order serial number independently or reset it anytime (next order becomes Start Number + 1).
+          </p>
+          <div class="chk-row" style="margin-top:4px;">
+            <input type="checkbox" id="serialEnabledChk" />
+            <label for="serialEnabledChk" style="margin:0;">Enable Order Serial Number on Orders</label>
+          </div>
+          <div class="grid-2" style="margin-top:6px;">
+            <div>
+              <label for="serialStartInput">Set Order Serial Number (Start From)</label>
+              <input type="number" id="serialStartInput" min="0" placeholder="e.g. 0 or 100" />
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;">
+              <button type="button" id="applySerialNumberBtn" class="btn-dark">Apply Serial Number</button>
+              <button type="button" id="resetOrderSerialBtn" class="btn-danger">Reset Serial to 0</button>
+            </div>
+          </div>
+          <div id="serialResetMsg" class="msg-ok"></div>
+        </div>
+
+        <button type="button" id="savePaymentsSocialBtn" class="btn-grad">Save Payment, Support &amp; Socials</button>
+        <div id="paySocialSaveMsg" class="msg-ok"></div>
+      </section>
+
+      <!-- 6. Reseller Manager (Up to 100 Resellers) -->
+      <section class="card">
+        <h2 class="card-title">6. Reseller Manager (Up to 100 Resellers)</h2>
+        <p class="muted-note">
+          Add, edit, or remove resellers (maximum 100 resellers).
+        </p>
+        <div class="grid-3">
+          <div>
+            <label>Reseller Name</label>
+            <input type="text" id="resellerNameInput" placeholder="Reseller name" />
+          </div>
+          <div>
+            <label>Phone / WhatsApp / Telegram</label>
+            <input type="text" id="resellerContactInput" placeholder="01XXXXXXXXX or @username" />
+          </div>
+          <div>
+            <label>Reseller Code / Note</label>
+            <input type="text" id="resellerNoteInput" placeholder="e.g. VIP Reseller / Discount %" />
+          </div>
+        </div>
+        <button type="button" id="addResellerBtn" class="btn-grad">+ Add Reseller (<span id="resellerCountLabel">0</span>/100)</button>
+        <div id="resellerMsg" class="msg-ok"></div>
+        <div id="resellersList"></div>
+      </section>
+
+      <!-- 7. Admin Password Change & Registered Users Reset -->
+      <section class="card">
+        <h2 class="card-title">7. Admin Password Settings &amp; Registered Users Control</h2>
+
+        <div class="sub-box">
+          <div style="font-weight:800;font-size:0.92rem;color:#f9a8d4;margin-bottom:4px;">Change Admin Panel Password</div>
+          <div class="grid-3">
+            <div>
+              <label for="currentAdminPassInput">Current Password</label>
+              <input type="password" id="currentAdminPassInput" placeholder="Current password" />
+            </div>
+            <div>
+              <label for="newAdminPassInput">New Password</label>
+              <input type="password" id="newAdminPassInput" placeholder="New password (min 4 chars)" />
+            </div>
+            <div>
+              <label for="confirmAdminPassInput">Confirm New Password</label>
+              <input type="password" id="confirmAdminPassInput" placeholder="Retype new password" />
+            </div>
+          </div>
+          <button type="button" id="changeAdminPassBtn" class="btn-grad">Update Admin Password</button>
+          <div id="adminPassChangeMsg" class="msg-ok"></div>
+        </div>
+
+        <div class="sub-box" style="margin-top:14px;">
+          <div style="font-weight:800;font-size:0.92rem;color:#f9a8d4;margin-bottom:4px;">Registered Users &amp; Account Reset</div>
+          <p class="muted-note">
+            Each Gmail, Facebook account, or phone number can register only once. Resetting all accounts wipes existing users so everyone can register fresh once.
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" id="refreshUsersBtn" class="btn-dark" style="margin-top:0;">Refresh User List</button>
+            <button type="button" id="resetAllUsersBtn" class="btn-danger" style="margin-top:0;">Reset All User Accounts</button>
+          </div>
+          <div id="usersActionMsg" class="msg-ok"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Account / Gmail</th>
+                  <th>Username</th>
+                  <th>Phone</th>
+                  <th>Method</th>
+                  <th>Created</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="7" style="text-align:center;color:var(--muted);">No registered users in database.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqzL-6MtvpthQJIDesIasukPrDxjyAcJw",
+      authDomain: "mazed-panel-house.firebaseapp.com",
+      databaseURL: "https://mazed-panel-house-default-rtdb.firebaseio.com",
+      projectId: "mazed-panel-house",
+      storageBucket: "mazed-panel-house.firebasestorage.app",
+      messagingSenderId: "330997308435",
+      appId: "1:330997308435:web:c5e78c62ddc5acf7a8b3e6",
+      measurementId: "G-8PKDHT118T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const storeDbRef = ref(db, "mazed_store_live");
+    const usersDbRef = ref(db, "mazed_users_live");
+    const adminConfigDbRef = ref(db, "mazed_admin_config_v6");
+    const resetMarkerDbRef = ref(db, "mazed_auth_reset_v6");
+
+    const KEY_STORE = 'mph_store_v4';
+    const KEY_USERS = 'mph_users_v4';
+    const KEY_ADMIN_AUTH = 'mph_admin_unlocked_v6';
+    const KEY_ADMIN_PASS = 'mph_admin_pass_v6';
+    const ADMIN_PASS_DEFAULT = 'mazedadmin123';
+    const MAX_RESELLERS = 100;
+
+    const DEFAULT_STORE = {
+      brandName: 'MAZED PANEL HOUSE',
+      brandSub: 'VERIFIED GAMING PANEL STORE',
+      logoUrl: 'https://via.placeholder.com/80x80/19132b/f472b6?text=MPH',
+      popup: {
+        enabled: false,
+        title: '',
+        message: '',
+        showChannels: false,
+        channels: []
+      },
+      topNotice: { enabled: false, text: '' },
+      bottomNotice: { enabled: false, text: '' },
+      storeControl: {
+        mode: 'auto',
+        forceClosed: false,
+        openTime: '09:00',
+        closeTime: '23:00',
+        closedMessage: 'Store is currently closed. Open from 09:00 to 23:00.'
+      },
+      banners: [],
+      panels: [],
+      resellers: [],
+      payments: {
+        bkash: { enabled: false, number: '', type: 'Send Money' },
+        nagad: { enabled: false, number: '', type: 'Send Money' },
+        rocket: { enabled: false, number: '', type: 'Send Money' },
+        upay: { enabled: false, number: '', type: 'Send Money' }
+      },
+      support: {
+        username: 'mazedvai12',
+        whatsappEnabled: false,
+        whatsappUrl: '',
+        telegramEnabled: false,
+        telegramUrl: ''
+      },
+      socials: {
+        youtubeEnabled: false,
+        youtubeUrl: '',
+        tiktokEnabled: false,
+        tiktokUrl: '',
+        discordEnabled: false,
+        discordUrl: '',
+        telegramFooterEnabled: false,
+        telegramFooterLabel: 'Join Our Telegram Channel',
+        telegramFooterUrl: ''
+      },
+      serialControl: { enabled: true, current: 0 }
+    };
+
+    let storeState = structuredClone(DEFAULT_STORE);
+    let usersState = {};
+    let draftPackages = {};
+    let currentAdminPassword = localStorage.getItem(KEY_ADMIN_PASS) || ADMIN_PASS_DEFAULT;
+
+    function populateDurationDropdowns() {
+      const hourSel = document.getElementById('hourDurationSelect');
+      const daySel = document.getElementById('dayDurationSelect');
+      hourSel.innerHTML = '';
+      daySel.innerHTML = '';
+
+      for (let h = 1; h <= 24; h++) {
+        const opt = document.createElement('option');
+        opt.value = `${h} ${h === 1 ? 'Hour' : 'Hours'}`;
+        opt.textContent = `${h} ${h === 1 ? 'Hour' : 'Hours'}`;
+        hourSel.appendChild(opt);
+      }
+
+      for (let d = 1; d <= 30; d++) {
+        const opt = document.createElement('option');
+        opt.value = `${d} ${d === 1 ? 'Day' : 'Days'}`;
+        opt.textContent = `${d} ${d === 1 ? 'Day' : 'Days'}`;
+        daySel.appendChild(opt);
+      }
+    }
+
+    function renderDraftPackagesPreview() {
+      const box = document.getElementById('draftPackagesPreview');
+      const entries = Object.entries(draftPackages);
+      if (!entries.length) {
+        box.textContent = 'No packages added yet. Choose hours (1–24h) or days (1–30d) above.';
+        return;
+      }
+      box.innerHTML = entries.map(([label, price]) => `
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:4px 10px;margin:3px 4px 3px 0;color:var(--text);">
+          <strong>${esc(label)}</strong>: <span style="color:#f472b6;">৳${esc(price)}</span>
+          <button type="button" data-rm-pkg="${esc(label)}" style="background:none;border:none;color:#fca5a5;font-weight:800;cursor:pointer;padding:0 2px;">&times;</button>
+        </span>
+      `).join('');
+
+      box.querySelectorAll('[data-rm-pkg]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const k = btn.getAttribute('data-rm-pkg');
+          delete draftPackages[k];
+          renderDraftPackagesPreview();
+        });
+      });
+    }
+
+    function normalizeStore(parsed) {
+      if (!parsed || typeof parsed !== 'object') return structuredClone(DEFAULT_STORE);
+      return {
+        ...structuredClone(DEFAULT_STORE),
+        ...parsed,
+        popup: {
+          ...DEFAULT_STORE.popup,
+          ...(parsed.popup || {}),
+          channels: Array.isArray((parsed.popup || {}).channels) ? parsed.popup.channels : []
+        },
+        topNotice: { ...DEFAULT_STORE.topNotice, ...(parsed.topNotice || {}) },
+        bottomNotice: { ...DEFAULT_STORE.bottomNotice, ...(parsed.bottomNotice || {}) },
+        storeControl: { ...DEFAULT_STORE.storeControl, ...(parsed.storeControl || {}) },
+        banners: Array.isArray(parsed.banners) ? parsed.banners : [],
+        panels: Array.isArray(parsed.panels) ? parsed.panels : [],
+        resellers: Array.isArray(parsed.resellers) ? parsed.resellers.slice(0, MAX_RESELLERS) : [],
+        payments: {
+          bkash: { ...DEFAULT_STORE.payments.bkash, ...((parsed.payments || {}).bkash || {}) },
+          nagad: { ...DEFAULT_STORE.payments.nagad, ...((parsed.payments || {}).nagad || {}) },
+          rocket: { ...DEFAULT_STORE.payments.rocket, ...((parsed.payments || {}).rocket || {}) },
+          upay: { ...DEFAULT_STORE.payments.upay, ...((parsed.payments || {}).upay || {}) }
+        },
+        support: { ...DEFAULT_STORE.support, ...(parsed.support || {}) },
+        socials: { ...DEFAULT_STORE.socials, ...(parsed.socials || {}) },
+        serialControl: { ...DEFAULT_STORE.serialControl, ...(parsed.serialControl || {}) }
+      };
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    async function persistStore(nextStore, statusElId, statusText) {
+      storeState = normalizeStore(nextStore);
+      localStorage.setItem(KEY_STORE, JSON.stringify(storeState));
+      try {
+        await set(storeDbRef, storeState);
+      } catch (e) {}
+      renderAllAdminForms();
+      if (statusElId && statusText) {
+        const el = document.getElementById(statusElId);
+        el.textContent = statusText;
+        setTimeout(() => { el.textContent = ''; }, 3200);
+      }
+    }
+
+    function readFileAsDataUrl(inputEl, targetInputId) {
+      const f = inputEl.files && inputEl.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById(targetInputId).value = reader.result;
+      };
+      reader.readAsDataURL(f);
+    }
+
+    function renderResellersList() {
+      const resellers = Array.isArray(storeState.resellers) ? storeState.resellers : [];
+      document.getElementById('resellerCountLabel').textContent = String(resellers.length);
+      const listEl = document.getElementById('resellersList');
+      if (!resellers.length) {
+        listEl.innerHTML = '<p class="muted-note" style="margin-top:8px;">No resellers added yet (0/100).</p>';
+        return;
+      }
+      listEl.innerHTML = resellers.map((r, idx) => `
+        <div class="item-row">
+          <div>
+            <strong>#${idx + 1} — ${esc(r.name)}</strong>
+            <div style="font-size:0.78rem;color:var(--muted);">Contact: ${esc(r.contact || '-')} ${r.note ? '| Note: ' + esc(r.note) : ''}</div>
+          </div>
+          <button type="button" class="btn-danger" data-del-res="${idx}" style="margin-top:0;">Remove</button>
+        </div>
+      `).join('');
+
+      listEl.querySelectorAll('[data-del-res]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const i = Number(btn.getAttribute('data-del-res'));
+          const next = structuredClone(storeState);
+          next.resellers.splice(i, 1);
+          await persistStore(next, 'resellerMsg', 'Reseller removed.');
+        });
+      });
+    }
+
+    function renderAllAdminForms() {
+      const s = storeState;
+      document.getElementById('brandNameInput').value = s.brandName || '';
+      document.getElementById('brandSubInput').value = s.brandSub || '';
+      document.getElementById('logoUrlInput').value = s.logoUrl || '';
+      document.getElementById('topNoticeEnabled').checked = Boolean(s.topNotice && s.topNotice.enabled);
+      document.getElementById('topNoticeText').value = (s.topNotice && s.topNotice.text) || '';
+      document.getElementById('bottomNoticeEnabled').checked = Boolean(s.bottomNotice && s.bottomNotice.enabled);
+      document.getElementById('bottomNoticeText').value = (s.bottomNotice && s.bottomNotice.text) || '';
+
+      const sc = s.storeControl || {};
+      document.getElementById('storeModeSelect').value = sc.mode || 'auto';
+      document.getElementById('storeOpenTimeInput').value = sc.openTime || '09:00';
+      document.getElementById('storeCloseTimeInput').value = sc.closeTime || '23:00';
+      document.getElementById('storeClosedMsgInput').value = sc.closedMessage || '';
+
+      const qBtn = document.getElementById('quickStoreStatusBtn');
+      const modeVal = sc.mode || 'auto';
+      qBtn.textContent = `Store: ${modeVal.toUpperCase()}`;
+      qBtn.className = 'store-toggle-btn ' + (modeVal === 'manual_off' ? 'closed' : 'open');
+
+      const pop = s.popup || {};
+      document.getElementById('popupEnabledChk').checked = Boolean(pop.enabled);
+      document.getElementById('popupShowChannelsChk').checked = Boolean(pop.showChannels);
+      document.getElementById('popupTitleInput').value = pop.title || '';
+      document.getElementById('popupMsgInput').value = pop.message || '';
+
+      const chList = document.getElementById('popupChannelsList');
+      const chans = Array.isArray(pop.channels) ? pop.channels : [];
+      chList.innerHTML = chans.length ? chans.map((c, idx) => `
+        <div class="item-row">
+          <div>
+            <strong>${esc(c.label || 'Telegram Channel')}</strong>
+            <div style="font-size:0.78rem;color:var(--muted);">${esc(c.url || '')}</div>
+          </div>
+          <button type="button" class="btn-danger" data-del-ch="${idx}" style="margin-top:0;">Remove</button>
+        </div>
+      `).join('') : '<p class="muted-note" style="margin-top:8px;">No Telegram channels added.</p>';
+
+      chList.querySelectorAll('[data-del-ch]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const i = Number(btn.getAttribute('data-del-ch'));
+          const next = structuredClone(storeState);
+          next.popup.channels.splice(i, 1);
+          await persistStore(next, 'popupSaveMsg', 'Channel removed & synced.');
+        });
+      });
+
+      const bList = document.getElementById('bannersList');
+      const banners = Array.isArray(s.banners) ? s.banners : [];
+      bList.innerHTML = banners.length ? banners.map((b, idx) => `
+        <div class="item-row">
+          <div>
+            <strong>${esc(b.title || 'Banner #' + (idx + 1))}</strong>
+            <div style="font-size:0.78rem;color:var(--muted);">${esc(b.subtitle || '')} ${b.linkUrl ? '| Link: ' + esc(b.linkUrl) : ''}</div>
+          </div>
+          <button type="button" class="btn-danger" data-del-ban="${idx}" style="margin-top:0;">Delete</button>
+        </div>
+      `).join('') : '<p class="muted-note" style="margin-top:8px;">No banner slides added.</p>';
+
+      bList.querySelectorAll('[data-del-ban]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const i = Number(btn.getAttribute('data-del-ban'));
+          const next = structuredClone(storeState);
+          next.banners.splice(i, 1);
+          await persistStore(next);
+        });
+      });
+
+      const pList = document.getElementById('panelsList');
+      const panels = Array.isArray(s.panels) ? s.panels : [];
+      pList.innerHTML = panels.length ? panels.map((p) => {
+        const pkgEntries = Object.entries(p.packages || {}).filter(([, v]) => Number(v) > 0).map(([k, v]) => `${k}: ৳${v}`);
+        return `
+          <div class="item-row">
+            <div>
+              <strong>${esc(p.name)}</strong> <span class="badge-pin">${esc(p.category || 'PANEL')}</span>
+              ${p.pinned ? '<span class="badge-pin">PINNED</span>' : ''}
+              ${p.maintenance ? '<span class="badge-maint">MAINTENANCE</span>' : ''}
+              <div style="font-size:0.78rem;color:var(--muted);margin-top:3px;">${esc(pkgEntries.join(' | ') || 'No prices set')}</div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button type="button" class="btn-dark" data-pin-id="${esc(p.id)}" style="margin-top:0;">${p.pinned ? 'Unpin' : 'Pin'}</button>
+              <button type="button" class="btn-dark" data-maint-id="${esc(p.id)}" style="margin-top:0;">${p.maintenance ? 'Set Active' : 'Maintenance'}</button>
+              <button type="button" class="btn-danger" data-del-pan="${esc(p.id)}" style="margin-top:0;">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<p class="muted-note" style="margin-top:8px;">No panels added yet.</p>';
+
+      pList.querySelectorAll('[data-pin-id]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-pin-id');
+          const next = structuredClone(storeState);
+          next.panels = next.panels.map((item) => item.id === id ? { ...item, pinned: !item.pinned } : item);
+          await persistStore(next);
+        });
+      });
+      pList.querySelectorAll('[data-maint-id]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-maint-id');
+          const next = structuredClone(storeState);
+          next.panels = next.panels.map((item) => item.id === id ? { ...item, maintenance: !item.maintenance } : item);
+          await persistStore(next);
+        });
+      });
+      pList.querySelectorAll('[data-del-pan]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-del-pan');
+          const next = structuredClone(storeState);
+          next.panels = next.panels.filter((item) => item.id !== id);
+          await persistStore(next);
+        });
+      });
+
+      const pm = s.payments || {};
+      ['bkash', 'nagad', 'rocket', 'upay'].forEach((k) => {
+        document.getElementById(`${k}Enabled`).checked = Boolean(pm[k] && pm[k].enabled);
+        document.getElementById(`${k}Number`).value = (pm[k] && pm[k].number) || '';
+        document.getElementById(`${k}Type`).value = (pm[k] && pm[k].type) || 'Send Money';
+      });
+
+      const sup = s.support || {};
+      document.getElementById('supportUsernameInput').value = sup.username || 'mazedvai12';
+      document.getElementById('waSupportEnabled').checked = Boolean(sup.whatsappEnabled);
+      document.getElementById('waSupportUrl').value = sup.whatsappUrl || '';
+      document.getElementById('tgSupportEnabled').checked = Boolean(sup.telegramEnabled);
+      document.getElementById('tgSupportUrl').value = sup.telegramUrl || '';
+
+      const soc = s.socials || {};
+      document.getElementById('ytEnabled').checked = Boolean(soc.youtubeEnabled);
+      document.getElementById('ytUrl').value = soc.youtubeUrl || '';
+      document.getElementById('ttEnabled').checked = Boolean(soc.tiktokEnabled);
+      document.getElementById('ttUrl').value = soc.tiktokUrl || '';
+      document.getElementById('dcEnabled').checked = Boolean(soc.discordEnabled);
+      document.getElementById('dcUrl').value = soc.discordUrl || '';
+      document.getElementById('tgFooterEnabled').checked = Boolean(soc.telegramFooterEnabled);
+      document.getElementById('tgFooterLabel').value = soc.telegramFooterLabel || 'Join Our Telegram Channel';
+      document.getElementById('tgFooterUrl').value = soc.telegramFooterUrl || '';
+
+      const ser = s.serialControl || {};
+      document.getElementById('serialEnabledChk').checked = ser.enabled !== false;
+      document.getElementById('serialStartInput').value = Number(ser.current || 0);
+
+      renderResellersList();
+      renderDraftPackagesPreview();
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      const entries = Object.entries(usersState || {}).filter(([, u]) => u && typeof u === 'object');
+      if (!entries.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);">No registered users in database.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = entries.map(([key, u], idx) => `
+        <tr>
+          <td>${idx + 1}</td>
+          <td>${esc(u.email || u.id || key)}</td>
+          <td>${esc(u.username || u.name || '-')}</td>
+          <td>${esc(u.phone || '-')}</td>
+          <td>${esc(u.method || 'Account')}</td>
+          <td>${esc(u.createdAt || '-')}</td>
+          <td><button type="button" class="btn-danger" data-del-user="${esc(key)}" style="margin-top:0;padding:5px 9px;">Remove</button></td>
+        </tr>
+      `).join('');
+
+      tbody.querySelectorAll('[data-del-user]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const uKey = btn.getAttribute('data-del-user');
+          const nextUsers = { ...usersState };
+          if (uKey in nextUsers) {
+            delete nextUsers[uKey];
+          } else {
+            for (const [k, val] of Object.entries(nextUsers)) {
+              if (k === uKey || (val && (val.id === uKey || val.email === uKey))) {
+                delete nextUsers[k];
+              }
+            }
+          }
+          usersState = nextUsers;
+          localStorage.setItem(KEY_USERS, JSON.stringify(usersState));
+          await set(usersDbRef, usersState);
+          renderUsersTable();
+        });
+      });
+    }
+
+    document.getElementById('logoFileInput').addEventListener('change', (e) => readFileAsDataUrl(e.target, 'logoUrlInput'));
+    document.getElementById('bannerFileInput').addEventListener('change', (e) => readFileAsDataUrl(e.target, 'bannerImgInput'));
+    document.getElementById('panelFileInput').addEventListener('change', (e) => readFileAsDataUrl(e.target, 'panelImgInput'));
+
+    document.getElementById('addHourPkgBtn').addEventListener('click', () => {
+      const label = document.getElementById('hourDurationSelect').value;
+      const price = Number(document.getElementById('hourPriceInput').value || 0);
+      if (!label || price <= 0) return;
+      draftPackages[label] = price;
+      document.getElementById('hourPriceInput').value = '';
+      renderDraftPackagesPreview();
+    });
+
+    document.getElementById('addDayPkgBtn').addEventListener('click', () => {
+      const label = document.getElementById('dayDurationSelect').value;
+      const price = Number(document.getElementById('dayPriceInput').value || 0);
+      if (!label || price <= 0) return;
+      draftPackages[label] = price;
+      document.getElementById('dayPriceInput').value = '';
+      renderDraftPackagesPreview();
+    });
+
+    document.getElementById('clearDraftPkgsBtn').addEventListener('click', () => {
+      draftPackages = {};
+      renderDraftPackagesPreview();
+    });
+
+    document.getElementById('quickStoreStatusBtn').addEventListener('click', async () => {
+      const next = structuredClone(storeState);
+      const cur = next.storeControl.mode || 'auto';
+      const order = ['auto', 'manual_on', 'manual_off'];
+      const nextMode = order[(order.indexOf(cur) + 1) % order.length];
+      next.storeControl.mode = nextMode;
+      next.storeControl.forceClosed = nextMode === 'manual_off';
+      await persistStore(next);
+    });
+
+    document.getElementById('saveBrandNoticesBtn').addEventListener('click', async () => {
+      const next = structuredClone(storeState);
+      next.brandName = document.getElementById('brandNameInput').value.trim() || 'MAZED PANEL HOUSE';
+      next.brandSub = document.getElementById('brandSubInput').value.trim() || 'VERIFIED GAMING PANEL STORE';
+      next.logoUrl = document.getElementById('logoUrlInput').value.trim() || DEFAULT_STORE.logoUrl;
+      next.topNotice = {
+        enabled: document.getElementById('topNoticeEnabled').checked,
+        text: document.getElementById('topNoticeText').value.trim()
+      };
+      next.bottomNotice = {
+        enabled: document.getElementById('bottomNoticeEnabled').checked,
+        text: document.getElementById('bottomNoticeText').value.trim()
+      };
+      const modeVal = document.getElementById('storeModeSelect').value;
+      next.storeControl = {
+        mode: modeVal,
+        forceClosed: modeVal === 'manual_off',
+        openTime: document.getElementById('storeOpenTimeInput').value || '09:00',
+        closeTime: document.getElementById('storeCloseTimeInput').value || '23:00',
+        closedMessage: document.getElementById('storeClosedMsgInput').value.trim() || DEFAULT_STORE.storeControl.closedMessage
+      };
+      await persistStore(next, 'brandSaveMsg', 'Brand, notices & schedule saved!');
+    });
+
+    document.getElementById('addChannelBtn').addEventListener('click', async () => {
+      const lbl = document.getElementById('newChannelLabel').value.trim();
+      const url = document.getElementById('newChannelUrl').value.trim();
+      if (!url) return;
+      const next = structuredClone(storeState);
+      next.popup.channels.push({ label: lbl || 'Telegram Channel', url });
+      next.popup.showChannels = true;
+      document.getElementById('newChannelLabel').value = '';
+      document.getElementById('newChannelUrl').value = '';
+      await persistStore(next, 'popupSaveMsg', 'Telegram channel added!');
+    });
+
+    document.getElementById('savePopupBtn').addEventListener('click', async () => {
+      const next = structuredClone(storeState);
+      next.popup.enabled = document.getElementById('popupEnabledChk').checked;
+      next.popup.showChannels = document.getElementById('popupShowChannelsChk').checked;
+      next.popup.title = document.getElementById('popupTitleInput').value.trim();
+      next.popup.message = document.getElementById('popupMsgInput').value.trim();
+      await persistStore(next, 'popupSaveMsg', 'Popup settings saved!');
+    });
+
+    document.getElementById('addBannerBtn').addEventListener('click', async () => {
+      const title = document.getElementById('bannerTitleInput').value.trim();
+      const subtitle = document.getElementById('bannerSubInput').value.trim();
+      const image = document.getElementById('bannerImgInput').value.trim();
+      const linkUrl = document.getElementById('bannerLinkInput').value.trim();
+      if (!title && !subtitle && !image && !linkUrl) return;
+      const next = structuredClone(storeState);
+      next.banners.push({ title, subtitle, image, linkUrl });
+      document.getElementById('bannerTitleInput').value = '';
+      document.getElementById('bannerSubInput').value = '';
+      document.getElementById('bannerImgInput').value = '';
+      document.getElementById('bannerLinkInput').value = '';
+      await persistStore(next);
+    });
+
+    document.getElementById('addPanelBtn').addEventListener('click', async () => {
+      const name = document.getElementById('panelNameInput').value.trim();
+      const msgEl = document.getElementById('panelSaveMsg');
+      msgEl.style.color = '#fca5a5';
+      if (!name) {
+        msgEl.textContent = 'Please enter a panel name.';
+        return;
+      }
+      if (!Object.keys(draftPackages).length) {
+        msgEl.textContent = 'Please add at least one package (1–24 Hours or 1–30 Days) with price.';
+        return;
+      }
+
+      const next = structuredClone(storeState);
+      next.panels.push({
+        id: 'pan_' + Date.now(),
+        name,
+        category: document.getElementById('panelCatSelect').value,
+        features: document.getElementById('panelFeaturesInput').value.trim(),
+        image: document.getElementById('panelImgInput').value.trim(),
+        maintenance: document.getElementById('panelMaintChk').checked,
+        maintenanceMsg: document.getElementById('panelMaintMsgInput').value.trim(),
+        pinned: document.getElementById('panelPinnedChk').checked,
+        packages: { ...draftPackages }
+      });
+
+      draftPackages = {};
+      ['panelNameInput', 'panelFeaturesInput', 'panelImgInput', 'panelMaintMsgInput', 'hourPriceInput', 'dayPriceInput']
+        .forEach((id) => { document.getElementById(id).value = ''; });
+      document.getElementById('panelPinnedChk').checked = false;
+      document.getElementById('panelMaintChk').checked = false;
+
+      msgEl.style.color = 'var(--ok)';
+      await persistStore(next, 'panelSaveMsg', 'Panel & packages added to store!');
+    });
+
+    document.getElementById('applySerialNumberBtn').addEventListener('click', async () => {
+      const next = structuredClone(storeState);
+      const val = Math.max(0, Number(document.getElementById('serialStartInput').value || 0));
+      next.serialControl = {
+        enabled: document.getElementById('serialEnabledChk').checked,
+        current: val
+      };
+      await persistStore(next, 'serialResetMsg', `Order serial counter set to ${val}!`);
+    });
+
+    document.getElementById('resetOrderSerialBtn').addEventListener('click', async () => {
+      if (!confirm('Reset order serial counter back to 0?')) return;
+      const next = structuredClone(storeState);
+      next.serialControl = {
+        enabled: document.getElementById('serialEnabledChk').checked,
+        current: 0
+      };
+      await persistStore(next, 'serialResetMsg', 'Order serial counter reset to 0!');
+    });
+
+    document.getElementById('savePaymentsSocialBtn').addEventListener('click', async () => {
+      const next = structuredClone(storeState);
+      ['bkash', 'nagad', 'rocket', 'upay'].forEach((k) => {
+        next.payments[k] = {
+          enabled: document.getElementById(`${k}Enabled`).checked,
+          number: document.getElementById(`${k}Number`).value.trim(),
+          type: document.getElementById(`${k}Type`).value.trim() || 'Send Money'
+        };
+      });
+      next.support = {
+        username: document.getElementById('supportUsernameInput').value.trim() || 'mazedvai12',
+        whatsappEnabled: document.getElementById('waSupportEnabled').checked,
+        whatsappUrl: document.getElementById('waSupportUrl').value.trim(),
+        telegramEnabled: document.getElementById('tgSupportEnabled').checked,
+        telegramUrl: document.getElementById('tgSupportUrl').value.trim()
+      };
+      next.socials = {
+        youtubeEnabled: document.getElementById('ytEnabled').checked,
+        youtubeUrl: document.getElementById('ytUrl').value.trim(),
+        tiktokEnabled: document.getElementById('ttEnabled').checked,
+        tiktokUrl: document.getElementById('ttUrl').value.trim(),
+        discordEnabled: document.getElementById('dcEnabled').checked,
+        discordUrl: document.getElementById('dcUrl').value.trim(),
+        telegramFooterEnabled: document.getElementById('tgFooterEnabled').checked,
+        telegramFooterLabel: document.getElementById('tgFooterLabel').value.trim() || 'Join Our Telegram Channel',
+        telegramFooterUrl: document.getElementById('tgFooterUrl').value.trim()
+      };
+      next.serialControl = {
+        enabled: document.getElementById('serialEnabledChk').checked,
+        current: Math.max(0, Number(document.getElementById('serialStartInput').value || 0))
+      };
+      await persistStore(next, 'paySocialSaveMsg', 'Payment, support, serial & social settings saved!');
+    });
+
+    document.getElementById('addResellerBtn').addEventListener('click', async () => {
+      const msgEl = document.getElementById('resellerMsg');
+      msgEl.style.color = '#fca5a5';
+      const currentResellers = Array.isArray(storeState.resellers) ? storeState.resellers : [];
+      if (currentResellers.length >= MAX_RESELLERS) {
+        msgEl.textContent = `Maximum ${MAX_RESELLERS} resellers allowed.`;
+        return;
+      }
+      const name = document.getElementById('resellerNameInput').value.trim();
+      const contact = document.getElementById('resellerContactInput').value.trim();
+      const note = document.getElementById('resellerNoteInput').value.trim();
+      if (!name) {
+        msgEl.textContent = 'Please enter reseller name.';
+        return;
+      }
+      const next = structuredClone(storeState);
+      next.resellers.push({
+        id: 'res_' + Date.now(),
+        name,
+        contact,
+        note,
+        addedAt: new Date().toLocaleString('en-GB', { hour12: true })
+      });
+      document.getElementById('resellerNameInput').value = '';
+      document.getElementById('resellerContactInput').value = '';
+      document.getElementById('resellerNoteInput').value = '';
+      msgEl.style.color = 'var(--ok)';
+      await persistStore(next, 'resellerMsg', `Reseller added (${next.resellers.length}/${MAX_RESELLERS})!`);
+    });
+
+    document.getElementById('changeAdminPassBtn').addEventListener('click', async () => {
+      const msgEl = document.getElementById('adminPassChangeMsg');
+      msgEl.style.color = '#fca5a5';
+      const curPass = document.getElementById('currentAdminPassInput').value.trim();
+      const newPass = document.getElementById('newAdminPassInput').value.trim();
+      const confPass = document.getElementById('confirmAdminPassInput').value.trim();
+
+      if (curPass !== currentAdminPassword) {
+        msgEl.textContent = 'Current admin password is incorrect.';
+        return;
+      }
+      if (newPass.length < 4) {
+        msgEl.textContent = 'New password must be at least 4 characters.';
+        return;
+      }
+      if (newPass !== confPass) {
+        msgEl.textContent = 'New password and confirmation do not match.';
+        return;
+      }
+
+      currentAdminPassword = newPass;
+      localStorage.setItem(KEY_ADMIN_PASS, newPass);
+      try {
+        await set(adminConfigDbRef, { password: newPass, updatedAt: new Date().toISOString() });
+      } catch (e) {}
+
+      document.getElementById('currentAdminPassInput').value = '';
+      document.getElementById('newAdminPassInput').value = '';
+      document.getElementById('confirmAdminPassInput').value = '';
+      msgEl.style.color = 'var(--ok)';
+      msgEl.textContent = 'Admin password updated successfully!';
+      setTimeout(() => { msgEl.textContent = ''; }, 3500);
+    });
+
+    document.getElementById('refreshUsersBtn').addEventListener('click', async () => {
+      try {
+        const snap = await get(usersDbRef);
+        usersState = snap.exists() && snap.val() && typeof snap.val() === 'object' ? snap.val() : {};
+      } catch (e) {}
+      renderUsersTable();
+    });
+
+    document.getElementById('resetAllUsersBtn').addEventListener('click', async () => {
+      if (!confirm('Reset all user accounts? Existing Gmail/Facebook/Phone registrations will be wiped so users can register once fresh.')) return;
+      usersState = {};
+      localStorage.setItem(KEY_USERS, JSON.stringify({}));
+      await set(usersDbRef, {});
+      await set(resetMarkerDbRef, { resetAt: new Date().toISOString(), version: 'v6_admin_reset' });
+      renderUsersTable();
+      const msg = document.getElementById('usersActionMsg');
+      msg.textContent = 'All previous accounts reset! Users can now register fresh once per Gmail/Facebook/Phone.';
+      setTimeout(() => { msg.textContent = ''; }, 4500);
+    });
+
+    function unlockDashboard() {
+      document.getElementById('adminGateBox').classList.add('hidden');
+      document.getElementById('adminDashboardRoot').classList.remove('hidden');
+      renderAllAdminForms();
+      renderUsersTable();
+    }
+
+    document.getElementById('adminLoginBtn').addEventListener('click', () => {
+      const val = document.getElementById('adminPassInput').value.trim();
+      if (val === currentAdminPassword) {
+        sessionStorage.setItem(KEY_ADMIN_AUTH, '1');
+        document.getElementById('adminGateMsg').textContent = '';
+        unlockDashboard();
+      } else {
+        document.getElementById('adminGateMsg').textContent = 'Incorrect admin password.';
+      }
+    });
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem(KEY_ADMIN_AUTH);
+      document.getElementById('adminDashboardRoot').classList.add('hidden');
+      document.getElementById('adminGateBox').classList.remove('hidden');
+      document.getElementById('adminPassInput').value = '';
+    });
+
+    populateDurationDropdowns();
+
+    onValue(adminConfigDbRef, (snap) => {
+      const cfg = snap.val();
+      if (cfg && typeof cfg.password === 'string' && cfg.password.trim()) {
+        currentAdminPassword = cfg.password.trim();
+        localStorage.setItem(KEY_ADMIN_PASS, currentAdminPassword);
+      }
+    });
+
+    onValue(storeDbRef, (snap) => {
+      storeState = normalizeStore(snap.val() || DEFAULT_STORE);
+      localStorage.setItem(KEY_STORE, JSON.stringify(storeState));
+      if (!document.getElementById('adminDashboardRoot').classList.contains('hidden')) {
+        renderAllAdminForms();
+      }
+    });
+
+    onValue(usersDbRef, (snap) => {
+      usersState = snap.exists() && snap.val() && typeof snap.val() === 'object' ? snap.val() : {};
+      localStorage.setItem(KEY_USERS, JSON.stringify(usersState));
+      if (!document.getElementById('adminDashboardRoot').classList.contains('hidden')) {
+        renderUsersTable();
+      }
+    });
+
+    if (sessionStorage.getItem(KEY_ADMIN_AUTH) === '1') {
+      unlockDashboard();
+    }
+  </script>
+</body>
+</html>
