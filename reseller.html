@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reseller Portal | Mazed Panel House</title>
+  <style>
+    :root {
+      --bg: #07050c;
+      --card: #120d1f;
+      --card-2: #19132b;
+      --text: #f5f3ff;
+      --muted: #a79ec2;
+      --border: #2c2147;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --grad: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+      --ok: #34d399;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; }
+    .card { max-width: 680px; margin: 20px auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+    h1 { margin: 0 0 6px 0; font-size: 1.25rem; }
+    p.sub { margin: 0 0 14px 0; color: var(--muted); font-size: 0.86rem; }
+    input { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-top: 8px; font-size: 0.9rem; }
+    button { width: 100%; background: var(--grad); color: #fff; border: none; border-radius: 10px; padding: 11px 14px; margin-top: 10px; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
+    .box { margin-top: 16px; background: var(--card-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .ok { color: var(--ok); font-weight: 700; font-size: 0.88rem; }
+    a.back { display: inline-block; margin-top: 14px; color: #f472b6; text-decoration: none; font-weight: 700; font-size: 0.86rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mazed Panel House — Reseller Portal</h1>
+    <p class="sub">Enter your reseller code to generate and copy your referral store link.</p>
+    <input type="text" id="resellerCodeBox" placeholder="Enter your reseller code (e.g. rahim01)" />
+    <input type="url" id="storeUrlBox" placeholder="Store URL (optional, e.g. https://mazedpanelhouse.github.io/)" />
+    <button type="button" id="genLinkBtn">Generate My Referral Link</button>
+
+    <div id="resultBox" class="box" style="display:none;">
+      <div class="ok" id="matchedResellerInfo"></div>
+      <label style="display:block;margin-top:10px;font-size:0.8rem;color:var(--muted);">Your Referral Link (tap to copy):</label>
+      <input type="text" id="generatedLinkOutput" readonly onclick="this.select()" />
+    </div>
+
+    <a href="index.html" class="back">&larr; Back to Storefront</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDqzL-6MtvpthQJIDesIasukPrDxjyAcJw",
+      authDomain: "mazed-panel-house.firebaseapp.com",
+      databaseURL: "https://mazed-panel-house-default-rtdb.firebaseio.com",
+      projectId: "mazed-panel-house",
+      storageBucket: "mazed-panel-house.firebasestorage.app",
+      messagingSenderId: "330997308435",
+      appId: "1:330997308435:web:c5e78c62ddc5acf7a8b3e6",
+      measurementId: "G-8PKDHT118T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById("genLinkBtn").addEventListener("click", async () => {
+      const code = document.getElementById("resellerCodeBox").value.trim().toLowerCase();
+      if (!code) return;
+
+      let storeData = null;
+      try {
+        const snap = await get(ref(db, "mazed_store_live"));
+        if (snap.exists()) storeData = snap.val();
+      } catch (e) {}
+
+      if (!storeData) {
+        try { storeData = JSON.parse(localStorage.getItem("mph_store_v4") || "null"); } catch (e) {}
+      }
+
+      const resellers = (storeData && Array.isArray(storeData.resellers)) ? storeData.resellers : [];
+      const found = resellers.find(r => String(r.code || "").trim().toLowerCase() === code);
+
+      const fallbackUrl = (window.location.origin + window.location.pathname).replace(/reseller[^/]*$/i, "index.html");
+      const customBase = document.getElementById("storeUrlBox").value.trim();
+      const base = customBase || (found && found.baseUrl) || fallbackUrl;
+      const finalLink = base + (base.includes("?") ? "&" : "?") + "ref=" + encodeURIComponent(code);
+
+      document.getElementById("resultBox").style.display = "block";
+      document.getElementById("matchedResellerInfo").textContent = found
+        ? `Verified Reseller: ${found.name} (${code})`
+        : `Referral Link for Code: ${code}`;
+      document.getElementById("generatedLinkOutput").value = finalLink;
+    });
+  </script>
+</body>
+</html>
