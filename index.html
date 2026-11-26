@@ -569,19 +569,16 @@
       </div>
     </div>
 
-    <!-- Account Auth Modal -->
+    <!-- Account Auth Modal (Gmail / Google Only) -->
     <div id="authModal" class="modal-bg">
       <div class="modal-card">
         <h3 id="authModalTitle" class="modal-title">Account Sign In / Register</h3>
         <p style="margin:0 0 10px 0;font-size:0.82rem;color:var(--muted);">
-          Continue with Google or Facebook, or register/login with your Gmail and password.
+          Continue with Google, or register/login with your Gmail and password.
         </p>
 
         <button type="button" id="googleSignInBtn" class="btn-secondary" style="background:#ffffff;color:#111827;font-weight:700;margin-top:0;">
           Continue with Google
-        </button>
-        <button type="button" id="facebookSignInBtn" class="btn-secondary" style="background:#1877f2;color:#ffffff;font-weight:700;border-color:#1877f2;">
-          Continue with Facebook
         </button>
 
         <div style="text-align:center;margin:10px 0 6px 0;font-size:0.78rem;color:var(--muted);">
@@ -675,7 +672,6 @@
     import {
       getAuth,
       GoogleAuthProvider,
-      FacebookAuthProvider,
       signInWithPopup,
       signInWithRedirect,
       getRedirectResult
@@ -697,8 +693,6 @@
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
-    const facebookProvider = new FacebookAuthProvider();
-    facebookProvider.setCustomParameters({ display: 'popup', auth_type: 'rerequest' });
 
     const storeDbRef = ref(db, "mazed_store_live");
     const usersDbRef = ref(db, "mazed_users_live");
@@ -1171,10 +1165,9 @@
       return String(ph || '').replace(/\D/g, '');
     }
 
-    function findExistingUserByEmailOrPhone(users, email, phone, fbUid) {
+    function findExistingUserByEmailOrPhone(users, email, phone) {
       const cleanEmail = String(email || '').trim().toLowerCase();
       const cleanPhone = normalizePhoneKey(phone);
-      const cleanFbUid = String(fbUid || '').trim();
 
       if (cleanEmail) {
         const direct = findUserEntryById(users, cleanEmail);
@@ -1187,13 +1180,9 @@
         if (!u || typeof u !== 'object') continue;
         const uEmail = String(u.email || u.id || '').trim().toLowerCase();
         const uPhone = normalizePhoneKey(u.phone);
-        const uFbUid = String(u.facebookUid || '').trim();
 
         if (cleanEmail && uEmail && uEmail === cleanEmail) {
           return { matchedBy: 'gmail', key: k, user: u };
-        }
-        if (cleanFbUid && uFbUid && uFbUid === cleanFbUid) {
-          return { matchedBy: 'facebook', key: k, user: u };
         }
         if (cleanPhone && cleanPhone.length >= 6 && uPhone && uPhone === cleanPhone) {
           return { matchedBy: 'phone', key: k, user: u };
@@ -1244,24 +1233,21 @@
       else openAuthModal();
     });
 
-    async function processSocialUserLogin(fbUser, label) {
+    async function processGoogleUserLogin(fbUser) {
       const fbEl = document.getElementById('authFeedback');
       const rawEmail = (fbUser.email || '').trim().toLowerCase();
-      const fbProviderData = Array.isArray(fbUser.providerData)
-        ? fbUser.providerData.find((p) => p && p.providerId === 'facebook.com')
-        : null;
-      const fbUid = (label === 'Facebook' || fbProviderData)
-        ? ((fbProviderData && fbProviderData.uid) || fbUser.uid || '').trim()
-        : '';
-      const rawAccountId = rawEmail || (fbUid ? ('fb_' + fbUid).toLowerCase() : (label.toLowerCase() + '_' + fbUser.uid).toLowerCase());
+      if (!rawEmail) {
+        fbEl.textContent = 'Please select a Google (Gmail) account with an email address.';
+        return;
+      }
+      const rawAccountId = rawEmail;
       const accountKey = toDbSafeKey(rawAccountId);
       const users = await fetchLatestUsersMap();
 
-      const existing = findExistingUserByEmailOrPhone(users, rawEmail, '', fbUid);
+      const existing = findExistingUserByEmailOrPhone(users, rawEmail, '');
       if (existing) {
         const existingKey = existing.key;
         const existingUser = existing.user;
-        if (fbUid && !existingUser.facebookUid) existingUser.facebookUid = fbUid;
         if (rawEmail && !existingUser.email) existingUser.email = rawEmail;
         if (fbUser.photoURL && (!existingUser.avatar || existingUser.avatar.includes('placeholder.com'))) {
           existingUser.avatar = fbUser.photoURL;
@@ -1274,37 +1260,36 @@
 
       const baseUname = (fbUser.displayName || accountKey.split('@')[0] || 'user')
         .toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 14) || 'user';
-      const newSocialUser = {
+      const newGoogleUser = {
         id: rawAccountId,
-        name: fbUser.displayName || label + ' User',
+        name: fbUser.displayName || 'Google User',
         username: baseUname,
-        email: rawEmail || '',
-        facebookUid: fbUid || '',
+        email: rawEmail,
         phone: fbUser.phoneNumber || '',
         password: '',
         createdAt: new Date().toLocaleString('en-GB', { hour12: true }),
-        method: label,
+        method: 'Google',
         avatar: fbUser.photoURL || 'https://via.placeholder.com/120/19132b/f472b6?text=User'
       };
-      users[accountKey] = newSocialUser;
+      users[accountKey] = newGoogleUser;
       saveUsers(users);
-      completeAuthSuccess(accountKey, newSocialUser);
+      completeAuthSuccess(accountKey, newGoogleUser);
     }
 
-    async function handleSocialProviderLogin(provider, label) {
+    async function handleGoogleProviderLogin() {
       const fbEl = document.getElementById('authFeedback');
       fbEl.textContent = '';
       try {
-        const result = await signInWithPopup(auth, provider);
-        await processSocialUserLogin(result.user, label);
+        const result = await signInWithPopup(auth, googleProvider);
+        await processGoogleUserLogin(result.user);
       } catch (err) {
         if (err && err.code === 'auth/account-exists-with-different-credential') {
-          fbEl.textContent = 'This Gmail/Facebook account is already linked to another sign-in method. Please log in with your existing account or use Forgot Password.';
+          fbEl.textContent = 'This Gmail account is already linked to another sign-in method. Please log in with your existing account or use Forgot Password.';
           return;
         }
         if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment')) {
           try {
-            await signInWithRedirect(auth, provider);
+            await signInWithRedirect(auth, googleProvider);
             return;
           } catch (redirErr) {
             fbEl.textContent = 'Firebase Error: ' + (redirErr && redirErr.message ? redirErr.message : String(redirErr));
@@ -1317,16 +1302,11 @@
 
     getRedirectResult(auth).then(async (result) => {
       if (!result || !result.user) return;
-      const isFb = Array.isArray(result.user.providerData) && result.user.providerData.some((p) => p && p.providerId === 'facebook.com');
-      await processSocialUserLogin(result.user, isFb ? 'Facebook' : 'Google');
+      await processGoogleUserLogin(result.user);
     }).catch(() => {});
 
     document.getElementById('googleSignInBtn').addEventListener('click', () => {
-      handleSocialProviderLogin(googleProvider, 'Google');
-    });
-
-    document.getElementById('facebookSignInBtn').addEventListener('click', () => {
-      handleSocialProviderLogin(facebookProvider, 'Facebook');
+      handleGoogleProviderLogin();
     });
 
     document.getElementById('emailRegisterBtn').addEventListener('click', async () => {
@@ -1365,7 +1345,7 @@
       }
 
       const users = await fetchLatestUsersMap();
-      const dupCheck = findExistingUserByEmailOrPhone(users, em, ph, '');
+      const dupCheck = findExistingUserByEmailOrPhone(users, em, ph);
       if (dupCheck && dupCheck.matchedBy === 'gmail') {
         fbEl.textContent = 'This Gmail is already registered to an account. Duplicate accounts with the same Gmail are not allowed. Click Login or use Forgot Password.';
         return;
@@ -1405,7 +1385,7 @@
         return;
       }
       if (!found.user.password && pw) {
-        fbEl.textContent = 'This account signed in via social provider. Use Forgot Password to set a password.';
+        fbEl.textContent = 'This account signed in via Google. Use Forgot Password to set a password.';
         return;
       }
       if (ph && found.user.phone && found.user.phone !== ph) {
