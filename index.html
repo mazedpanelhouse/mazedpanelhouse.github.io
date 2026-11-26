@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mazed Panel House — Account & Profile</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111827;
+      --field: #090e1a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --fb: #1877f2;
+      --border: rgba(148, 163, 184, 0.16);
+      --ok: #22c55e;
+      --err: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .panel {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    h1, h2 { margin: 0 0 6px; font-size: 22px; }
+    .sub { margin: 0 0 18px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+    .btn-social {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 11px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      transition: 0.15s ease;
+    }
+    .btn-google {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    .btn-google:hover { background: #f1f5f9; }
+    .btn-fb {
+      background: var(--fb);
+      color: #ffffff;
+      border: 1px solid var(--fb);
+    }
+    .btn-fb:hover { filter: brightness(0.95); }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: var(--field);
+      padding: 4px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--field);
+      color: var(--text);
+      font-size: 14px;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .btn-main {
+      width: 100%;
+      margin-top: 14px;
+      padding: 11px 14px;
+      border: none;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-main:hover { background: var(--primary-hover); }
+    .btn-ghost {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-ghost:hover { background: rgba(148, 163, 184, 0.08); }
+    .profile-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--field);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      background: #1e293b;
+      flex-shrink: 0;
+    }
+    .provider-tag {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(59, 130, 246, 0.18);
+      color: #93c5fd;
+    }
+    .msg {
+      margin-top: 12px;
+      min-height: 18px;
+      font-size: 13px;
+      text-align: center;
+    }
+    .msg.ok { color: var(--ok); }
+    .msg.err { color: var(--err); }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <!-- LOGIN / REGISTER -->
+    <div id="authSection">
+      <h1>Mazed Panel House</h1>
+      <p class="sub">Google, Facebook অথবা Gmail ও পাসওয়ার্ড দিয়ে লগইন বা রেজিস্টার করুন</p>
+
+      <button type="button" id="googleSignIn" class="btn-social btn-google">
+        <span>Continue with Google</span>
+      </button>
+
+      <button type="button" id="facebookSignIn" class="btn-social btn-fb">
+        <span>Continue with Facebook</span>
+      </button>
+
+      <div class="divider">অথবা Gmail ও পাসওয়ার্ড</div>
+
+      <div class="mode-switch">
+        <button type="button" id="tabLogin" class="mode-btn active">Login</button>
+        <button type="button" id="tabRegister" class="mode-btn">Register</button>
+      </div>
+
+      <form id="emailForm">
+        <div id="nameBox" class="hidden">
+          <label for="fullName">আপনার নাম</label>
+          <input type="text" id="fullName" placeholder="আপনার পূর্ণ নাম লিখুন" />
+        </div>
+
+        <label for="emailInput">Gmail / Email</label>
+        <input type="email" id="emailInput" required placeholder="name@gmail.com" />
+
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" required minlength="6" placeholder="কমপক্ষে ৬ অক্ষর" />
+
+        <button type="submit" id="emailSubmitBtn" class="btn-main">Login</button>
+      </form>
+    </div>
+
+    <!-- PROFILE VIEW & EDIT -->
+    <div id="profileSection" class="hidden">
+      <h2>আমার প্রোফাইল</h2>
+      <p class="sub">লগইন তথ্য স্বয়ংক্রিয়ভাবে যুক্ত হয়েছে; প্রয়োজনে নাম ও ছবি বদলান</p>
+
+      <div class="profile-card">
+        <img id="avatarPreview" class="avatar" src="" alt="Avatar" />
+        <div>
+          <div id="displayNameText" style="font-weight: 700; font-size: 16px;">User</div>
+          <div id="displayEmailText" style="font-size: 12.5px; color: var(--muted);"></div>
+          <span id="providerBadge" class="provider-tag">provider</span>
+        </div>
+      </div>
+
+      <form id="profileForm">
+        <label for="editNameInput">নাম এডিট করুন</label>
+        <input type="text" id="editNameInput" required />
+
+        <label for="editPhotoUrlInput">প্রোফাইল ছবির লিংক (URL)</label>
+        <input type="url" id="editPhotoUrlInput" placeholder="https://example.com/photo.jpg" />
+
+        <label for="editPhotoFileInput">অথবা ডিভাইস থেকে ছবি আপলোড করুন</label>
+        <input type="file" id="editPhotoFileInput" accept="image/*" />
+
+        <button type="submit" class="btn-main">প্রোফাইল সেভ করুন</button>
+      </form>
+
+      <button type="button" id="logoutBtn" class="btn-ghost">Logout</button>
+    </div>
+
+    <div id="statusText" class="msg"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      GoogleAuthProvider,
+      FacebookAuthProvider,
+      signInWithPopup,
+      signInWithRedirect,
+      getRedirectResult,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // আপনার Firebase প্রজেক্টের আসল কনফিগারেশন বসান
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "mazed-panel-store.firebaseapp.com",
+      projectId: "mazed-panel-store",
+      storageBucket: "mazed-panel-store.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const FALLBACK_AVATAR = "https://ui-avatars.com/api/?name=Mazed+Panel&background=1e293b&color=f8fafc";
+
+    const authSection = document.getElementById("authSection");
+    const profileSection = document.getElementById("profileSection");
+    const statusText = document.getElementById("statusText");
+    const tabLogin = document.getElementById("tabLogin");
+    const tabRegister = document.getElementById("tabRegister");
+    const nameBox = document.getElementById("nameBox");
+    const emailForm = document.getElementById("emailForm");
+    const emailSubmitBtn = document.getElementById("emailSubmitBtn");
+
+    let authMode = "login";
+    let uploadedPhotoDataUrl = "";
+
+    function showStatus(text, type = "") {
+      statusText.textContent = text;
+      statusText.className = "msg " + type;
+    }
+
+    function switchMode(nextMode) {
+      authMode = nextMode;
+      const isReg = authMode === "register";
+      tabLogin.classList.toggle("active", !isReg);
+      tabRegister.classList.toggle("active", isReg);
+      nameBox.classList.toggle("hidden", !isReg);
+      emailSubmitBtn.textContent = isReg ? "Create Account" : "Login";
+      showStatus("");
+    }
+
+    tabLogin.addEventListener("click", () => switchMode("login"));
+    tabRegister.addEventListener("click", () => switchMode("register"));
+
+    async function syncLiveUser(user, explicitName = "") {
+      const ref = doc(db, "mazed_users_live", user.uid);
+      const snap = await getDoc(ref);
+
+      const provider =
+        user.providerData?.[0]?.providerId ||
+        (user.email ? "password" : "unknown");
+
+      const name =
+        (explicitName && explicitName.trim()) ||
+        user.displayName ||
+        (snap.exists() && snap.data().name) ||
+        (user.email ? user.email.split("@")[0] : "Customer");
+
+      const photoURL =
+        user.photoURL ||
+        (snap.exists() && snap.data().photoURL) ||
+        FALLBACK_AVATAR;
+
+      if (!snap.exists()) {
+        await setDoc(ref, {
+          uid: user.uid,
+          name,
+          email: user.email || "",
+          photoURL,
+          provider,
+          status: "active",
+          createdAt: serverTimestamp(),
+          lastLoginAt: serverTimestamp()
+        });
+      } else {
+        await updateDoc(ref, {
+          email: user.email || snap.data().email || "",
+          provider,
+          lastLoginAt: serverTimestamp(),
+          ...(!snap.data().name && { name }),
+          ...(!snap.data().photoURL && { photoURL })
+        });
+      }
+
+      const updated = await getDoc(ref);
+      return updated.data();
+    }
+
+    async function loginWithProvider(provider) {
+      showStatus("লগইন হচ্ছে...");
+      try {
+        const res = await signInWithPopup(auth, provider);
+        await syncLiveUser(res.user);
+        showStatus("সফলভাবে লগইন হয়েছে!", "ok");
+      } catch (err) {
+        if (err.code === "auth/popup-blocked" || err.code === "auth/operation-not-supported-in-this-environment") {
+          await signInWithRedirect(auth, provider);
+          return;
+        }
+        showStatus(err.message || "লগইন ব্যর্থ হয়েছে", "err");
+      }
+    }
+
+    getRedirectResult(auth)
+      .then(async (res) => {
+        if (res?.user) {
+          await syncLiveUser(res.user);
+        }
+      })
+      .catch((err) => {
+        if (err?.message) showStatus(err.message, "err");
+      });
+
+    document.getElementById("googleSignIn").addEventListener("click", () => {
+      loginWithProvider(new GoogleAuthProvider());
+    });
+
+    document.getElementById("facebookSignIn").addEventListener("click", () => {
+      const fb = new FacebookAuthProvider();
+      fb.addScope("public_profile");
+      fb.addScope("email");
+      loginWithProvider(fb);
+    });
+
+    emailForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("emailInput").value.trim();
+      const password = document.getElementById("passwordInput").value;
+
+      showStatus("অপেক্ষা করুন...");
+      try {
+        if (authMode === "register") {
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+          if (name) {
+            await updateProfile(cred.user, { displayName: name });
+          }
+          await syncLiveUser(cred.user, name);
+          showStatus("অ্যাকাউন্ট তৈরি ও লগইন সম্পন্ন!", "ok");
+        } else {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          await syncLiveUser(cred.user);
+          showStatus("লগইন সফল হয়েছে!", "ok");
+        }
+      } catch (err) {
+        showStatus(err.message || "সমস্যা হয়েছে", "err");
+      }
+    });
+
+    document.getElementById("editPhotoFileInput").addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      if (file.size > 550 * 1024) {
+        showStatus("ছবির সাইজ ৫৫০ KB-এর মধ্যে রাখুন", "err");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedPhotoDataUrl = reader.result;
+        document.getElementById("editPhotoUrlInput").value = uploadedPhotoDataUrl;
+        document.getElementById("avatarPreview").src = uploadedPhotoDataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const newName = document.getElementById("editNameInput").value.trim();
+      const newPhoto =
+        document.getElementById("editPhotoUrlInput").value.trim() ||
+        uploadedPhotoDataUrl ||
+        FALLBACK_AVATAR;
+
+      try {
+        await updateProfile(user, {
+          displayName: newName,
+          photoURL: newPhoto.startsWith("http") ? newPhoto : user.photoURL
+        });
+
+        await setDoc(
+          doc(db, "mazed_users_live", user.uid),
+          {
+            name: newName,
+            photoURL: newPhoto,
+            updatedAt: serverTimestamp()
+          },
+          { merge: true }
+        );
+
+        document.getElementById("displayNameText").textContent = newName;
+        document.getElementById("avatarPreview").src = newPhoto;
+        uploadedPhotoDataUrl = "";
+        showStatus("প্রোফাইল আপডেট সংরক্ষিত হয়েছে!", "ok");
+      } catch (err) {
+        showStatus(err.message || "আপডেট করা যায়নি", "err");
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      showStatus("লগআউট সম্পন্ন হয়েছে।", "ok");
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        authSection.classList.remove("hidden");
+        profileSection.classList.add("hidden");
+        return;
+      }
+
+      authSection.classList.add("hidden");
+      profileSection.classList.remove("hidden");
+
+      const data = await syncLiveUser(user);
+      const name = data?.name || user.displayName || "Customer";
+      const email = data?.email || user.email || "";
+      const photo = data?.photoURL || user.photoURL || FALLBACK_AVATAR;
+      const provider = data?.provider || user.providerData?.[0]?.providerId || "account";
+
+      document.getElementById("displayNameText").textContent = name;
+      document.getElementById("displayEmailText").textContent = email;
+      document.getElementById("providerBadge").textContent = provider;
+      document.getElementById("avatarPreview").src = photo;
+
+      document.getElementById("editNameInput").value = name;
+      document.getElementById("editPhotoUrlInput").value = photo;
+    });
+  </script>
+</body>
+</html>
